@@ -18,7 +18,7 @@ try:
   page.goto(BASE,wait_until='domcontentloaded')
   page.wait_for_selector('#districtTabs button',timeout=12000)
   check('five accessible districts',page.locator('#districtTabs button').count()==5)
-  page.wait_for_function('window.PolicyCatalog && PolicyCatalog.topics.length===15')
+  page.wait_for_function('() => window.PolicyCatalog && PolicyCatalog.topics.length===15')
   check('full supplied archive source disclosure',page.evaluate('PolicyCatalog.source.kind')=='user-provided-archive')
   check('large world not viewport scaling',page.evaluate('QuestCore.WORLD_WIDTH===3000&&QuestCore.WORLD_HEIGHT===1800'))
   check('original Taichung landmarks loaded',page.evaluate('window.TaichungElements&&TaichungElements.REFERENCES.length===10&&typeof TaichungElements.draw==="function"'))

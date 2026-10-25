@@ -25,6 +25,8 @@ def check(name, passed, details=None):
     if details is not None:
         row['details'] = details
     results.append(row)
+    persist_report()
+    if len(results)%100==0:print('PROGRESS',len(results),name,flush=True)
     if not passed:
         raise AssertionError(json.dumps(row, ensure_ascii=False))
 
