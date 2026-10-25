@@ -57,9 +57,9 @@ with sync_playwright() as p:
     page.screenshot(path=str(out/'mobile-home.png'), full_page=True)
     for i in range(page.locator('#homeTopics button').count()):
         page.locator('#homeTopics button').nth(i).click()
-        check('topic shortcut '+str(i), page.locator('#chatDialog').is_visible() and page.locator('#messages .answer-record').count() > 0)
-        page.locator('#clearChat').click()
-        page.locator('#closeChat').click()
+        page.wait_for_selector('#questDialog[open]',timeout=18000)
+        check('mission shortcut '+str(i), page.locator('#policySkills [data-policy]').count()>0)
+        page.locator('#closeQuest').click()
     for row in data:
         page.locator('.bottom-nav [data-view="topics"]').click()
         page.locator('#topicSearch').fill(row['title'])
@@ -132,7 +132,7 @@ with sync_playwright() as p:
     page.goto(base,wait_until='networkidle')
     page.wait_for_selector('#homeTopics .loading-state', state='attached')
     check('corpus outage fails closed', '問答功能已暫停' in page.locator('#homeTopics').inner_text())
-    page.locator('#askButton').click()
+    page.locator('#helloButton').click()
     page.locator('#question').fill('交通')
     page.locator('#sendButton').click()
     check('outage cannot invent answer', page.locator('#messages .answer-record').count()==0)
