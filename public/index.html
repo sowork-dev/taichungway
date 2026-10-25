@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#faf8f2"><meta name="robots" content="noindex,nofollow">
+<meta name="description" content="江啟臣數位分身互動原型。以公開政策資料提供查詢；非本人即時回覆，不代表本人或團隊授權。">
+<title>啟臣，聊一下｜AI 政策分身原型</title>
+<link rel="icon" href="/icon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css">
+<script src="/engine.js" defer></script><script src="/app.js" defer></script>
+</head>
+<body>
+<svg class="svg-defs" aria-hidden="true"><defs>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-8 8H5l-4 3 1.7-6A8 8 0 1 1 20 11.5Z"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M12 5v16M3 3c4 0 7 0 9 2 2-2 5-2 9-2v16c-4 0-7 0-9 2-2-2-5-2-9-2Z"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24"><path d="m14 5-7 7 7 7"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+<symbol id="i-share" viewBox="0 0 24 24"><path d="M12 15V2m-5 5 5-5 5 5M5 10H3v11h18V10h-2"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-11v1"/></symbol>
+<symbol id="i-train" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="15" rx="4"/><path d="M5 10h14M8 21l2-3m6 3-2-3M12 3v7m-4 4h1m6 0h1"/></symbol>
+<symbol id="i-family" viewBox="0 0 24 24"><circle cx="8" cy="7" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M2 21v-3a6 6 0 0 1 12 0v3m1-5a4 4 0 0 1 7 3v2"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="m2 11 10-8 10 8M5 9v12h14V9m-9 12v-7h4v7"/></symbol>
+<symbol id="i-care" viewBox="0 0 24 24"><path d="M12 20S2 14 2 7a5 5 0 0 1 10-1A5 5 0 0 1 22 7c0 7-10 13-10 13Z"/><path d="M8 11h8m-4-4v8"/></symbol>
+<symbol id="i-city" viewBox="0 0 24 24"><path d="M2 21h20M4 21V9h7v12m0 0V3h9v18M7 13h1m-1 4h1m7-10h1m-1 4h1m-1 4h1"/></symbol>
+<symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20 3C7 1 1 8 6 15s16 3 14-12Zm-17 19L17 7"/></symbol>
+</defs></svg>
+<div class="app" id="app">
+<header class="header"><a class="wordmark" href="#home" aria-label="啟臣聊一下首頁"><span class="mark">啟<span>·</span></span><span>啟臣，聊一下<small>TAICHUNG WAY · CONVERSATIONS</small></span></a><button class="round" id="aboutButton" aria-label="關於這個 AI 分身"><svg><use href="#i-info"/></svg></button></header>
+<div class="disclosure"><span class="ai-dot"></span><strong>AI 分身原型</strong><span>非江啟臣本人即時回覆</span></div>
+<main id="main">
+<section id="homeView" class="view home-view" aria-labelledby="heroTitle">
+<div class="hero-copy"><p class="eyebrow"><span></span>讓政策，回到日常。</p><h1 id="heroTitle">你關心的臺中，<br>我們<span class="handline">聊一下。</span></h1><p class="hero-sub">從一個生活問題，了解公開政策主張。</p></div>
+<div class="world" id="world">
+<svg class="city-scene" viewBox="0 0 390 300" aria-hidden="true"><defs><pattern id="citygrid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0v24" fill="none" stroke="#d9e2dc" stroke-width=".6"/></pattern></defs><rect width="390" height="300" fill="url(#citygrid)"/><circle cx="306" cy="70" r="25" fill="#f4d572"/><g fill="#e4ebe3" stroke="#b9cac1" stroke-width="1.3"><path d="M-10 220v-64h50v64m-42-64v-19h31v19M43 220V120h35v100m-26-100v-15h17v15m-7-15V88"/><path d="M283 222v-96h32v96m7 0V99h32v123m-17-123V69m-7 24h14M361 222v-60h39v60"/><path d="M91 224v-64c0-23 7-37 18-39 13 2 20 16 20 39v64m-37-41h36m-32-22h29m-17-40v-14"/></g><g fill="#d5dfd5"><rect x="52" y="133" width="7" height="7"/><rect x="65" y="133" width="7" height="7"/><rect x="52" y="149" width="7" height="7"/><rect x="65" y="149" width="7" height="7"/><rect x="291" y="142" width="15" height="5"/><rect x="291" y="156" width="15" height="5"/><rect x="331" y="117" width="13" height="5"/><rect x="331" y="131" width="13" height="5"/></g><path d="M0 238q95-18 195 0t195 0v62H0" fill="#e1e9df"/><path d="M-20 268q180-35 440 6" fill="none" stroke="#c1d2c3" stroke-width="13"/><path d="M-20 268q180-35 440 6" fill="none" stroke="#faf8f2" stroke-width="1.5" stroke-dasharray="10 10"/><g stroke="#a8beb1" stroke-width="2" fill="#b4cbb8"><path d="M25 243v-30m-8 0 8-22 8 22Z"/><path d="M366 241v-33m-8 0 8-23 8 23Z"/></g></svg>
+<div class="floating-tag tag-left"><span class="mini-spark">✦</span> 公開資料，說清楚</div>
+<button class="avatar-button" id="avatarButton" aria-label="點擊江啟臣 Q 版人偶開始問政策">
+<svg class="avatar" viewBox="0 0 240 330" role="img" aria-labelledby="avatarTitle"><title id="avatarTitle">江啟臣原創 Q 版人偶示意</title><defs><linearGradient id="jacket" x2="1" y2="1"><stop stop-color="#31597a"/><stop offset="1" stop-color="#193b59"/></linearGradient><linearGradient id="face" x2="0" y2="1"><stop stop-color="#f6d8ba"/><stop offset="1" stop-color="#edc2a0"/></linearGradient></defs>
+<ellipse cx="120" cy="311" rx="48" ry="9" fill="#213d40" opacity=".13"/>
+<g class="avatar-body"><path d="m91 259-5 43h29l8-40m4-3 4 43h28l-6-44" fill="#2a3d4b" stroke="#243948" stroke-width="2"/><path d="M86 297c-5 0-12 6-12 11 0 5 29 5 40 1v-11Zm44 1v11c11 4 40 4 40-1 0-5-7-11-12-11Z" fill="#26343b"/>
+<path d="M82 182c-14 2-25 15-29 31l18 8 13-22m74-17c13 2 25 15 29 31l-18 8-13-22" fill="url(#jacket)" stroke="#213c51" stroke-width="2"/>
+<path d="M71 203c-7 0-12 7-12 13s7 13 14 12 12-10 11-15Z" fill="#edc2a0"/>
+<g class="wave-arm"><path d="m165 207 18 9 17-26-14-10Z" fill="url(#jacket)" stroke="#213c51" stroke-width="2"/><path d="M187 186c-8-13-9-17-5-19 3-2 7 5 8 6-3-13-3-18 1-18s5 13 6 15c-1-14 1-19 5-18 4 0 2 15 3 18 2-12 4-15 7-13s-1 14-2 19c6-6 10-6 12-3 2 4-10 16-17 21-6 4-13-2-18-8Z" fill="url(#face)" stroke="#bb9579" stroke-width="1.3"/></g>
+<path d="M95 177h50l17 21-4 62c-18 8-59 9-76 0l-4-62Z" fill="url(#jacket)" stroke="#203d53" stroke-width="2"/>
+<path d="m105 171 15 6 15-6 9 13-24 59-25-58Z" fill="#faf8f0"/>
+<path d="m105 171-10 15 20 15 5-24m15-6 10 15-20 15-5-24" fill="#eef0ea" stroke="#cbd1ca" stroke-width="1"/>
+<path d="m92 186-6 17 13 4-6 10 27 37-16-62m44-6 6 17-13 4 6 10-27 37 16-62" fill="#426580" stroke="#254760" stroke-width="1.2"/>
+<rect x="141" y="213" width="9" height="14" rx="2" fill="#e3eced"/><path d="M144 216h3m-3 3h3" stroke="#618295" stroke-width="1"/><circle cx="122" cy="250" r="2" fill="#8094a2"/>
+</g>
+<g class="avatar-head"><path d="M106 155h29v25c-6 8-23 8-29 0Z" fill="#e5b996"/>
+<ellipse cx="63" cy="116" rx="12" ry="18" fill="#eac09c"/><ellipse cx="177" cy="116" rx="12" ry="18" fill="#eac09c"/>
+<path d="M64 79c1-30 23-43 56-43s55 13 56 43v49c-1 37-23 55-56 55s-55-18-56-55Z" fill="url(#face)" stroke="#c6a082" stroke-width="1.2"/>
+<path d="M64 110c-8-15-8-38 1-52 6-13 19-20 37-23 20-12 43-11 58-1l17 3-7 8c13 11 17 36 8 66l-10-27c-17-3-28-15-31-26-14 16-40 25-66 25Z" fill="#424745"/>
+<path d="M74 66c19-21 44-25 68-27M76 72c17-14 37-21 54-23m16-8 18 14" fill="none" stroke="#737a72" stroke-width="3" stroke-linecap="round"/>
+<path d="M69 86v26m103-24v24" stroke="#797d74" stroke-width="4"/>
+<path d="M82 103q12-7 25-2m26 0q13-5 24 2" stroke="#555349" stroke-width="3" stroke-linecap="round" fill="none"/>
+<g class="eyes" fill="#333b39"><ellipse cx="96" cy="117" rx="3" ry="4"/><ellipse cx="144" cy="117" rx="3" ry="4"/></g>
+<g fill="#fff" fill-opacity=".10" stroke="#71817e" stroke-width="2"><rect x="76" y="106" width="36" height="25" rx="9"/><rect x="128" y="106" width="36" height="25" rx="9"/><path d="M112 113q8-5 16 0m-64-3 12 3m88 0 12-3" fill="none"/></g>
+<path d="m119 119-4 15h8" stroke="#c6987c" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+<ellipse cx="83" cy="140" rx="9" ry="5" fill="#df9e8c" opacity=".28"/><ellipse cx="157" cy="140" rx="9" ry="5" fill="#df9e8c" opacity=".28"/>
+<path d="M103 148q17 17 34 0" fill="#fffaf1" stroke="#a47261" stroke-width="1.7" stroke-linecap="round"/>
+</g></svg>
+<span class="avatar-hint">點我聊聊 <svg><use href="#i-arrow"/></svg></span>
+</button>
+<div class="floating-tag tag-right"><span class="live-dot"></span> 政策資料可查證</div>
+<div class="location-label"><span>臺中</span> TAICHUNG, TAIWAN <i>24.1477° N</i></div>
+</div>
+<div class="hello-card"><div><span class="hello-label">江啟臣 <span>AI 分身</span></span><p>交通、育兒，還是城市的未來？<br>從你在意的事情開始。</p></div><button class="round dark" id="helloButton" aria-label="開始詢問政策"><svg><use href="#i-arrow"/></svg></button></div>
+<section class="topic-section" aria-labelledby="topicsHeading"><div class="section-head"><h2 id="topicsHeading">你想從哪裡開始？</h2><button class="text-button" data-view="topics">全部議題 <span>↗</span></button></div><div id="homeTopics" class="home-topics"></div></section>
+<div class="source-note"><svg><use href="#i-book"/></svg><p>每個回答，都有出處。<span>未收錄的立場，不猜測、不代言。</span></p></div>
+</section>
+<section id="topicsView" class="view" hidden aria-labelledby="topicsTitle"><div class="page-heading"><p class="eyebrow">POLICY EXPLORER</p><h1 id="topicsTitle">從生活，找到議題。</h1><p>公開資料分門別類，主張與現行政策分開看。</p></div><label class="searchbox"><svg><use href="#i-grid"/></svg><input id="topicSearch" type="search" maxlength="100" placeholder="搜尋政策、關鍵字…" aria-label="搜尋政策資料"></label><div class="filter-list" id="filters" role="group" aria-label="議題篩選"></div><p id="resultCount" class="result-count" aria-live="polite"></p><div id="policyList" class="policy-list"></div></section>
+<section id="sourcesView" class="view" hidden aria-labelledby="sourcesTitle"><div class="page-heading"><p class="eyebrow">OPEN & TRACEABLE</p><h1 id="sourcesTitle">有來源，才有回答。</h1><p>你看到的不只是答案，也能看到答案從哪裡來。</p></div><div class="principle-card"><span class="number">01—03</span><h2>三件事，先說清楚。</h2><ol><li><strong>這不是江啟臣本人。</strong><p>這是 AI 分身介面原型，不代表已取得本人或團隊授權；不代本人作出承諾。</p></li><li><strong>政見，不等於已經實施。</strong><p>公開主張、既有紀錄與現行法規須分開；福利申請與實施進度請查主管機關。</p></li><li><strong>找不到資料，就說不知道。</strong><p>目前採已核實資料卡檢索，尚未接入生成式 AI；自由輸入依關鍵字找相關資料，不是全領域對話。</p></li></ol></div><div class="section-head"><h2>目前收錄的來源</h2><span id="sourceCount" class="count-pill"></span></div><div id="sourceList" class="source-list"></div><section class="privacy-note"><h2>關於隱私</h2><p>不要求登入，不記錄或上傳你的問題，也不建立個人政治偏好。對話只存在本次頁面的記憶中；重新整理即清除。主機可能保留一般連線紀錄，不含你輸入的問題。開啟外部來源後，適用該網站的隱私規則。</p><p>此原型不受理陳情、不代送申請，請勿輸入電話、身分證或案件個資。</p></section></section>
+</main>
+<footer class="app-footer">獨立互動原型 · 非官方網站 · 非本人即時回覆</footer>
+<div class="bottom-shell"><button id="askButton" class="ask-trigger"><svg><use href="#i-chat"/></svg><span>問一個你關心的政策問題…</span><span class="send-round"><svg><use href="#i-arrow"/></svg></span></button><nav class="bottom-nav" aria-label="主要導覽"><button data-view="home" class="active" aria-current="page"><svg><use href="#i-chat"/></svg><span>聊一下</span></button><button data-view="topics"><svg><use href="#i-grid"/></svg><span>找政策</span></button><button data-view="sources"><svg><use href="#i-book"/></svg><span>看來源</span></button></nav></div>
+</div>
+<dialog id="chatDialog" class="chat-dialog" aria-labelledby="chatTitle"><header class="chat-header"><button class="round" id="closeChat" aria-label="關閉對話"><svg><use href="#i-back"/></svg></button><div><h2 id="chatTitle">和數位啟臣聊聊</h2><p><span class="ai-dot"></span> AI 分身 · 非本人即時回覆</p></div><button class="round" id="clearChat" aria-label="清除本次對話"><svg><use href="#i-close"/></svg></button></header><div class="chat-notice"><svg><use href="#i-book"/></svg><span>公開資料卡檢索原型 · 未接入生成式 AI</span></div><div id="messages" class="messages" aria-live="polite" aria-relevant="additions"></div><div class="chat-suggestions" id="chatSuggestions"></div><form id="chatForm" class="composer"><label class="sr-only" for="question">你的政策問題</label><textarea id="question" maxlength="360" rows="1" placeholder="例如：交通有哪些公開規劃？" required></textarea><button id="sendButton" type="submit" aria-label="送出問題"><svg><use href="#i-arrow"/></svg></button><p>請勿輸入個資。回答僅依目前已收錄資料。</p></form></dialog>
+<dialog id="detailDialog" class="detail-dialog" aria-labelledby="detailTitle"><div class="detail-top"><span class="eyebrow">POLICY NOTE</span><button class="round" id="closeDetail" aria-label="關閉政策詳情"><svg><use href="#i-close"/></svg></button></div><div id="detailContent"></div></dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+<noscript><p class="noscript">此互動原型需要 JavaScript。AI 分身非本人即時回覆；未開啟 JavaScript 時無法檢索政策資料。</p></noscript>
+</body></html>
