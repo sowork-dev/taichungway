@@ -10,14 +10,14 @@ path=out/'quest-browser-results.json'
 def persist():path.write_text(json.dumps(report,ensure_ascii=False,indent=2))
 atexit.register(persist);persist()
 def check(name,condition):
- report['checks'].append({'name':name,'passed':bool(condition)})
+ report['checks'].append({'name':name,'passed':bool(condition)});persist()
  assert condition,name
 with sync_playwright() as p:
  browser=p.chromium.launch(headless=True)
  context=browser.new_context(viewport={'width':390,'height':844},is_mobile=True,has_touch=True)
  page=context.new_page();errors=[]
  page.on('pageerror',lambda e:errors.append(str(e)))
- page.goto(base,wait_until='networkidle')
+ page.goto(base,wait_until='domcontentloaded',timeout=25000)
  check('original interactive city exists',page.locator('#questCanvas').count()==1)
  page.wait_for_selector('#homeTopics .topic-tile')
  check('three missions, independently specified',page.locator('#homeTopics [data-mission]').evaluate_all('(els)=>els.map(x=>x.dataset.mission).sort()')==['care','childcare','commute'])
@@ -70,7 +70,7 @@ with sync_playwright() as p:
   page.wait_for_selector('#questDialog[open]',state='hidden')
   seen.append(mission)
   check('understanding progress, not voting score '+mission,set(page.evaluate('QuestGame.snapshot().completed'))==set(seen))
- check('all three mission loop completed',page.locator('#questProgress').inner_text()=='3 / 3')
+ check('all three mission loop completed',page.locator('#questProgress').inner_text()=='3 / 15')
  # Freeze the expected policy-card denominator independently of the UI list.
  expected_cards={'commute':['transport-public-transit','transport-smart-roads'],'childcare':['parenting-childcare','parenting-family-support'],'care':['senior-care-single-window']}
  for mission,card_ids in expected_cards.items():

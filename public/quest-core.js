@@ -9,10 +9,28 @@
   'use strict';
 
   const MISSIONS = Object.freeze([
-    { id: 'commute', label: '通勤卡關', x: 145, y: 350, policyIds: ['transport-public-transit', 'transport-smart-roads'], scenario: '趕著上班，卻不知道公車何時來、轉乘能否接上。' },
-    { id: 'childcare', label: '臨托難找', x: 455, y: 350, policyIds: ['parenting-childcare', 'parenting-family-support'], scenario: '臨時有事需要托育，卻不知道附近資源怎麼找。' },
-    { id: 'care', label: '照護迷路', x: 145, y: 830, policyIds: ['senior-care-single-window'], scenario: '家人需要照護，卻在不同窗口之間來回詢問。' }
-  ].map(function (mission) {
+    { id: 'commute', topicId: 'smart-transport', zoneId: 'living', buildingLabel: '轉乘資訊站', label: '通勤卡關', x: 145, y: 350, policyIds: ['transport-public-transit', 'transport-smart-roads'], scenario: '趕著上班，卻不知道公車何時來、轉乘能否接上。' },
+    { id: 'childcare', topicId: 'parenting', zoneId: 'living', buildingLabel: '親子交流所', label: '臨托難找', x: 455, y: 350, policyIds: ['parenting-childcare', 'parenting-family-support'], scenario: '臨時有事需要托育，卻不知道附近資源怎麼找。' },
+    { id: 'care', topicId: 'senior-care', zoneId: 'living', buildingLabel: '照顧諮詢所', label: '照護迷路', x: 145, y: 830, policyIds: ['senior-care-single-window'], scenario: '家人需要照護，卻在不同窗口之間來回詢問。' }
+  ].concat([
+    ['exhibition-168', 'innovation', '會展交流館', '展場怎麼走', 745, 350, '虛構情境：第一次參加展覽，想先釐清場館位置與參觀動線。'],
+    ['robot-city', 'innovation', '機器人探索館', '科技看不懂', 1055, 1310, '虛構情境：路過機器人展示，想了解這個主題在城市生活中討論什麼。'],
+    ['culture-starlight', 'culture', '藝文交流館', '活動資訊散', 1345, 350, '虛構情境：想安排一場藝文小旅行，卻還沒找到適合的活動資訊。'],
+    ['smart-agriculture', 'nature', '農業觀察所', '田間提問', 1945, 830, '虛構情境：走訪農田時聽到智慧農業，想先弄清楚有哪些議題。'],
+    ['airport-gateway', 'connection', '空港問路站', '旅程接不上', 2545, 350, '虛構情境：準備前往機場，還在確認接駁資訊與行程安排。'],
+    ['city-safety', 'connection', '安全觀察站', '街角不安心', 2855, 830, '虛構情境：夜間經過陌生街角，想知道城市安全議題可以從哪裡了解。'],
+    ['twenty-minute-city', 'connection', '生活圈交流所', '日常路太繞', 2545, 1310, '虛構情境：買菜、就醫與休閒分在不同方向，想盤點日常生活的動線。'],
+    ['new-residents', 'culture', '新住民交流館', '資訊有隔閡', 1655, 830, '虛構情境：新搬來的鄰居不熟悉在地資訊，想一起找到容易理解的說明。'],
+    ['indigenous', 'culture', '原民文化交流館', '文化想認識', 1345, 1310, '虛構情境：想認識原住民族文化，卻不確定該從哪些在地議題開始。'],
+    ['animal-welfare', 'nature', '動物關懷所', '遇見迷途動物', 2255, 1550, '虛構情境：散步遇到疑似走失的動物，想先理解動物照顧與通報的議題。'],
+    ['hakka', 'culture', '客家文化交流館', '客庄初探', 1655, 1550, '虛構情境：想規劃客庄走讀，正在尋找文化背景與地方生活的入門資訊。'],
+    ['education', 'connection', '學習交流館', '學習方向多', 2855, 1550, '虛構情境：家人想討論學習安排，卻還不清楚教育主題有哪些面向。']
+  ].map(function (entry) {
+    const [id, zoneId, buildingLabel, label, x, y, scenario] = entry;
+    return { id, topicId: id, zoneId, buildingLabel, label, x, y, scenario,
+      policyIds: ['archive-' + id + '-overview'] };
+  }))
+  .map(function (mission) {
     Object.freeze(mission.policyIds);
     return Object.freeze(mission);
   }));
@@ -94,13 +112,38 @@
     return { x: sx / length, y: sy / length };
   }
 
-  const WORLD_WIDTH = 600;
-  const WORLD_HEIGHT = 1080;
+  const WORLD_WIDTH = 3000;
+  const WORLD_HEIGHT = 1800;
+  const ZONES = Object.freeze([
+    ['living', '生活照顧', '#b9dec9'],
+    ['innovation', '創新產業', '#bbd9ed'],
+    ['culture', '文化共好', '#e4c9df'],
+    ['nature', '山海永續', '#cbdcaa'],
+    ['connection', '城市連結', '#ecd4b1']
+  ].map(function (entry, i) {
+    const [id, title, color] = entry;
+    return Object.freeze({ id, title, x: i * 600, y: 0, w: 600, h: WORLD_HEIGHT, color,
+      topicIds: Object.freeze(MISSIONS.filter(function (m) { return m.zoneId === id; })
+        .map(function (m) { return m.topicId; })) });
+  }));
+
+  // Half-open rectangles give every in-world coordinate exactly one district.
+  function getZone(x, y) {
+    if (!Number.isFinite(x) || !Number.isFinite(y) || x < 0 || x >= WORLD_WIDTH ||
+        y < 0 || y >= WORLD_HEIGHT) return null;
+    return ZONES[Math.floor(x / 600)];
+  }
+
   const PADDING = 12;
   const OBSTACLES = Object.freeze([
     { x: 45, y: 125, w: 210, h: 145 }, { x: 345, y: 125, w: 210, h: 145 },
     { x: 45, y: 610, w: 210, h: 135 }, { x: 345, y: 610, w: 210, h: 135 }
-  ].map(Object.freeze));
+  ].concat(MISSIONS.slice(3).map(function (mission) {
+    // An 80-unit open forecourt keeps the exact interaction point outside
+    // the padded landmark; district-center boulevards remain uninterrupted.
+    return { x: mission.x - 100, y: mission.y - 225, w: 200, h: 145,
+      missionId: mission.id };
+  })).map(Object.freeze));
 
   function canStand(state, x, y) {
     if (!Number.isFinite(x) || !Number.isFinite(y) || x < PADDING ||
@@ -287,6 +330,17 @@
     return true;
   }
 
+  // Explicit fast travel is separate from walking and never emits an arrival.
+  function travelToMission(state, id) {
+    const mission = missionById(id);
+    if (state.phase !== 'explore' || state.paused || !mission ||
+        !canStand(state, mission.x, mission.y)) return false;
+    state.x = mission.x;
+    state.y = mission.y;
+    clearNavigation(state);
+    return true;
+  }
+
   function resetPosition(state) {
     state.x = 300;
     state.y = 520;
@@ -295,8 +349,8 @@
     return true;
   }
 
-  return { MISSIONS, OBSTACLES, WORLD_WIDTH, WORLD_HEIGHT, GRID_SIZE, createState,
+  return { MISSIONS, ZONES, getZone, OBSTACLES, WORLD_WIDTH, WORLD_HEIGHT, GRID_SIZE, createState,
     selectMission, choosePolicy, activatePolicy, showReview, completeMission,
     closeMission, normalizeVector, canStand, nearestMission, step, goToMission,
-    setDestination, resetPosition };
+    setDestination, travelToMission, resetPosition };
 }));

@@ -75,7 +75,7 @@ test('normalizeVector always returns finite values for huge and invalid input', 
 
 test('canStand uses the exact expanded building rectangles', () => {
   const q = core(); assert.equal(typeof q.canStand, 'function');
-  assert.deepEqual(q.OBSTACLES, [
+  assert.deepEqual(q.OBSTACLES.slice(0, 4), [
     { x: 45, y: 125, w: 210, h: 145 }, { x: 345, y: 125, w: 210, h: 145 },
     { x: 45, y: 610, w: 210, h: 135 }, { x: 345, y: 610, w: 210, h: 135 }
   ]);
@@ -91,13 +91,54 @@ test('canStand uses the exact expanded building rectangles', () => {
   assert.equal(q.canStand(s, 300, 520), true);
 });
 
+test('every added mission has an associated solid landmark with an open forecourt and connected grid roads', () => {
+  const q = core(); const s = q.createState();
+  assert.equal(q.OBSTACLES.length, 16);
+  assert.ok(Object.isFrozen(q.OBSTACLES));
+  assert.equal(new Set(q.OBSTACLES.slice(4).map(o => o.missionId)).size, 12);
+  for (const m of q.MISSIONS.slice(3)) {
+    const o = q.OBSTACLES.find(o => o.missionId === m.id);
+    assert.ok(o, 'missing landmark for ' + m.id);
+    assert.ok(Object.isFrozen(o));
+    assert.equal(m.y - (o.y + o.h), 80);
+    assert.equal(o.x + o.w / 2, m.x);
+    assert.equal(q.canStand(s, m.x, o.y + o.h + 12), false);
+    assert.equal(q.canStand(s, m.x, m.y), true);
+    assert.equal(q.getZone(o.x, o.y).id, m.zoneId);
+    assert.equal(q.getZone(o.x + o.w, o.y + o.h).id, m.zoneId);
+  }
+  // Full-height district boulevards and three full-width connecting avenues.
+  for (const x of [300, 900, 1500, 2100, 2700]) {
+    for (let y = 12; y <= 1788; y += 4) assert.ok(q.canStand(s, x, y), 'blocked boulevard');
+  }
+  for (const y of [520, 1000, 1720]) {
+    for (let x = 12; x <= 2988; x += 4) assert.ok(q.canStand(s, x, y), 'blocked avenue');
+  }
+  for (const m of q.MISSIONS) {
+    assert.equal(q.goToMission(s, m.id), true);
+    assertWalkablePath(q, s, { x: m.x, y: m.y });
+    assert.deepEqual(runRoute(q, s), [m.id]);
+    assert.equal(s.x, m.x); assert.equal(s.y, m.y);
+  }
+});
+
+test('world exports 3000x1800 and routes exactly across its full padded bounds', () => {
+  const q = core();
+  assert.equal(q.WORLD_WIDTH, 3000); assert.equal(q.WORLD_HEIGHT, 1800);
+  const s = q.createState();
+  assert.equal(q.setDestination(s, 2988, 1788), true);
+  assertWalkablePath(q, s, { x: 2988, y: 1788 });
+  assert.deepEqual(runRoute(q, s, { dash: true }), []);
+  assert.equal(s.x, 2988); assert.equal(s.y, 1788);
+});
+
 test('canStand enforces padded world bounds and rejects nonfinite coordinates', () => {
   const q = core(); assert.equal(typeof q.canStand, 'function');
   const s = q.createState();
-  for (const p of [[12, 12], [588, 1068], [12, 1068], [588, 12]]) {
+  for (const p of [[12, 12], [2988, 1788], [12, 1788], [2988, 12]]) {
     assert.equal(q.canStand(s, ...p), true);
   }
-  for (const p of [[11.9, 520], [588.1, 520], [300, 11.9], [300, 1068.1], [NaN, 20], [20, Infinity], ['20', 20]]) {
+  for (const p of [[11.9, 520], [2988.1, 520], [300, 11.9], [300, 1788.1], [NaN, 20], [20, Infinity], ['20', 20]]) {
     assert.equal(q.canStand(s, ...p), false);
   }
 });
@@ -223,7 +264,7 @@ test('setDestination routes floor taps exactly and clears mission arrival intent
 test('setDestination rejects blocked out-of-bounds and nonfinite endpoints atomically', () => {
   const q = core(); assert.equal(typeof q.setDestination, 'function');
   const s = q.createState(); q.goToMission(s, 'care'); const before = structuredClone(s);
-  for (const p of [[100, 200], [33, 200], [0, 0], [600, 1080], [300, NaN], [Infinity, 350], ['300', 350]]) {
+  for (const p of [[100, 200], [33, 200], [0, 0], [3000, 1800], [300, NaN], [Infinity, 350], ['300', 350]]) {
     assert.equal(q.setDestination(s, ...p), false); assert.deepEqual(s, before);
   }
   s.phase = 'choose'; const active = structuredClone(s);
@@ -232,7 +273,7 @@ test('setDestination rejects blocked out-of-bounds and nonfinite endpoints atomi
 
 test('setDestination connects walkable off-grid corner and boundary endpoints safely', () => {
   const q = core(); assert.equal(typeof q.setDestination, 'function');
-  for (const endpoint of [{ x: 12, y: 12 }, { x: 588, y: 1068 },
+  for (const endpoint of [{ x: 12, y: 12 }, { x: 2988, y: 1788 },
     { x: 32.999, y: 200 }, { x: 267.001, y: 282.001 }]) {
     const s = q.createState();
     assert.equal(q.setDestination(s, endpoint.x, endpoint.y), true);
@@ -254,7 +295,7 @@ function runRoute(q, s, input = {}) {
   return arrivals;
 }
 
-test('autowalk reaches all three exact endpoints with one arrival and never selects a mission', () => {
+test('autowalk reaches every exact endpoint with one arrival and never selects a mission', () => {
   const q = core();
   for (const mission of q.MISSIONS) {
     const s = q.createState(); q.goToMission(s, mission.id);
@@ -301,6 +342,38 @@ test('nonzero manual input cancels autowalk even when blocked by a building', ()
   assert.ok(s.x < 33);
 });
 
+test('travelToMission explicitly relocates to every exact mission point without completing or opening it', () => {
+  const q = core(); assert.equal(typeof q.travelToMission, 'function');
+  for (const m of q.MISSIONS) {
+    const s = q.createState(); s.completed = ['commute', 'care'];
+    const progress = s.completed;
+    q.goToMission(s, 'childcare'); s.dashRemaining = 0.5;
+    assert.equal(q.travelToMission(s, m.id), true);
+    assert.equal(s.x, m.x); assert.equal(s.y, m.y); assert.ok(q.canStand(s, s.x, s.y));
+    assert.deepEqual(s.path, []); assert.equal(s.destinationMissionId, null); assert.equal(s.dashRemaining, 0);
+    assert.equal(s.phase, 'explore'); assert.equal(s.missionId, null); assert.equal(s.selectedPolicyId, null);
+    assert.equal(s.completed, progress); assert.deepEqual(s.completed, ['commute', 'care']);
+    assert.deepEqual(q.step(s, {}, 0.05), { moved: false, arrivedMissionId: null });
+  }
+});
+
+test('travelToMission rejects paused states, non-explore phases and unknown IDs atomically', () => {
+  const q = core();
+  for (const phase of ['explore', 'choose', 'demonstrate', 'review']) {
+    for (const paused of [false, true]) {
+      for (const id of ['care', 'education', 'unknown', '__proto__', null, 0, {}]) {
+        if (phase === 'explore' && !paused && ['care', 'education'].includes(id)) continue;
+        const s = q.createState(); q.goToMission(s, 'commute');
+        s.completed = ['commute']; s.phase = phase; s.paused = paused;
+        s.dashRemaining = 1; s.missionId = phase === 'explore' ? null : 'childcare';
+        const before = structuredClone(s);
+        assert.equal(q.travelToMission(s, id), false);
+        assert.deepEqual(s, before);
+      }
+    }
+  }
+});
+
 test('resetPosition restores spawn and exploration while retaining completed understanding', () => {
   const q = core(); assert.equal(typeof q.resetPosition, 'function');
   const s = q.createState(); s.completed = ['commute', 'care'];
@@ -326,14 +399,80 @@ const expectedMissions = [
   { id: 'care', label: '照護迷路', x: 145, y: 830, policyIds: ['senior-care-single-window'], scenario: '家人需要照護，卻在不同窗口之間來回詢問。' }
 ];
 
-test('exports exactly the three specified fictional scenario records in Node', () => {
-  assert.deepEqual(core().MISSIONS, expectedMissions);
+const extraTopicIds = ['exhibition-168', 'robot-city', 'culture-starlight', 'smart-agriculture',
+  'airport-gateway', 'city-safety', 'twenty-minute-city', 'new-residents', 'indigenous',
+  'animal-welfare', 'hakka', 'education'];
+
+function originalMissionFields(missions) {
+  return missions.slice(0, 3).map(m => Object.fromEntries(
+    Object.keys(expectedMissions[0]).map(key => [key, m[key]])));
+}
+
+test('exports all 15 frozen fictional missions with exact original identities and policy IDs', () => {
+  const q = core();
+  assert.equal(q.MISSIONS.length, 15);
+  assert.deepEqual(originalMissionFields(q.MISSIONS), expectedMissions);
+  assert.deepEqual(q.MISSIONS.slice(0, 3).map(m => m.topicId), ['smart-transport', 'parenting', 'senior-care']);
+  assert.deepEqual(q.MISSIONS.slice(3).map(m => m.id).sort(), [...extraTopicIds].sort());
+  assert.equal(new Set(q.MISSIONS.map(m => m.topicId)).size, 15);
+  assert.ok(Object.isFrozen(q.MISSIONS));
+  for (const m of q.MISSIONS) {
+    assert.ok(Object.isFrozen(m)); assert.ok(Object.isFrozen(m.policyIds));
+    assert.equal(typeof m.buildingLabel, 'string'); assert.ok(m.buildingLabel.length > 0);
+    assert.equal(typeof m.scenario, 'string'); assert.ok(m.scenario.length > 10);
+    assert.ok(['living', 'innovation', 'culture', 'nature', 'connection'].includes(m.zoneId));
+    assert.ok(q.canStand(q.createState(), m.x, m.y));
+  }
+  for (const m of q.MISSIONS.slice(3)) {
+    assert.equal(m.topicId, m.id);
+    assert.deepEqual(m.policyIds, ['archive-' + m.topicId + '-overview']);
+    assert.match(m.scenario, /^虛構情境：/);
+    assert.doesNotMatch(m.scenario, /保證|已改善|已完成|補助\d|提升\d|降低\d/);
+  }
+});
+
+test('five frozen named zones partition the entire world and contain exactly their mission topics', () => {
+  const q = core();
+  assert.equal(typeof q.getZone, 'function');
+  const groups = [
+    ['living', '生活照顧', ['smart-transport', 'parenting', 'senior-care']],
+    ['innovation', '創新產業', ['exhibition-168', 'robot-city']],
+    ['culture', '文化共好', ['culture-starlight', 'new-residents', 'indigenous', 'hakka']],
+    ['nature', '山海永續', ['smart-agriculture', 'animal-welfare']],
+    ['connection', '城市連結', ['airport-gateway', 'city-safety', 'twenty-minute-city', 'education']]
+  ];
+  assert.equal(q.ZONES.length, 5); assert.ok(Object.isFrozen(q.ZONES));
+  groups.forEach(([id, title, topics], i) => {
+    const z = q.ZONES[i];
+    assert.deepEqual(Object.keys(z).sort(), ['id', 'title', 'x', 'y', 'w', 'h', 'color', 'topicIds'].sort());
+    assert.deepEqual({ id: z.id, title: z.title, x: z.x, y: z.y, w: z.w, h: z.h },
+      { id, title, x: i * 600, y: 0, w: 600, h: 1800 });
+    assert.match(z.color, /^#[0-9a-f]{6}$/i);
+    assert.deepEqual([...z.topicIds].sort(), [...topics].sort());
+    assert.ok(Object.isFrozen(z)); assert.ok(Object.isFrozen(z.topicIds));
+    assert.equal(q.getZone(i * 600, 0), z);
+    assert.equal(q.getZone(i * 600 + 599.99, 1799.99), z);
+    const missions = q.MISSIONS.filter(m => m.zoneId === id);
+    assert.deepEqual(missions.map(m => m.topicId).sort(), [...topics].sort());
+    for (const m of missions) assert.equal(q.getZone(m.x, m.y), z);
+  });
+  for (const point of [[-1, 0], [0, -1], [3000, 900], [900, 1800], [NaN, 0], [0, Infinity], ['0', 0], [null, 0]]) {
+    assert.equal(q.getZone(...point), null);
+  }
+  assert.ok(Math.max(...q.MISSIONS.map(m => m.x)) > 2800);
+  assert.ok(Math.max(...q.MISSIONS.map(m => m.y)) > 1500);
+});
+
+test('preserves the three specified original scenario records in Node', () => {
+  assert.deepEqual(originalMissionFields(core().MISSIONS), expectedMissions);
 });
 
 test('UMD exposes QuestCore on window without Node or DOM dependencies', () => {
   const window = {};
   vm.runInNewContext(fs.readFileSync(modulePath, 'utf8'), window);
-  assert.deepEqual(JSON.parse(JSON.stringify(window.QuestCore.MISSIONS)), expectedMissions);
+  const missions = JSON.parse(JSON.stringify(window.QuestCore.MISSIONS));
+  assert.deepEqual(originalMissionFields(missions), expectedMissions);
+  assert.deepEqual(missions, core().MISSIONS);
 });
 
 test('createState returns the exact independent initial state', () => {
