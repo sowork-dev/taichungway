@@ -87,7 +87,7 @@ function accept(packet){if(!packet||packet.type!=='state'||!packet.state||!Array
  for(const e of state.events||[]){if(seen.has(e.id))continue;seen.add(e.id);if(!old)continue;
   if(e.type==='place'&&e.playerId===you){firstAction=true;$('tapCoach').hidden=true;}
   if(e.type==='destroy'){floaters.push({x:e.x,y:e.y,label:'✦',color:'#fff18c',at:performance.now()});}
-  if(e.type==='capture'){flash(e.playerId===you?'困住對手！＋1':'被泡泡困住了！',e.playerId!==you);floaters.push({x:e.x,y:e.y,label:'+1',color:teamColors[state.players.find(p=>p.id===e.playerId)?.team??0],at:performance.now()});}
+  if(e.type==='capture'){const points=Number.isFinite(e.points)&&e.points>0?e.points:0,victimIsYou=e.victimId===you,selfSplash=e.victimId===e.playerId;if(points>0){flash(e.playerId===you?'困住對手！＋'+points:victimIsYou?'被泡泡困住了！':'對手得分',victimIsYou);floaters.push({x:e.x,y:e.y,label:'+'+points,color:teamColors[state.players.find(p=>p.id===e.playerId)?.team??0],at:performance.now()});}else{flash(victimIsYou?(selfSplash?'被自己的水波困住了！':'被泡泡困住了！'):(selfSplash?'對手被自己的水波困住了':'對手被泡泡困住了'),victimIsYou);}}
 
  }
  if(seen.size>180)seen=new Set((state.events||[]).map(e=>e.id));floaters=floaters.slice(-20);
