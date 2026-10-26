@@ -10,7 +10,7 @@ const { createPlayServer } = require('../server/play-server.cjs');
 
 async function setup(t, options = {}) {
   let clock = 10000;
-  const server = createPlayServer({ now: () => clock, autoTick: false, ...options });
+  const server = createPlayServer({ core: require('../public/arena-core.js'), now: () => clock, autoTick: false, ...options });
   server.listen(0, '127.0.0.1');
   await once(server, 'listening');
   const base = `http://127.0.0.1:${server.address().port}`;
@@ -312,7 +312,7 @@ test('autoTick simulates every 50ms and broadcasts on 100ms cadence', async t =>
 test('closePlay shuts down open websocket clients and exits cleanly', async () => {
   const source = `const {createPlayServer}=require('./server/play-server.cjs');
 const {WebSocket}=require('ws');
-(async()=>{ const s=createPlayServer(); s.listen(0,'127.0.0.1',async()=>{
+(async()=>{ const s=createPlayServer({core:require('./public/arena-core.js')}); s.listen(0,'127.0.0.1',async()=>{
 const u='http://127.0.0.1:'+s.address().port;
 const r=await fetch(u+'/api/play/enter',{method:'POST',headers:{'content-type':'application/json'},body:'{}'});const a=await r.json();
 const w=new WebSocket(u.replace('http:','ws:')+'/ws/play');w.on('open',()=>w.send(JSON.stringify({type:'hello',code:a.code,token:a.token})));

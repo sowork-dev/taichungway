@@ -11,9 +11,9 @@ npm start
 
 預設只綁定 `127.0.0.1:8765`，不會自動公開。`PORT=8791 npm start` 可另選埠；啟動程式輸出實際 URL。完整功能需要即時後端，單人練習分數也由後端處理。
 
-- 第一個視窗點「立即開玩」，直接移動、拿補給與送達。
+- 第一個視窗點「立即開玩」，直接走格子、放水球、躲十字水波。
 - 第二個獨立瀏覽器／無痕視窗可同樣點「立即開玩」自動配對，或從大廳點實際等候場次加入。
-- 第二人接通後雙方歸零，倒數開賽；空手靠近對手手中的補給可攔截。
+- 第二人接通後雙方歸零，倒數開賽；困住對手得1分，先3分勝；60秒到時比得分。
 - 分享入口產生 `?room=場次碼` 邀請；不含認證 token。接收者仍需點加入。
 - 雙方點再戰才重開；離開一方不算另一方獲勝，剩餘玩家回練習。
 
@@ -32,7 +32,7 @@ npm test
 # 等同 node --test tests/*.test.cjs
 ```
 
-測試包含舊檢索與完整來源、新物理／碰撞／拿取／送達／攔截／歸零／計時、實際本機 HTTP 與 WebSocket、token 隔離、大廳真實人數、斷線／逾時與本機完整啟動。開發測試內可注入時間與直接安排規則 fixture；對外 API 沒有傳送、加分或管理作弊入口。
+測試包含舊檢索與完整來源、新格子／水球／水波／困住／勝負／歸零／計時與舊核心回歸、實際本機 HTTP 與 WebSocket、token 隔離、大廳真實人數、斷線／逾時與本機完整啟動。開發測試內可注入時間與直接安排規則 fixture；對外 API 沒有傳送、加分或管理作弊入口。
 
 ## 瀏覽器驗收
 
@@ -42,15 +42,17 @@ npm test
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements-dev.txt
-python -m playwright install chromium
-python tests/arena_browser_qa.py http://127.0.0.1:8765
+python -m playwright install chromium webkit
+python tests/bubble_browser_qa.py http://127.0.0.1:8765
+python tests/bubble_touch_qa.py http://127.0.0.1:8765
+python tests/bubble_webkit_qa.py http://127.0.0.1:8765
 ```
 
 Windows 使用 `.venv\Scripts\activate`。部分 Linux 需要依 Playwright 提示補 Chromium 系統依賴。
 
-主流程測試會真的走路與送達、從公開大廳加入、攔截另一個客戶端、同步得分、等待完整回合結算、再戰與離房。輸出與截圖在 `qa/`（不入 Git）。兩個自動化 context 不是兩名真人；沒有宣稱已驗證十秒上手或好玩。中斷會留下本次 incomplete 報告，而非沿用舊成功結果。
+主流程測試會用實際導航與放球清出路線、從公開大廳加入、困住另一個客戶端、由0到3分同步勝負、再戰與離房；另驗原生雙指觸控與WebKit引擎。測試透過明確新場入口建立自己的場次，不主動加入別人的練習。輸出與截圖在 `qa/`（不入 Git）。兩個自動化 context 不是兩名真人；沒有宣稱已驗證十秒上手或好玩。中斷會留下本次 incomplete 報告，而非沿用舊成功結果。
 
-`browser_qa.py`、`quest_browser_qa.py`、`world_browser_qa.py` 與 `pk_browser_qa.py` 對應前版探索／答題首頁，保留作歷史參考，並非目前主入口的驗收指令。
+`arena_browser_qa.py`、`arena_webkit_qa.py`、`browser_qa.py`、`quest_browser_qa.py`、`world_browser_qa.py` 與 `pk_browser_qa.py` 對應前版探索／答題首頁，保留作歷史參考，並非目前主入口的驗收指令。
 
 ## 提供文件匯入
 

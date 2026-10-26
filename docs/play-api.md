@@ -1,6 +1,6 @@
 # 即時遊戲 API（Node HTTP + ws 8.22.0）
 
-新服務獨立於舊 PK API；不代理任何 `/api/pk/*` 路徑。權威物理、碰撞、拾取、送達、奪包、計分與回合狀態皆由 `public/arena-core.js` 決定。沒有機器對手、公開管理端點、改分或瞬移端點。
+新服務獨立於舊 PK API；不代理任何 `/api/pk/*` 路徑。預設使用 `public/bubble-core.js`：單畫面水球格子競技場，唯一動作是放水球 `bomb`；位置、碰撞、箱子、水球、爆炸、困住、捕獲計分與回合狀態皆由核心決定。沒有機器對手、公開管理端點、改分或瞬移端點。
 
 ## 啟動與模組介面
 
@@ -31,6 +31,8 @@ server.listen(8790, '127.0.0.1');
 
 回傳原生 `http.Server`，另外提供 `tickPlay()` 供注入 clock 後手動推進。正常執行每 50ms 模擬一次，每個房間最多每 100ms 廣播；不以瀏覽器傳來的位置決定人物座標。`server.playRooms` 是 **僅供程序內測試** 的 Map，不會透過 HTTP 暴露。每個 room 的 `game` 是真實核心模型。
 
+`createPlayServer({core: require('./public/arena-core.js')})` 僅供程序內相容測試注入舊引擎；HTTP／WS／URL／CLI 不提供引擎選擇。舊引擎 health 不含 `game`，舊動作仍是 dash／tag；不把舊拾取問答或送達遊戲重新命名成水球遊戲。
+
 ## HTTP
 
 所有 JSON 回應都有 `Content-Type: application/json; charset=utf-8`、`Cache-Control: no-store`、`X-Content-Type-Options: nosniff`；不提供 CORS。
@@ -38,7 +40,7 @@ server.listen(8790, '127.0.0.1');
 ### `GET /api/play/health`
 
 ```json
-{"ok":true,"mode":"realtime","rooms":0,"players":0}
+{"ok":true,"mode":"realtime","game":"bubble","rooms":0,"players":0}
 ```
 
 `rooms` 是仍存在、受 TTL 限制的房間數（可能含尚待驗證的保留房間）；`players` 僅計算已完成 hello 且 WebSocket 仍為 OPEN 的真人，不計 HTTP 保留名額或離線玩家。
@@ -90,35 +92,35 @@ POST 與 WS upgrade 若帶 Origin，必須精確符合 `hostOrigin`；未設定�
 
 上例 `state` 只示意結構；真實 hello snapshot 一定包含已加入的本人。之後每 100ms 用相同 wrapper 廣播，每個 socket 的 `you` 不同，而同次權威 `state` 相同。
 
-Snapshot 完整內容以 `ArenaCore.snapshot(game)` 為準，包括 `width`、`height`、`now`、`remainingMs`、`endsAt`、`phaseUntil`、`phase`、`winnerIds`、`roundId`、`mode`（solo／pvp）、含位置／carry／score 的 players、含 kind／active 的 pickups、targets、landmarks 與最多 40 筆 events。server 不再另外實作物理或計分。
+Snapshot 完整內容以 `BubbleCore.snapshot(game)` 為準，包括 `kind:"bubble"`、576×832 世界、64 單位格子（9×13）、`now`、`remainingMs`、`endsAt`、`phaseUntil`、`phase`、`winnerIds`、`roundId`、`mode`（solo／pvp）、含位置／score／trappedUntil／bombReadyAt 的 players，以及 bombs（含穩定 id 與 explodeAt）、crates、blasts、walls。出生點為 (96,96) 與 (480,736)，正常速度 200。server 不再另外實作物理或計分。
 
 同 token 新連線會取代舊連線，舊連線以 1008 關閉；不重複 addPlayer，也不因舊 socket 的 close 清掉新 socket。每 token 的訊息速率預算不會因替換 socket 歸零。開始離房或關閉連線時立即撤銷 token 與核心玩家，不等待傳輸層 close 握手；剩餘真人重回練習，不產生幽靈勝利，沒有席位時刪除房間。關閉握手最多額外500ms即強制終止。斷線後需重新 enter。
 
 ### 2. 手動輸入
 
 ```json
-{"type":"input","x":1,"y":0,"dash":false,"tag":false}
+{"type":"input","x":1,"y":0}
 ```
 
-x／y 必須為有限數，介於 -1 與 1，方向正規化由核心處理。dash／tag 為可省略的 boolean。socket 身分決定操控玩家；任何自訂 playerId、score、position 或額外欄位均拒絕。手動軸超過 500ms 未更新自動歸零。dash／tag 合併為一次性旗標，下個模擬 tick 消耗，不會持續觸發。
+x／y 必須為有限數，介於 -1 與 1，方向正規化由核心處理。socket 身分決定操控玩家；任何自訂 playerId、score、position、bomb、owner 或額外欄位均拒絕。水球只能透過 action 放置，不能指定位置、擁有者或爆炸時間。手動軸超過 500ms 未更新自動歸零。相容舊引擎可省略的 dash／tag boolean 不會讓新引擎執行衝刺或奪包。
 
 ### 3. 點地移動（適用手機畫布）
 
 ```json
-{"type":"navigate","x":650,"y":600}
+{"type":"navigate","x":160,"y":96}
 ```
 
-x／y 是有限世界座標，限於世界範圍。伺服器從**本人當前真實座標**呼叫 `A.findPath`，沿路每 tick 以一般 `A.setInput` 走路，讓核心處理速度、碰撞與拾取；不直接設定人物 x／y。到終點九單位內停止；中間轉折點使用更小容差，避免抄近路穿越建物。
+x／y 是有限世界座標，限於世界範圍。伺服器從**本人當前真實座標**呼叫 `A.findPath(x,y,goalX,goalY,room.game)`，依即時箱子狀態找路，箱子炸毀後可走新通道。沿路每 tick 以一般 `A.setInput` 走路，讓核心處理速度與碰撞；不直接設定人物 x／y。水球引擎到終點四單位內停止（舊引擎九單位）；中間轉折點使用更小容差，避免穿牆。
 
 合法但被建物阻擋／不可達的目標會停止導航，不移動、不切斷連線；非法／越界／非數值／額外欄位關閉 1008。只在 `practice` 或 `playing` 接受新導航。有效導航不受 500ms **手動軸**逾時影響。任何 input（包含 input 0,0）立即取消導航；頁面 blur／hidden 應送 input 0,0。回合 roundId 改變、倒數重置、斷線或回到練習時清除舊導航。
 
 ### 4. 導航途中動作
 
 ```json
-{"type":"action","action":"dash"}
+{"type":"action","action":"bomb"}
 ```
 
-action 只能為 `dash` 或 `tag`。合併進下個 tick 的待消耗旗標，不取消現有路徑。能否實際衝刺／奪包、冷卻與命中皆由核心決定；例如 solo 空揮 tag 不會產生奪包成功或冷卻。
+預設 action 只能為 `bomb`，dash／tag 拒絕。允許動作取自程序內核心 `A.ACTIONS`（舊引擎 fallback 為 dash／tag）。合併進下個 tick 的待消耗旗標，不取消現有路徑；同 tick 後到的導航或手動 input 不會吞掉待放水球。放置格、冷卻、爆炸、困住、捕獲與分數皆由核心決定。練習分數不會帶入第二位真人加入後的正式回合。
 
 ### 5. 其他訊息
 
@@ -136,14 +138,18 @@ rematch 交由核心處理雙方 readiness；leave 以 1000 關閉並清理本�
 
 只有呼叫 `createPlayServer({staticDir:...})` 才啟用。`/` 固定提供 `index.html`。不是通用目錄伺服器；只允許以下平面檔名：
 
-`index.html app.js engine.js knowledge.json policy-catalog.json taichung-elements.js style.css world.css icon.svg robots.txt pk.js pk.css quest.js quest.css quest-core.js arena-core.js play.js play.css policies.html`
+`index.html app.js engine.js knowledge.json policy-catalog.json taichung-elements.js style.css world.css icon.svg robots.txt pk.js pk.css quest.js quest.css quest-core.js arena-core.js bubble-core.js play.js play.css policies.html`
 
 不存在檔案、點檔、內部／測試／node_modules 路徑、編碼 traversal、額外任意檔名與 symlink 均 404；不跟隨 allowlist 名稱指向的符號連結。CLI 不因設定環境變數而開啟靜態目錄。
 
 ## 驗證
 
 ```sh
-node --test tests/play-server.test.cjs
+node --test tests/play-server.test.cjs tests/bubble-server.test.cjs
 ```
 
-測試使用真實本機 HTTP 與 ws 客戶端、可注入 clock；含真人匹配／預約、公開資訊不洩 token、相同 peer snapshot、正常移動／導航繞障礙、一次性動作、同時拾取唯一性與一次送達、偽造拒絕、重賽、斷線、Origin／body／訊息／frame 限制、protocol heartbeat、TTL、100 客戶端上限、靜態 allowlist、CLI 與獨立程序 closePlay 乾淨退出。拾取與送達測試透過公開 navigate 真實走路，沒有測試專用 HTTP 控制或座標瞬移。
+舊引擎相容測試使用明確的程序內 ArenaCore 注入，保留既有 44 個 HTTP／WS／安全案例。Bubble 測試另以真實 HTTP 與兩個 ws 客戶端驗證預設核心、房間匹配、人數、同一水球 id／explodeAt 廣播、一次性 bomb、偽造拒絕、真實走路炸箱開路、練習分歸零、零到三分捕獲、重賽、斷線、暫停讀取後離房立即撤銷與 64KiB outbound cap。導航與捕獲案例不改寫人物座標或箱子狀態；clock 僅加速時間。來源卡與原始資料不由本服務修改。
+
+## 明確開新場
+
+POST `/api/play/enter`可送`{"fresh":true}`略過自動配對、開一個正常公開場；不可和`code`同傳，也不接受false或其他欄位。仍受相同請求／房間／保留位上限，HTTP保留不算線上玩家。`{}`仍自動配對，`{"code":"ABCDEF"}`仍加入指定場。新場不是私密或存取控制，仍可被其他人加入。

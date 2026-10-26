@@ -5,17 +5,18 @@ const { isIP } = require('node:net');
 const fs = require('node:fs');
 const path = require('node:path');
 const { WebSocketServer, WebSocket } = require('ws');
-const A = require('../public/arena-core.js');
+const BubbleCore = require('../public/bubble-core.js');
 // Flat, explicit deployment surface. Never expose arbitrary files or directories.
 const PUBLIC_ASSETS = new Set([
   'index.html', 'app.js', 'engine.js', 'knowledge.json', 'policy-catalog.json',
   'taichung-elements.js', 'style.css', 'world.css', 'icon.svg', 'robots.txt',
   'pk.js', 'pk.css', 'quest.js', 'quest.css', 'quest-core.js',
-  'arena-core.js', 'play.js', 'play.css', 'policies.html'
+  'arena-core.js', 'bubble-core.js', 'play.js', 'play.css', 'policies.html'
 ]);
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.txt': 'text/plain' };
 
 function createPlayServer(options = {}) {
+  const A = options.core || BubbleCore;
   const { now = Date.now, roundMs = 60000, countdownMs = 2000, hostOrigin,
     maxRooms = 50, roomTtlMs = 900000, trustProxy = false } = options;
   const requestRates = new Map();
@@ -68,7 +69,7 @@ function createPlayServer(options = {}) {
   }
   const server = http.createServer(async (req, res) => {
     if (!requestAllowed(req)) return json(res, 429, { error: 'Request limit reached' });
-    if (req.method === 'GET' && req.url === '/api/play/health') return json(res, 200, { ok: true, mode: 'realtime', rooms: rooms.size, players: count() });
+    if (req.method === 'GET' && req.url === '/api/play/health') return json(res, 200, { ok: true, mode: 'realtime', ...(A.GAME_KIND === 'bubble' ? { game: 'bubble' } : {}), rooms: rooms.size, players: count() });
     if (req.method === 'GET' && req.url === '/api/play/lobby') return json(res, 200, {
       rooms: [...rooms.values()].filter(r => connected(r).length).map(r => ({ code: r.code, players: connected(r).length, phase: r.game.phase, joinable: r.game.phase === 'practice' && connected(r).length === 1 && r.members.size < 2 })), online: count()
     });
@@ -85,9 +86,9 @@ function createPlayServer(options = {}) {
         }
         body = JSON.parse(Buffer.concat(chunks).toString('utf8'));
       } catch { return json(res, 400, { error: 'Invalid JSON' }); }
-      if (!plain(body) || !keys(body, ['code']) || (Object.hasOwn(body, 'code') && (typeof body.code !== 'string' || !/^[A-F0-9]{6}$/.test(body.code)))) return json(res, 400, { error: 'Invalid enter request' });
+      if (!plain(body) || !keys(body, ['code', 'fresh']) || (Object.hasOwn(body, 'fresh') && (body.fresh !== true || Object.hasOwn(body, 'code'))) || (Object.hasOwn(body, 'code') && (typeof body.code !== 'string' || !/^[A-F0-9]{6}$/.test(body.code)))) return json(res, 400, { error: 'Invalid enter request' });
       server.tickPlay();
-      let room = body.code ? rooms.get(body.code) : [...rooms.values()].find(r => r.game.phase === 'practice' && connected(r).length === 1 && r.members.size < 2);
+      let room = body.code ? rooms.get(body.code) : body.fresh ? null : [...rooms.values()].find(r => r.game.phase === 'practice' && connected(r).length === 1 && r.members.size < 2);
       if (body.code && !room) return json(res, 404, { error: 'Room not found' });
       if (room && room.members.size >= 2) return json(res, 409, { error: 'Room full' });
       if (!room) {
@@ -135,7 +136,7 @@ function createPlayServer(options = {}) {
     const phase = room.game.phase;
     if (member.navRound !== room.game.roundId || !['practice', 'playing'].includes(phase) || (member.navPhase !== phase && phase === 'practice')) {
       member.nav = null;
-      member.input = { x: 0, y: 0, dash: false, tag: false };
+      member.input = { x: 0, y: 0, dash: false, tag: false, bomb: false };
     }
     member.navRound = room.game.roundId; member.navPhase = phase;
   }
@@ -145,9 +146,9 @@ function createPlayServer(options = {}) {
     if (!player) { member.nav = null; return; }
     while (member.nav.length) {
       const goal = member.nav[0], distance = Math.hypot(goal.x - player.x, goal.y - player.y);
-      if (distance <= (member.nav.length === 1 ? 9 : 0.5)) { member.nav.shift(); continue; }
+      if (distance <= (member.nav.length === 1 ? (A.GAME_KIND === 'bubble' ? 4 : 9) : 0.5)) { member.nav.shift(); continue; }
       // A normal bounded vector: the core still owns speed, collision and all positions.
-      const scale = Math.max(distance, A.DASH_SPEED * 0.05);
+      const scale = Math.max(distance, (A.DASH_SPEED || A.SPEED) * 0.05);
       member.input.x = (goal.x - player.x) / scale;
       member.input.y = (goal.y - player.y) / scale;
       return;
@@ -183,7 +184,7 @@ function createPlayServer(options = {}) {
         if (previous) closePeer(previous, 1008, 'Connection replaced');
         else {
           member.rateStart = now(); member.rateCount = 0;
-          member.input = { x: 0, y: 0, dash: false, tag: false };
+          member.input = { x: 0, y: 0, dash: false, tag: false, bomb: false };
           member.lastInput = now();
           A.addPlayer(room.game, member.playerId, now());
           member.navRound = room.game.roundId; member.navPhase = room.game.phase; member.nav = null;
@@ -200,20 +201,20 @@ function createPlayServer(options = {}) {
         if (!keys(msg, ['type', 'x', 'y']) || !Number.isFinite(msg.x) || !Number.isFinite(msg.y) || msg.x < 0 || msg.y < 0 || msg.x > A.WORLD_WIDTH || msg.y > A.WORLD_HEIGHT) return closePeer(ws, 1008, 'Invalid navigation');
         if (!['practice', 'playing'].includes(room.game.phase)) return;
         const player = room.game.players.find(p => p.id === member.playerId);
-        member.nav = player ? A.findPath(player.x, player.y, msg.x, msg.y) : null;
+        member.nav = player ? A.findPath(player.x, player.y, msg.x, msg.y, room.game) : null;
         member.input.x = 0; member.input.y = 0;
         member.lastInput = now();
         return;
       }
       if (msg.type === 'action') {
-        if (!keys(msg, ['type', 'action']) || !['dash', 'tag'].includes(msg.action)) return closePeer(ws, 1008, 'Invalid action');
+        if (!keys(msg, ['type', 'action']) || !(A.ACTIONS || ['dash', 'tag']).includes(msg.action)) return closePeer(ws, 1008, 'Invalid action');
         if (['practice', 'playing'].includes(room.game.phase)) member.input[msg.action] = true;
         return;
       }
       if (msg.type === 'input') {
         if (!keys(msg, ['type', 'x', 'y', 'dash', 'tag']) || !Number.isFinite(msg.x) || !Number.isFinite(msg.y) || Math.abs(msg.x) > 1 || Math.abs(msg.y) > 1 || (Object.hasOwn(msg, 'dash') && typeof msg.dash !== 'boolean') || (Object.hasOwn(msg, 'tag') && typeof msg.tag !== 'boolean')) return closePeer(ws, 1008, 'Invalid input');
         member.nav = null;
-        member.input = { x: msg.x, y: msg.y, dash: member.input.dash || msg.dash === true, tag: member.input.tag || msg.tag === true };
+        member.input = { x: msg.x, y: msg.y, dash: member.input.dash || msg.dash === true, tag: member.input.tag || msg.tag === true, bomb: member.input.bomb === true };
         member.lastInput = now();
         return;
       }
@@ -259,7 +260,7 @@ function createPlayServer(options = {}) {
         A.setInput(room.game, member.playerId, member.input);
       }
       A.step(room.game, time);
-      for (const member of connected(room)) { member.input.dash = false; member.input.tag = false; }
+      for (const member of connected(room)) { member.input.dash = false; member.input.tag = false; member.input.bomb = false; }
       if (time - room.lastBroadcast >= 100) {
         room.lastBroadcast = time;
         for (const member of connected(room)) sendState(room, member);
