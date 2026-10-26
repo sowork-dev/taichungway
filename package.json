@@ -9,6 +9,9 @@
   },
   "scripts": {
     "test": "node --test tests/*.test.cjs",
-    "start": "node -e \"require('./server/pk-server.cjs').createPkServer({hostOrigin:'http://127.0.0.1:8765',staticDir:require('node:path').resolve('public')}).listen(8765,'127.0.0.1',()=>console.log('Open http://127.0.0.1:8765'))\""
+    "start": "node server/local.cjs"
+  },
+  "dependencies": {
+    "ws": "8.22.0"
   }
 }

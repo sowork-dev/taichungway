@@ -1,69 +1,68 @@
 # Setup
 
-## 完整本機執行（單人＋雙人 PK）
+## 完整本機執行
 
-需要 Node.js 22 以上；只使用 Node 內建模組，不需要 npm install、API Key 或資料庫。
+需要 Node.js 22 以上；`ws` 版本由 package-lock.json 鎖定。沒有模型 API、帳號或資料庫。
 
 ```sh
+npm ci --ignore-scripts
 npm start
 ```
 
-開啟 `http://127.0.0.1:8765`。此設定只綁定 loopback，不會對外公開。開兩個獨立瀏覽器／無痕視窗，一方開房，另一方輸入六碼房號，即可驗證真實兩端同步。重新整理會失去暫存的房間 token，房間狀態不是永久戰績。
+預設只綁定 `127.0.0.1:8765`，不會自動公開。`PORT=8791 npm start` 可另選埠；啟動程式輸出實際 URL。完整功能需要即時後端，單人練習分數也由後端處理。
 
-只要單人靜態功能可另用：
+- 第一個視窗點「立即開玩」，直接移動、拿補給與送達。
+- 第二個獨立瀏覽器／無痕視窗可同樣點「立即開玩」自動配對，或從大廳點實際等候場次加入。
+- 第二人接通後雙方歸零，倒數開賽；空手靠近對手手中的補給可攔截。
+- 分享入口產生 `?room=場次碼` 邀請；不含認證 token。接收者仍需點加入。
+- 雙方點再戰才重開；離開一方不算另一方獲勝，剩餘玩家回練習。
+
+只看靜態政策資料可另用：
 
 ```sh
 python3 -m http.server 8767 --bind 127.0.0.1 --directory public
 ```
 
-此靜態伺服器沒有多人 API，PK 介面會誠實顯示服務不可用，不會補假玩家或假戰績。不要直接用 file://，因為資料載入使用同源 HTTP。
+然後開啟 `/policies.html#topics`。純靜態伺服器沒有遊戲後端；首頁只呈現預覽，不能提供實際練習計分或多人，更不能補假對手。不要直接使用 file://。
 
-## 單元與 HTTP 測試
+## 單元、HTTP 與 WebSocket 測試
 
 ```sh
 npm test
-# 等同：
-node --test tests/*.test.cjs
+# 等同 node --test tests/*.test.cjs
 ```
 
-測試包含來源覆蓋、檢索、城市碰撞／路徑、真實本機 HTTP 房間、作答揭露時機、token 隔離、計分、再戰與基本拒絕邊界。通過測試不等於完成正式資安滲透測試或真人驗收。
+測試包含舊檢索與完整來源、新物理／碰撞／拿取／送達／攔截／歸零／計時、實際本機 HTTP 與 WebSocket、token 隔離、大廳真實人數、斷線／逾時與本機完整啟動。開發測試內可注入時間與直接安排規則 fixture；對外 API 沒有傳送、加分或管理作弊入口。
 
 ## 瀏覽器驗收
 
-另開終端保持 npm start 執行：
+另開終端保持 npm start：
 
 ```sh
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements-dev.txt
 python -m playwright install chromium
-python tests/browser_qa.py http://127.0.0.1:8765
-python tests/quest_browser_qa.py http://127.0.0.1:8765
-python tests/world_browser_qa.py http://127.0.0.1:8765
-python tests/pk_browser_qa.py http://127.0.0.1:8765
+python tests/arena_browser_qa.py http://127.0.0.1:8765
 ```
 
-Windows 使用 .venv\Scripts\activate。部分 Linux 環境需依 Playwright 提示補裝 Chromium 系統依賴。
+Windows 使用 `.venv\Scripts\activate`。部分 Linux 需要依 Playwright 提示補 Chromium 系統依賴。
 
-輸出與截圖存於 qa/，不提交 Git。PK 腳本建立兩個獨立自動化瀏覽器 context，測試真實服務端同步，不冒充真人使用者。腳本會留下不完整／失敗報告，不以先前成功結果代替本次執行。
+主流程測試會真的走路與送達、從公開大廳加入、攔截另一個客戶端、同步得分、等待完整回合結算、再戰與離房。輸出與截圖在 `qa/`（不入 Git）。兩個自動化 context 不是兩名真人；沒有宣稱已驗證十秒上手或好玩。中斷會留下本次 incomplete 報告，而非沿用舊成功結果。
 
-閒置重載測試會實際等待 70 秒：
+`browser_qa.py`、`quest_browser_qa.py`、`world_browser_qa.py` 與 `pk_browser_qa.py` 對應前版探索／答題首頁，保留作歷史參考，並非目前主入口的驗收指令。
 
-```sh
-python tests/reload_qa.py http://127.0.0.1:8765
-```
+## 提供文件匯入
 
-## 文件匯入
-
-原始 ZIP 不包含在公開 repo。先取得有權使用的完整版本，再依 scripts/import-policy-zip.py 的 CLI 說明明確傳入路徑。匯入器不會掃描個人資料夾或執行 ZIP 中的 JavaScript。內容保留範圍與資料版本見 docs/policy-source-coverage.md；匯入日不是政策實施日。
+ZIP 不含在公開 repo。取得有權使用的完整版本後，依 `scripts/import-policy-zip.py` CLI 明確傳入路徑。匯入器不掃描個人資料夾，也不執行 ZIP 的 JavaScript。數量、來源 hash 與邊界見 `docs/policy-source-coverage.md`；匯入日不是施政日期。
 
 ## 對外託管
 
-- 靜態託管 public/ 可提供單人功能；首頁位於網域根目錄，資料使用 /knowledge.json 與 /policy-catalog.json。
-- 多人需額外啟動 server/pk-server.cjs，並由 HTTPS 同源反向代理 /api/pk/ 到該私有綁定位址；不要把 API 原始埠直接對外暴露。
-- CLI 參數由 HOST、PORT、HOST_ORIGIN 與 TRUST_PROXY 環境變數設定；只有由可信反向代理覆寫轉寄標頭時才啟用 TRUST_PROXY。
-- 必須提供有效完整 policy-catalog.json；缺少來源資料時應啟動失敗，不使用範例題替代。
-- 房間只存在程序記憶中，重啟會清除。沒有持久帳號、戰績、管理後台或文字聊天；這是有界的公開互動原型，不是經壓測的競技遊戲服務。
-- 部署前需確認對外公開授權、配置 TLS、隱私紀錄政策與資源上限，再以實際公開網址重跑兩端驗收。
+1. 經確認公開授權後，將 `public/` 放到 TLS 網站根目錄；來源資料與瀏覽器資產使用同源絕對路徑。
+2. 安裝鎖定依賴，啟動 `server/play-server.cjs`。環境 `HOST` 僅綁 loopback，`PORT` 選私有埠，`HOST_ORIGIN` 設成確切公開 HTTPS origin。
+3. 同源反向代理 `/api/play/` 與 `/ws/play`。WebSocket 需 HTTP/1.1、Upgrade/Connection 標頭、關閉 buffering，並保留 ping/pong 的讀取時限。
+4. 僅當可信 loopback proxy 會覆寫轉寄標頭時，才設定 `TRUST_PROXY=true`。不要信任客戶端任意提供的來源 IP。
+5. 保留 CSP、來源檢查、no-store、安全標頭與資源限制；不得為了瀏覽器測試開 unsafe-eval。實際公開 WSS、兩端動作、計分與離房都需重驗，READY log 不算上線證據。
+6. 純記憶體房間有上限、握手與待加入保留位逾時、輸入限流與心跳清除。重啟會清除所有遊戲場次，不保留帳號、偏好或永久戰績。
 
-此公開 repo 不含正式主機帳號、DNS、憑證或內部自動部署設定；push 不會自行修改體驗網站。
+舊 `server/pk-server.cjs` 僅是前版政策問答 API，不可拿它冒充新動作遊戲後端；單獨啟動它無法支援新主入口。公開 repo 不包含內部 DNS、主機帳號、憑證、service unit 或發布腳本，push 不會自行切換正式網站。
