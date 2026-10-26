@@ -1,3 +1,44 @@
+# 台中味互動網站群 · Taichung Way
+
+**目前要接手重新設計的程式在 [`platform/`](platform/README.md)，不是根目錄的舊版泡泡 PK。**
+
+這是供外部設計／前端協作的公開交接版本。現有視覺尚未獲得使用者認可，請閱讀 [設計與開發交接](docs/design-handoff.md)；功能測試通過不代表美術設計已通過。
+
+## 啟動目前版本
+
+需要 Node.js 22.22.2 與 pnpm 10.30.3。
+
+```sh
+git clone https://github.com/sowork-dev/taichungway.git
+cd taichungway/platform
+corepack enable
+corepack prepare pnpm@10.30.3 --activate
+pnpm install --frozen-lockfile --ignore-scripts
+pnpm test
+pnpm typecheck
+pnpm build
+pnpm serve
+```
+
+開啟 `http://127.0.0.1:4189`：入口 `/`、沾福氣 `/fortune/`、你是哪一味 `/flavor/`。不需 API Key、帳號或資料庫。`pnpm serve` 使用編譯輸出；修改後需再次 `pnpm build` 才會反映在此預覽。
+
+## 主要修改入口
+
+- `platform/apps/hub/app/page.tsx`：入口網站。
+- `platform/apps/fortune/app/page.tsx`：長按抽福氣、翻卡揭曉政策。
+- `platform/apps/flavor/app/page.tsx`：三題配對及市場冷氣互動。
+- `platform/packages/ui/src/styles.css`：共用樣式。
+- `platform/packages/ui/src/policy-play.tsx`：政策翻卡／市場情境。
+- `platform/packages/share-card/src/index.ts`：下載圖卡。
+- `platform/packages/experience/src/policy.ts`：政策與情境文案對應。
+
+歡迎 Fork 後提交 Pull Request；public repo 不代表任何人都可直接 push。請保留來源與非官方聲明，不上傳憑證、內部環境或私人資料。執行環境紀錄與本機驗收 artifacts 未隨本次公開交接上傳，可依腳本自行重建。
+
+原創程式碼依原有 [MIT License](LICENSE)；人物、第三方內容及字型權利另依 [NOTICE.md](NOTICE.md) 與隨附字型授權。
+
+<details>
+<summary>舊版泡泡 PK 說明（歷史版本，非本次設計交接入口）</summary>
+
 # 臺中泡泡 PK · Taichung Bubble
 
 手機優先、真人同場的格子水球 PK：走 → 放水球 → 躲十字水波 → 困住對手得分。不先讀政策或做測驗；完整政策與提問保留在次要入口。
@@ -66,3 +107,5 @@ python tests/bubble_browser_qa.py http://127.0.0.1:8765
 ## 授權
 
 原創程式碼採 MIT License。第三方網站內容、人物姓名／肖像及其他第三方權利不因此授權；請閱讀 [NOTICE.md](NOTICE.md)。
+
+</details>

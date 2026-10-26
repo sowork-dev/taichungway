@@ -1,0 +1,7 @@
+node_modules/
+.next/
+out/
+dist/
+*.tsbuildinfo
+# Rebuild locally; do not publish host paths or private runtime evidence.
+artifacts/

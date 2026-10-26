@@ -1,0 +1,21 @@
+{
+  "name": "taichungway-platform",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.30.3",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "tsx --test tests/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "build": "pnpm -r --filter \"./apps/*\" build",
+    "serve": "tsx scripts/serve.ts"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2",
+    "tsx": "4.23.15",
+    "@types/react": "19.3.0",
+    "@types/node": "26.6.5"
+  }
+}

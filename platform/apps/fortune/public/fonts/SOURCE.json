@@ -1,0 +1,9 @@
+{
+  "source": "https://raw.githubusercontent.com/google/fonts/3be1884c48c3e45b52ecc725676a08f87776373e/ofl/notosanstc/NotoSansTC%5Bwght%5D.ttf",
+  "revision": "3be1884c48c3e45b52ecc725676a08f87776373e",
+  "sourceSha256": "864727d210d54f2537bbe23b3a839436c3992af72de9322af5270897246bd44f",
+  "outputSha256": "95ca3198458d0ec2988d5755c2d7876d804871bf9577a358d57744fe2341eabf",
+  "license": "OFL-1.1",
+  "modifications": "static 400 instance; subset Latin/CJK punctuation/fullwidth/CJK BMP; renamed LocalSansTC",
+  "bytes": 5935164
+}

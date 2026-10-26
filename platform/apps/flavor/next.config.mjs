@@ -1,0 +1,1 @@
+export default {output:'export',basePath:"/flavor",trailingSlash:true,reactStrictMode:true,transpilePackages:['@taichung/ui','@taichung/experience','@taichung/share-card','@taichung/line','@taichung/analytics'],images:{unoptimized:true},poweredByHeader:false};

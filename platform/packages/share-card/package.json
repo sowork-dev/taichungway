@@ -1,0 +1,14 @@
+{
+  "name": "@taichung/share-card",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "satori": "0.63.2",
+    "react": "19.3.1",
+    "@taichung/experience": "workspace:*"
+  }
+}
