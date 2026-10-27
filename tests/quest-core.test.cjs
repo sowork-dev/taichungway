@@ -604,3 +604,23 @@ test('progress persistence fails closed on unknown ids, bad stars and malformed 
   assert.deepEqual(other.completed, []);
   assert.deepEqual(other.stars, {});
 });
+
+test('achievement card and passport copy never use endorsement wording; nicknames reject personal data', () => {
+  const P = require('../public/passport.js');
+  const printed = [P.CARD_TEXT.head, P.CARD_TEXT.headSecond, P.CARD_TEXT.done, P.CARD_TEXT.mine, P.CARD_TEXT.starsLabel, ...P.CARD_TEXT.footer].join('\n');
+  for (const word of P.FORBIDDEN) assert.equal(printed.includes(word), false, word);
+  assert.match(printed, /非施政成果/);
+  assert.match(printed, /非官方互動/);
+  assert.match(printed, /授權或背書/);
+  assert.equal(P.nickIssue('小明'), '');
+  for (const bad of ['0912345678', 'a@b.co', 'A123456789', '123456']) assert.notEqual(P.nickIssue(bad), '', bad);
+  assert.equal(P.cleanNick('  1234567890123 '), '1234567890');
+});
+test('adventure page keeps the disclosures and local-only wording, and no analytics or upload code is added', () => {
+  const html = fs.readFileSync(path.join(__dirname, '../public/adventure.html'), 'utf8');
+  assert.match(html, /進度只存在這台裝置/);
+  assert.match(html, /不代表支持或投票意向/);
+  assert.match(html, /清除全部進度/);
+  const code = fs.readFileSync(path.join(__dirname, '../public/passport.js'), 'utf8') + fs.readFileSync(path.join(__dirname, '../public/quest.js'), 'utf8');
+  assert.doesNotMatch(code, /sendBeacon|XMLHttpRequest|gtag|analytics/);
+});
