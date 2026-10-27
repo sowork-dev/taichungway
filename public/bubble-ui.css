@@ -1,0 +1,29 @@
+/* Bubble challenge layer: level panel, goal bar, result screen, shake. Pop style, blue only. */
+.entry-layer{overflow:auto;gap:10px;padding:10px 14px 14px;justify-content:center}
+.level-panel{width:100%;max-width:340px;background:#fff;border:3px solid #06162B;border-radius:18px;box-shadow:0 4px 0 #06162B;padding:10px;color:#06162B;text-align:left}
+.level-head{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:900;margin-bottom:8px}.level-head span{color:#0F4AA0}
+.level-list{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.level-card{position:relative;display:flex;flex-direction:column;gap:1px;text-align:left;border:2.5px solid #06162B;border-radius:12px;background:#E3EFFF;color:#06162B;padding:7px 8px 6px;min-height:64px;cursor:pointer;font:inherit}
+.level-card.on small{opacity:1;color:#E3EFFF}.level-card.on{background:#1A63C8;color:#fff;box-shadow:0 3px 0 #06162B;transform:translateY(-1px)}
+.lv-title{font-weight:900;font-size:14px}.lv-stars{font-size:15px;letter-spacing:1px;color:#F2B01E;text-shadow:0 1px 0 #06162B66}.level-card small{font-size:11px;line-height:1.25;opacity:.85}
+.lv-daily{position:absolute;top:-8px;right:6px;background:#F4797B;color:#06162B;border:2px solid #06162B;border-radius:999px;font-style:normal;font-weight:900;font-size:10px;padding:0 6px}
+.lit-row{display:flex;flex-direction:column;gap:4px;margin-top:8px;font-size:12px;font-weight:800;color:#0F4AA0}
+.lit-dots{display:flex;flex-wrap:wrap;gap:4px}.lit-dots i{width:14px;height:14px;border-radius:50%;border:2px solid #06162B;background:#fff}.lit-dots i.on{background:#4C9BF2;box-shadow:0 0 6px #4C9BF2}
+.pvp-link{background:transparent!important;border:0!important;box-shadow:none!important;color:#0F4AA0!important;text-decoration:underline;font-size:14px!important;min-height:32px!important;padding:2px 8px!important}
+.pvp-link.primary-join{background:#1A63C8!important;border:3px solid #06162B!important;box-shadow:0 4px 0 #06162B!important;text-decoration:none;font-size:inherit!important;padding:inherit!important}
+.goal-bar{padding:6px 8px 4px;background:#dcedfb;display:flex;flex-direction:column;gap:4px;flex-shrink:0}body.in-challenge .city-strip{display:none}
+.goal-line{display:flex;align-items:center;gap:8px;background:#fff;border:3px solid #06162B;border-radius:999px;padding:3px 10px;box-shadow:0 3px 0 #06162B;font-weight:900;font-size:13px;color:#06162B}
+.goal-line b{color:#0F4AA0;white-space:nowrap}.goal-line em{font-style:normal;white-space:nowrap}.goal-track{flex:1;height:10px;border-radius:99px;background:#E3EFFF;border:2px solid #06162B;overflow:hidden}.goal-track i{display:block;height:100%;background:#1A63C8;transition:width .25s}
+.goal-stars{display:flex;gap:5px;justify-content:center;flex-wrap:wrap}
+.star-chip{font-size:11px;font-weight:900;border:2px solid #06162B;border-radius:999px;padding:1px 8px;background:#fff;color:#06162B}
+.star-chip.got{background:#F2B01E}.star-chip.lost{background:#cfd8e4;color:#6b7a8d;text-decoration:line-through}
+.challenge-result{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px;text-align:center;background:#0d2039d9;color:#fff;backdrop-filter:blur(2px)}
+.challenge-result h2{margin:0;font-size:26px;font-weight:900;text-shadow:0 3px 0 #06162B}
+.result-stars{display:flex;gap:10px}.rs{font-size:54px;color:#3b4c66;text-shadow:0 3px 0 #06162B}.rs.on{color:#F2B01E;animation:star-pop .5s both}
+@keyframes star-pop{0%{transform:scale(0) rotate(-40deg)}70%{transform:scale(1.35) rotate(8deg)}100%{transform:scale(1) rotate(0)}}
+.result-stats{margin:0;font-weight:800}.result-tip{margin:0;color:#7FC0F0;font-weight:800}
+.result-links{display:flex;gap:16px}.result-links button{background:none;border:0;color:#fff;text-decoration:underline;font:inherit;font-weight:800;min-height:40px;cursor:pointer}
+.arena-stage.shake{animation:arena-shake .32s}
+@keyframes arena-shake{0%,100%{transform:translate(0)}20%{transform:translate(-6px,3px)}40%{transform:translate(6px,-3px)}60%{transform:translate(-4px,2px)}80%{transform:translate(3px,-1px)}}
+.how{margin:0 0 10px;padding:0;list-style:none;display:grid;gap:8px}.how li{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.4}.how b{flex:none;width:30px;height:30px;border-radius:50%;background:#1A63C8;color:#fff;display:grid;place-items:center;font-size:15px}
+@media(prefers-reduced-motion:reduce){.arena-stage.shake,.rs.on{animation:none}}
