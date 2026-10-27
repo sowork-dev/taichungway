@@ -1,5 +1,5 @@
 'use client';
-import { AppShell, cssVars, siteHref, useSites, type SiteId } from '@taichung/ui';
+import { AppShell, WIP_SITES, cssVars, siteHref, useSites, type SiteId } from '@taichung/ui';
 import { Coin, GameDefs, GameIcon, type GameIconName } from '@taichung/ui/gamekit';
 
 const order: SiteId[] = ['comic', 'check', 'postcard', 'fortune', 'flavor'];
@@ -25,10 +25,11 @@ function Directory() {
     <p className="hub-divider"><span>小小創作室</span></p>
     <p className="directory-notice" role="status">{loading ? '正在確認各站開放狀態…' : error ? '暫時讀不到開放狀態，請稍後重試。' : '不用登入，你的文字只留在你的裝置。'}</p>
     <div className="experience-list hub-grid">{sorted.map(site => {
-      const href = siteHref(site);
-      const content = <><GameIcon name={icons[site.id]} /><span className="gk-tile-title">{site.title}</span><span className="gk-tile-tag">{href ? `${tags[site.id]} · ${site.durationSec} 秒${site.usesAI ? ' · AI' : ''}` : '即將上線'}</span></>;
+      const wip = WIP_SITES.includes(site.id);
+      const href = wip ? undefined : siteHref(site);
+      const content = <><GameIcon name={icons[site.id]} /><span className="gk-tile-title">{site.title}</span><span className="gk-tile-tag">{href ? `${tags[site.id]} · ${site.durationSec} 秒${site.usesAI ? ' · AI' : ''}` : wip ? '趕工中' : '即將上線'}</span></>;
       return href ? <a className={`experience-card live-card gk-tile gk-tile--${colors[site.id]} ${site.id}`} key={site.id} href={href} style={cssVars({ '--accent': site.accent })} data-site-id={site.id}>{content}</a>
-        : <article className="experience-card soon-card" key={site.id} aria-disabled="true" data-site-id={site.id}>{content}</article>;
+        : <article className={`experience-card soon-card${wip ? ' wip-card' : ''}`} key={site.id} aria-disabled="true" data-site-id={site.id}>{content}</article>;
     })}</div>
   </section>;
 }
