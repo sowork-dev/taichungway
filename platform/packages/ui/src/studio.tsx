@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode, type RefObject } from 'react';
 import { POLICIES } from '@taichung/policy-data';
+import { GameDefs } from './gamekit';
 
 export function cleanText(value: string, max: number): string {
   return Array.from(value.replace(/[\u0000-\u001f\u007f]/g, '').trim()).slice(0, Math.max(0, max)).join('');
@@ -14,7 +15,7 @@ export function readPolicy(id: string) {
 const studios = [{ id:'comic', title:'巷口四格漫畫', hint:'畫一件日常' }, { id:'check', title:'對開支票本', hint:'寫一張願望' }, { id:'postcard', title:'台中聲音明信片', hint:'寄一段聲音' }] as const;
 export function StudioShell({id, kicker, title, description, children}: {id:string;kicker:string;title:string;description:string;children:ReactNode}) {
   const [large, setLarge] = useState(false);
-  return <div className={`studio-shell${large ? ' large-type' : ''}`}>
+  return <div className={`studio-shell gk-root gk-stage${large ? ' large-type' : ''}`}><GameDefs />
     <a href="#studio-main" className="skip-link">跳到主要內容</a>
     <header className="studio-header"><a className="studio-brand" href="/" aria-label="台中味互動首頁"><span className="studio-brand-square">味</span><span>台中味<span className="studio-brand-caption">TAICHUNG WAY</span></span></a><nav aria-label="互動主選單">{studios.map(item => <a key={item.id} href={`/${item.id}/`} aria-current={id === item.id ? 'page' : undefined}>{item.title}</a>)}</nav><button type="button" className="studio-type" aria-pressed={large} onClick={() => setLarge(!large)}>Aa<span>大字模式</span></button></header>
     <main className="studio-main" id="studio-main" tabIndex={-1}><div className="studio-breadcrumb"><a href="/">互動首頁</a><span aria-hidden="true">／</span><span>{title}</span></div><section className="studio-intro"><p className="studio-kicker">{kicker}</p><h1>{title}<span className="studio-title-period" aria-hidden="true">。</span></h1><p className="studio-description">{description}</p><p className="studio-independent">江啟臣政見互動 · 非官方製作</p></section>{children}</main>

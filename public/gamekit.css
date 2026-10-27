@@ -1,0 +1,55 @@
+/* Blue game-UI kit: chunky outlines, tactile buttons, ribbons, stars. Candidate blue replaces the wood/grass of the reference kit.
+   Source of truth: platform/packages/ui/src/gamekit.css; public/gamekit.css is a byte-identical copy (checked by tests). */
+.gk-root { --gk-ink: #06162B; --gk-navy: #0D2039; --gk-navy-2: #132F57; --gk-brand: #1A63C8; --gk-hi: #4C9BF2; --gk-lo: #0F4AA0; --gk-sky: #7FC0F0; --gk-ice: #E3EFFF; --gk-white: #FFFFFF; --gk-red: #E4423F; --gk-font: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif; font-family: var(--gk-font); color: var(--gk-ink); }
+.gk-stage { background: radial-gradient(ellipse at 50% -10%, #2B5BA0 0, transparent 55%), linear-gradient(#0D2039, #0A1A30); background-color: var(--gk-navy); position: relative; }
+.gk-stage::before { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(#FFFFFF0A 1px, transparent 1px), linear-gradient(90deg, #FFFFFF0A 1px, transparent 1px); background-size: 34px 34px; }
+.gk-stage > * { position: relative; }
+.gk-panel { background: linear-gradient(#FFFFFF, var(--gk-ice)); border: 4px solid var(--gk-ink); border-radius: 24px; box-shadow: inset 0 4px 0 #FFFFFF, inset 0 -6px 0 #BDD8FA, 0 6px 0 var(--gk-ink); padding: 18px; }
+.gk-panel--dark { background: linear-gradient(var(--gk-navy-2), var(--gk-navy)); color: #FFFFFF; box-shadow: inset 0 4px 0 #FFFFFF22, 0 6px 0 var(--gk-ink); }
+.gk-btn { --b1: var(--gk-hi); --b2: var(--gk-brand); --bd: var(--gk-lo); position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; padding: 10px 26px; border: 4px solid var(--gk-ink); border-radius: 999px; background: linear-gradient(var(--b1), var(--b2)); color: #FFFFFF; font: 900 20px/1.2 var(--gk-font); letter-spacing: .08em; text-decoration: none; text-shadow: 0 2px 0 var(--gk-ink), 0 0 6px var(--gk-ink); box-shadow: inset 0 4px 0 #FFFFFF55, inset 0 -6px 0 var(--bd), 0 6px 0 var(--gk-ink); cursor: pointer; transition: transform .08s, box-shadow .08s; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.gk-btn:active:not(:disabled) { transform: translateY(5px); box-shadow: inset 0 4px 0 #FFFFFF55, inset 0 -3px 0 var(--bd), 0 1px 0 var(--gk-ink); }
+.gk-btn:disabled { filter: grayscale(.8) brightness(.9); cursor: not-allowed; }
+.gk-btn--ice { --b1: #FFFFFF; --b2: #CFE4FB; --bd: #9CC4F0; color: var(--gk-lo); text-shadow: none; }
+.gk-btn--wide { display: flex; width: 100%; }
+.gk-btn--round { width: 56px; min-height: 56px; padding: 0; font-size: 26px; }
+.gk-btn--small { min-height: 44px; padding: 6px 16px; font-size: 16px; border-width: 3px; }
+.gk-badge { position: relative; display: inline-grid; place-items: center; width: 84px; height: 84px; background: linear-gradient(var(--gk-hi), var(--gk-brand)); color: #FFFFFF; border: 4px solid var(--gk-ink); border-radius: 50% 50% 46% 46%; box-shadow: inset 0 4px 0 #FFFFFF55, inset 0 -6px 0 var(--gk-lo), 0 5px 0 var(--gk-ink); text-align: center; line-height: 1; }
+.gk-badge small { display: block; font-size: 13px; font-weight: 800; letter-spacing: .1em; opacity: .95; }
+.gk-badge b { display: block; font-size: 30px; font-weight: 900; text-shadow: 0 2px 0 var(--gk-ink); }
+.gk-ribbon { position: relative; display: inline-block; margin-inline: 22px; padding: 10px 34px; background: linear-gradient(var(--gk-hi), var(--gk-brand)); color: #FFFFFF; border: 4px solid var(--gk-ink); font: 900 22px/1.3 var(--gk-font); letter-spacing: .1em; text-align: center; text-shadow: 0 2px 0 var(--gk-ink); box-shadow: inset 0 4px 0 #FFFFFF55, 0 5px 0 var(--gk-ink); }
+.gk-ribbon::before, .gk-ribbon::after { content: ''; position: absolute; top: 12px; width: 34px; height: 100%; background: var(--gk-lo); border: 4px solid var(--gk-ink); z-index: -1; }
+.gk-ribbon::before { left: -26px; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 34% 50%); }
+.gk-ribbon::after { right: -26px; clip-path: polygon(0 0, 100% 0, 66% 50%, 100% 100%, 0 100%); }
+.gk-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 3px 14px 3px 4px; background: var(--gk-navy); color: #FFFFFF; border: 3px solid var(--gk-ink); border-radius: 999px; font: 900 18px/1 var(--gk-font); box-shadow: inset 0 3px 0 #FFFFFF22, 0 3px 0 var(--gk-ink); }
+.gk-coin { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #FFFFFF, var(--gk-sky) 55%, var(--gk-hi)); border: 3px solid var(--gk-ink); color: var(--gk-lo); font-size: 15px; font-weight: 900; }
+.gk-stars { display: inline-flex; gap: 2px; align-items: flex-end; }
+.gk-star { width: 30px; height: 30px; filter: drop-shadow(0 2px 0 var(--gk-ink)); }
+.gk-stars .gk-star:nth-child(2) { width: 38px; height: 38px; }
+.gk-star path { fill: url(#gk-star-on); stroke: var(--gk-ink); stroke-width: 4; stroke-linejoin: round; }
+.gk-star.is-off path { fill: #3B5A86; }
+.gk-hearts { display: inline-flex; gap: 4px; }
+.gk-heart { width: 30px; height: 28px; filter: drop-shadow(0 2px 0 var(--gk-ink)); }
+.gk-heart path { fill: var(--gk-red); stroke: var(--gk-ink); stroke-width: 4; stroke-linejoin: round; }
+.gk-heart.is-off path { fill: #3B2A3A; }
+.gk-tile { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 10px 14px; background: linear-gradient(#FFFFFF, var(--gk-ice)); border: 4px solid var(--gk-ink); border-radius: 26px; box-shadow: inset 0 4px 0 #FFFFFF, inset 0 -6px 0 #BDD8FA, 0 6px 0 var(--gk-ink); color: var(--gk-ink); text-decoration: none; text-align: center; cursor: pointer; transition: transform .12s, box-shadow .12s; -webkit-tap-highlight-color: transparent; min-width: 0; }
+.gk-tile:active { transform: translateY(4px); box-shadow: inset 0 4px 0 #FFFFFF, inset 0 -3px 0 #BDD8FA, 0 2px 0 var(--gk-ink); }
+.gk-tile.is-featured { background: linear-gradient(var(--gk-hi), var(--gk-brand)); color: #FFFFFF; box-shadow: inset 0 4px 0 #FFFFFF55, inset 0 -6px 0 var(--gk-lo), 0 6px 0 var(--gk-ink); }
+.gk-tile.is-locked { filter: saturate(.3) brightness(.92); cursor: default; }
+.gk-tile-icon { width: 76px; height: 76px; }
+.gk-tile-title { font: 900 19px/1.25 var(--gk-font); letter-spacing: .02em; }
+.gk-tile-tag { display: inline-flex; align-items: center; gap: 4px; min-height: 26px; padding: 2px 10px; border-radius: 999px; background: var(--gk-navy); color: #FFFFFF; font: 800 13px/1 var(--gk-font); border: 2px solid var(--gk-ink); }
+.gk-tile-lock { position: absolute; right: 10px; top: 10px; width: 32px; height: 32px; }
+.gk-progress { height: 22px; border: 4px solid var(--gk-ink); border-radius: 999px; background: #0A1A30; overflow: hidden; box-shadow: inset 0 3px 0 #00000055; }
+.gk-progress > span { display: block; height: 100%; width: calc(var(--p, 0) * 100%); background: linear-gradient(var(--gk-sky), var(--gk-hi) 45%, var(--gk-brand)); border-radius: 999px; box-shadow: inset 0 3px 0 #FFFFFF77; transition: width .3s ease-out; }
+.gk-speech { position: relative; padding: 10px 14px; background: #FFFFFF; border: 4px solid var(--gk-ink); border-radius: 18px; font: 800 16px/1.5 var(--gk-font); color: var(--gk-lo); box-shadow: 0 4px 0 var(--gk-ink); }
+.gk-speech::after { content: ''; position: absolute; left: 22px; bottom: -14px; width: 18px; height: 18px; background: #FFFFFF; border-right: 4px solid var(--gk-ink); border-bottom: 4px solid var(--gk-ink); transform: rotate(45deg); }
+.gk-pop { animation: gk-pop .45s cubic-bezier(.2, 1.6, .4, 1) both; }
+.gk-float { animation: gk-float 3.2s ease-in-out infinite; }
+.gk-wiggle { animation: gk-wiggle .6s ease-in-out 1; }
+.gk-shine::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(105deg, transparent 40%, #FFFFFF66 50%, transparent 60%); background-size: 250% 100%; animation: gk-shine 3.4s ease-in-out infinite; pointer-events: none; }
+@keyframes gk-pop { 0% { transform: scale(.4); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes gk-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes gk-wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-7deg); } 75% { transform: rotate(7deg); } }
+@keyframes gk-shine { 0% { background-position: 150% 0; } 60%, 100% { background-position: -50% 0; } }
+.gk-root :focus-visible { outline: 4px solid var(--gk-sky); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .gk-pop, .gk-float, .gk-wiggle, .gk-shine::after { animation: none !important; } .gk-btn, .gk-tile, .gk-progress > span { transition: none; } }

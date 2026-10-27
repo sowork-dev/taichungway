@@ -1,0 +1,43 @@
+/* Game-stage skin for the studio shell (comic / check / postcard). Loaded after studio.css and gamekit.css. */
+body:has(.studio-shell.gk-root) { background: #0D2039; }
+.studio-shell.gk-root { background-color: var(--gk-navy); color: #FFFFFF; font-family: var(--gk-font); }
+.studio-shell.gk-root .studio-header { max-width: 1100px; padding: 14px 16px; border: 0; gap: 12px; flex-wrap: wrap; }
+.studio-shell.gk-root .studio-brand { color: #FFFFFF; font-weight: 900; font-size: 21px; }
+.studio-shell.gk-root .studio-brand-square { width: 44px; height: 44px; border: 4px solid var(--gk-ink); border-radius: 14px; background: linear-gradient(var(--gk-hi), var(--gk-brand)); color: #FFFFFF; font-family: var(--gk-font); font-weight: 900; box-shadow: inset 0 3px 0 #FFFFFF55, 0 4px 0 var(--gk-ink); }
+.studio-shell.gk-root .studio-brand-caption { color: var(--gk-sky); }
+.studio-shell.gk-root .studio-header nav { gap: 8px; order: 3; width: 100%; justify-content: center; }
+.studio-shell.gk-root .studio-header nav a { min-height: 44px; padding: 6px 14px; border: 3px solid var(--gk-ink); border-radius: 999px; background: linear-gradient(#FFFFFF, #CFE4FB); color: var(--gk-lo); font-weight: 900; font-size: 15px; box-shadow: 0 3px 0 var(--gk-ink); white-space: nowrap; }
+.studio-shell.gk-root .studio-header nav a[aria-current='page'] { background: linear-gradient(var(--gk-hi), var(--gk-brand)); color: #FFFFFF; text-shadow: 0 2px 0 var(--gk-ink); }
+.studio-shell.gk-root .studio-header nav a[aria-current='page']::after { display: none; }
+.studio-shell.gk-root .studio-type { margin-left: auto; width: 46px; min-height: 46px; padding: 0; justify-content: center; border: 3px solid var(--gk-ink); border-radius: 50%; background: linear-gradient(#FFFFFF, #CFE4FB); color: var(--gk-lo); font-weight: 900; box-shadow: 0 3px 0 var(--gk-ink); }
+.studio-shell.gk-root .studio-type[aria-pressed='true'] { background: linear-gradient(var(--gk-hi), var(--gk-brand)); color: #FFFFFF; }
+.studio-shell.gk-root .studio-main { max-width: 1100px; padding: 6px 16px 72px; }
+.studio-shell.gk-root .studio-breadcrumb { display: none; }
+.studio-shell.gk-root .studio-intro { margin: 12px 0 22px; padding: 0; border: 0; text-align: center; }
+.studio-shell.gk-root .studio-kicker { color: var(--gk-sky); letter-spacing: .18em; font-size: 12px; margin-bottom: 10px; }
+.studio-shell.gk-root .studio-intro h1 { display: inline-block; position: relative; margin: 0 22px 12px; padding: 10px 28px; font-size: clamp(26px, 7vw, 40px); font-weight: 900; letter-spacing: .06em; line-height: 1.25; color: #FFFFFF; text-shadow: 0 2px 0 var(--gk-ink), 0 0 8px var(--gk-ink); background: linear-gradient(var(--gk-hi), var(--gk-brand)); border: 4px solid var(--gk-ink); box-shadow: inset 0 4px 0 #FFFFFF55, 0 5px 0 var(--gk-ink); }
+.studio-shell.gk-root .studio-intro h1::before, .studio-shell.gk-root .studio-intro h1::after { content: ''; position: absolute; top: 12px; width: 34px; height: 100%; background: var(--gk-lo); border: 4px solid var(--gk-ink); z-index: -1; }
+.studio-shell.gk-root .studio-intro h1::before { left: -26px; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 34% 50%); }
+.studio-shell.gk-root .studio-intro h1::after { right: -26px; clip-path: polygon(0 0, 100% 0, 66% 50%, 100% 100%, 0 100%); }
+.studio-shell.gk-root .studio-title-period { display: none; }
+.studio-shell.gk-root .studio-description { margin: 6px auto 0; max-width: 520px; font-size: 16px; line-height: 1.7; color: #CFE4FB; }
+.studio-shell.gk-root .studio-independent { color: #8FB4E3; font-size: 12px; margin-top: 8px; }
+.studio-shell.gk-root .studio-workspace { gap: 22px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .studio-shell.gk-root .studio-workspace { grid-template-columns: minmax(0, 380px) minmax(0, 1fr); } }
+.studio-shell.gk-root .studio-controls, .studio-shell.gk-root .studio-preview { color: var(--gk-ink); background: linear-gradient(#FFFFFF, var(--gk-ice)); border: 4px solid var(--gk-ink); border-radius: 26px; padding: 18px; box-shadow: inset 0 4px 0 #FFFFFF, inset 0 -6px 0 #BDD8FA, 0 6px 0 var(--gk-ink); }
+.studio-shell.gk-root .studio-label { font-weight: 900; font-size: 17px; }
+.studio-shell.gk-root .studio-input, .studio-shell.gk-root .studio-textarea { border: 3px solid var(--gk-ink); border-radius: 16px; background: #FFFFFF; box-shadow: inset 0 3px 0 #00000014; font-size: 17px; }
+.studio-shell.gk-root .studio-input:focus, .studio-shell.gk-root .studio-textarea:focus { outline: 4px solid var(--gk-sky); outline-offset: 1px; }
+.studio-shell.gk-root .studio-choice { border: 3px solid var(--gk-ink); border-radius: 18px; background: linear-gradient(#FFFFFF, #DDEBFC); color: var(--gk-ink); font-weight: 800; box-shadow: 0 4px 0 var(--gk-ink); transition: transform .08s, box-shadow .08s; }
+.studio-shell.gk-root .studio-choice:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--gk-ink); }
+.studio-shell.gk-root .studio-choice[aria-pressed='true'], .studio-shell.gk-root .studio-choice.is-active { background: linear-gradient(var(--gk-hi), var(--gk-brand)); color: #FFFFFF; text-shadow: 0 2px 0 var(--gk-ink); border-color: var(--gk-ink); box-shadow: inset 0 3px 0 #FFFFFF55, 0 4px 0 var(--gk-ink); }
+.studio-shell.gk-root .studio-button { border: 4px solid var(--gk-ink); border-radius: 999px; background: linear-gradient(var(--gk-hi), var(--gk-brand)); color: #FFFFFF; font-weight: 900; letter-spacing: .06em; text-shadow: 0 2px 0 var(--gk-ink), 0 0 6px var(--gk-ink); box-shadow: inset 0 4px 0 #FFFFFF55, inset 0 -6px 0 var(--gk-lo), 0 6px 0 var(--gk-ink); transition: transform .08s, box-shadow .08s; }
+.studio-shell.gk-root .studio-button:active:not(:disabled) { transform: translateY(5px); box-shadow: inset 0 4px 0 #FFFFFF55, inset 0 -3px 0 var(--gk-lo), 0 1px 0 var(--gk-ink); }
+.studio-shell.gk-root .studio-button.secondary { background: linear-gradient(#FFFFFF, #CFE4FB); color: var(--gk-lo); text-shadow: none; box-shadow: inset 0 4px 0 #FFFFFF, inset 0 -6px 0 #9CC4F0, 0 6px 0 var(--gk-ink); }
+.studio-shell.gk-root .studio-note, .studio-shell.gk-root .studio-card { border-radius: 18px; border: 3px solid var(--gk-ink); background: #FFFFFF; }
+.studio-shell.gk-root .studio-artwork { border: 3px solid var(--gk-ink); border-radius: 14px; }
+.studio-shell.gk-root .studio-footer { background: #091526; border: 0; padding: 28px 20px; color: #8FB4E3; }
+.studio-shell.gk-root .studio-footer * { color: #B7D3F3; border-color: #1E3A63; }
+.studio-shell.gk-root .studio-footer-top { flex-wrap: wrap; }
+.studio-shell.gk-root :focus-visible { outline: 4px solid var(--gk-sky); outline-offset: 3px; }
+.studio-shell.gk-root .studio-choice[aria-pressed='true'] *, .studio-shell.gk-root .studio-choice.is-active * { color: #FFFFFF; }
