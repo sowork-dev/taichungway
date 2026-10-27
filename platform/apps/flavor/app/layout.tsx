@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import '@taichung/ui/styles.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.PREVIEW_ORIGIN ?? 'https://lectures-zoning-intervention-bloom.trycloudflare.com'),
+  metadataBase: new URL(process.env.PREVIEW_ORIGIN ?? 'https://taichungway.sowork.ai'),
   title: '你是哪一味｜台中味',
   description: '三個日常選擇，遇見你的台中味。八種原創角色，沒有標準答案。',
   openGraph: {

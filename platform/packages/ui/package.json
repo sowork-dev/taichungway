@@ -5,12 +5,16 @@
   "type": "module",
   "exports": {
     ".": "./src/index.tsx",
-    "./styles.css": "./src/styles.css"
+    "./styles.css": "./src/styles.css",
+    "./studio": "./src/studio.tsx",
+    "./studio.css": "./src/studio.css"
   },
   "dependencies": {
     "react": "19.3.1",
     "@taichung/experience": "workspace:*",
     "@taichung/share-card": "workspace:*",
-    "@taichung/line": "workspace:*"
+    "@taichung/line": "workspace:*",
+    "@taichung/policy-data": "workspace:*",
+    "html-to-image": "1.11.13"
   }
 }

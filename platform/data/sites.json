@@ -2,18 +2,18 @@
   {
     "id": "check",
     "title": "對開支票本",
-    "tagline": "把生活裡的小願望，寫成一張支票",
-    "url": "https://preview.invalid/check/",
+    "tagline": "一邊寫願望，一邊對照城市提案",
+    "url": "https://taichungway.sowork.ai/check/",
     "durationSec": 40,
-    "usesAI": true,
+    "usesAI": false,
     "accent": "#1A63C8",
-    "status": "soon"
+    "status": "live"
   },
   {
     "id": "fortune",
     "title": "沾福氣",
     "tagline": "長按一下，把小小祝福帶回家",
-    "url": "https://preview.invalid/fortune/",
+    "url": "https://taichungway.sowork.ai/fortune/",
     "durationSec": 20,
     "usesAI": false,
     "accent": "#1A63C8",
@@ -23,7 +23,7 @@
     "id": "flavor",
     "title": "你是哪一味",
     "tagline": "三個選擇，遇見你的台中日常",
-    "url": "https://preview.invalid/flavor/",
+    "url": "https://taichungway.sowork.ai/flavor/",
     "durationSec": 30,
     "usesAI": false,
     "accent": "#1A63C8",
@@ -33,7 +33,7 @@
     "id": "thanks",
     "title": "替他說一句",
     "tagline": "替那些平常的照顧，說一聲謝謝",
-    "url": "https://preview.invalid/thanks/",
+    "url": "https://taichungway.sowork.ai/thanks/",
     "durationSec": 30,
     "usesAI": true,
     "accent": "#1A63C8",
@@ -42,28 +42,28 @@
   {
     "id": "postcard",
     "title": "台中聲音明信片",
-    "tagline": "收一段聲音，寄一張日常",
-    "url": "https://preview.invalid/postcard/",
+    "tagline": "混一段聲景，寄給想念的人",
+    "url": "https://taichungway.sowork.ai/postcard/",
     "durationSec": 40,
     "usesAI": false,
     "accent": "#1A63C8",
-    "status": "soon"
+    "status": "live"
   },
   {
     "id": "comic",
     "title": "巷口四格漫畫",
-    "tagline": "讓家附近的小事，變成一則漫畫",
-    "url": "https://preview.invalid/comic/",
+    "tagline": "把一件小事，畫成四格城市故事",
+    "url": "https://taichungway.sowork.ai/comic/",
     "durationSec": 60,
-    "usesAI": true,
+    "usesAI": false,
     "accent": "#1A63C8",
-    "status": "soon"
+    "status": "live"
   },
   {
     "id": "machine",
     "title": "台中機器",
     "tagline": "拉一個把手，看城市零件連動",
-    "url": "https://preview.invalid/machine/",
+    "url": "https://taichungway.sowork.ai/machine/",
     "durationSec": 40,
     "usesAI": false,
     "accent": "#1A63C8",

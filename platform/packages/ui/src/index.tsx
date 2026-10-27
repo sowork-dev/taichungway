@@ -49,10 +49,10 @@ export function siteHref(site: SiteRecord): string | undefined {
 const placeholderSites: SiteRecord[] = [
   { id: 'fortune', title: '沾福氣', tagline: '長按一下，收下一點日常的暖', durationSec: 10, usesAI: false, accent: '#1A63C8' },
   { id: 'flavor', title: '你是哪一味', tagline: '三個小選擇，找到你的台中味', durationSec: 30, usesAI: false, accent: '#1A63C8' },
-  { id: 'check', title: '對開支票本', tagline: '寫下心願，看看城市的想像', durationSec: 45, usesAI: true, accent: '#1A63C8' },
+  { id: 'check', title: '對開支票本', tagline: '寫下心願，看看城市的想像', durationSec: 45, usesAI: false, accent: '#1A63C8' },
   { id: 'thanks', title: '替他說一句', tagline: '把沒說出口的謝謝，送給他', durationSec: 30, usesAI: true, accent: '#1A63C8' },
-  { id: 'postcard', title: '台中聲音明信片', tagline: '把一座城市的聲音，寄給你', durationSec: 45, usesAI: true, accent: '#1A63C8' },
-  { id: 'comic', title: '巷口四格漫畫', tagline: '一件身邊小事，畫成四格日常', durationSec: 60, usesAI: true, accent: '#1A63C8' },
+  { id: 'postcard', title: '台中聲音明信片', tagline: '把一座城市的聲音，寄給你', durationSec: 45, usesAI: false, accent: '#1A63C8' },
+  { id: 'comic', title: '巷口四格漫畫', tagline: '一件身邊小事，畫成四格日常', durationSec: 60, usesAI: false, accent: '#1A63C8' },
   { id: 'machine', title: '台中機器', tagline: '拉一下把手，讓城市動起來', durationSec: 60, usesAI: false, accent: '#1A63C8' },
 ].map(site => ({ ...site, status: 'soon', url: '' }) as SiteRecord);
 

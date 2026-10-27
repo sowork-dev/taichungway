@@ -1,20 +1,12 @@
-# 台中味 Phase 1 — 獨立互動預覽
+# 台中味互動平台
 
-本目錄是新的 pnpm monorepo，與上層既有遊戲分離。第一階段只交付 Hub、沾福氣、你是哪一味；其餘五站僅列為 soon，不代表已實作。非官方網站、未取得競選團隊授權或背書。
+本目錄是 pnpm monorepo，與上層保留的水球遊戲分開。三個 Next.js 靜態 app：hub、fortune、flavor；本輪新增 comic/check/postcard 為 hub 中的獨立路由，共用同源資源與版型，不另開 repo。五個體驗可玩，thanks/machine 仍為 soon。
 
-## 結構與執行
+正式公開網址：`https://taichungway.sowork.ai`。使用 SoWork 網域不表示官方授權；所有頁面保留非官方、未獲授權／背書與政見非成果聲明。
 
-- `apps/hub`：入口站及隱私說明。
-- `apps/fortune`：長按抽福氣 → 翻卡揭曉同一心願對應的官網政見 → 本機政策圖卡。
-- `apps/flavor`：三題趣味配對＋第一題後的市場冷氣互動；每位玩家都經過相同市場示意，不以答案做政治立場推斷。
-- `packages/experience`：原創娛樂文案及計分規則，尚待人工審核。
-- `packages/policy-data`：保留 117 項擷取原文。可玩範圍只採 TRA-06 與 IND-19 兩項，已重新核對官方頁面存在相同原文；其餘政策未接入。人工審核與雙人簽核尚未完成。
-- `packages/experience/src/policy.ts`：共用政策／情境模型。原文標題與編輯解釋分欄；無實際降溫數值、經費、時程或已施政成果宣稱。
-- `packages/share-card`：Satori 在瀏覽器生成 1080×1350 PNG，不上傳。
-- `packages/line`：原生 Web Share 或複製連結，**不是 LIFF/Flex Message**。
-- `packages/ai-guard`、`packages/analytics`：僅保留套件位置；目前不啟用、不可當作完整 AI 閘道或匿名統計交付。
+## 安裝、驗證、啟動
 
-使用 Node 22.22.2、pnpm 10.30.3。相依版本見 package.json 與 pnpm-lock.yaml。
+Node.js 22.22.2、pnpm 10.30.3。依賴精確鎖定；不需要 API key、AI 服務或資料庫。
 
 ```sh
 pnpm install --frozen-lockfile --ignore-scripts
@@ -24,49 +16,48 @@ pnpm build
 pnpm serve
 ```
 
-主機的預設 Node 非 LTS 時：
+預覽只監聽 `127.0.0.1:4189`，也可 `PORT=4193 pnpm serve`。`PREVIEW_ORIGIN=https://taichungway.sowork.ai` 指定 metadata／預覽連結 origin；此環境變數不是憑證。
+
+路由：`/`、`/comic/`、`/check/`、`/postcard/`、`/postcard/m/?mix=d01%3A60%2Cd12%3A50`、`/fortune/`、`/flavor/`、`/privacy/`。
+
+Hub 的站點狀態由 `data/sites.json` 驅動；本機 preview 每次請求讀取後映射到目前 origin。正式靜態 release 使用同一檔案的已打包版本，改上下架需更新正式 sites.json，不能把本機動態讀檔誤稱為靜態正式站的即時後台。
+
+## 三個新體驗
+
+- `apps/hub/app/comic/`：原創幾何線稿＋Rough.js，六公開場景、三風格。用預製故事承載相關公開提案，四格旁白可編輯；使用者原文獨立保留，不宣稱 AI 已改編事件。換場景／風格重設編輯，重玩清除輸入。
+- `apps/hub/app/check/`：八組明確本機規則對照117原文；無匹配或多主題時不硬湊。自己的支票先產生，對開後才可匯出政策那一張。可選 StPageFlip 翻頁，不阻擋手機／減少動態效果的靜態版。
+- `apps/hub/app/postcard/`：29真實行政區選單，但聲音是六種原創合成示意，非29區實錄。最多三軌、0–100整數音量、200ms漸變、Howler播放，隱藏／離頁釋放。收件人頁不自動載入或播放，必須點播放。分享只保留區碼與音量。
+- `packages/ui/src/studio.tsx`：來源元件、私人文字不進網址的分享、html-to-image本機擷取後完整置入1080×1350PNG；圖卡不含音訊。
+
+不使用候選人肖像、聲音、簽名，不推論政治立場。輸入只在頁面記憶體，無AI外送、Cookie、localStorage、會員與追蹤。本機個資檢查只是保守提醒，不是完整去識別保證。真正的現場錄音、生成式漫畫服務、LIFF/Flex Message、實體LINE端到端、人工文案／法務與設計驗收仍未完成。
+
+## 政策與素材
+
+`packages/policy-data` 保留117項官網原文，標題／來源與編輯情境分開。趣味場景不是現況記錄、效果模擬或兌現證明，不捏造預算、期程與成效。每個下載作品帶來源與非成果／非官方聲明。改資料前重新查核 `https://taichungway.tw/future`，不把無匹配等同官網沒有。
+
+字型來源及SIL OFL在 `assets/fonts/`。舊Satori圖卡延遲載入本機字型；新三站擷取裝置實際字型。開源元件與MIT文本見 `../docs/open-source-components.md` 與 `../docs/licenses/`。
 
 ```sh
-npx --yes --package=node@22.22.2 -c "pnpm test && pnpm typecheck && pnpm build"
+python3 scripts/prepare-city-audio.py # stdlib，重建六段10秒合成PCM WAV
+python3 scripts/prepare-studio-og.py  # Pillow，重建三張1200×630 OG
 ```
 
-預覽伺服器僅監聽 `127.0.0.1:4189`。三個 apps 分別編譯，預覽時以 `/`、`/fortune/`、`/flavor/` 聚合；不是七個正式子網域部署。設定 `PREVIEW_ORIGIN=https://...` 可指定 OG 與站點網址。公開存取使用暫時 tunnel，無正式可用性承諾，不覆蓋既有 SoWork 網站。
+## 可重跑的實際瀏覽器驗證
 
-`data/sites.json` 每次請求讀取，Hub 重新取得後反映上下架，不需重建；伺服器會把設定的 URL 路徑映射到當前預覽 origin。正式子網域部署需另調整路由與經核准的完整網址，不能直接把本預覽的同源映射視為正式架構。
-
-## 字型與素材
-
-本地字型由 Google Fonts 的 Noto Sans TC 固定 revision 產生，SIL OFL-1.1；衍生名稱 LocalSansTC，保留 `assets/fonts/OFL.txt` 與 `SOURCE.json`，來源及輸出 SHA256 可核對。產圖時才載入約 5.9MB 本地字型，不計入首次 JS；不依賴外部字型服務。圖卡以 BMP CJK 字符為主，少見擴充漢字與 emoji 需再確認字形。
+需Python Playwright瀏覽器與Pillow；先建置並啟動預覽。
 
 ```sh
-python3 scripts/prepare-font.py  # 需要 fontTools，會讀公開固定 revision
-python3 scripts/prepare-assets.py  # 需要 Pillow
+python3 scripts/studio-browser-qa.py
+TEST_ORIGIN=https://taichungway.sowork.ai QA_LABEL=public python3 scripts/studio-browser-qa.py
+python3 scripts/browser-qa.py # 原兩體驗舊腳本，部分歷史視覺／目錄數量假設需依新版調整
 ```
 
-所有介面插畫與 OG 幾何圖形為本專案原創，無候選人形象、第三方角色或官方背書標誌。祝福及結果文字為本專案撰寫，尚未人工簽核，不宣稱法務核可。
+新腳本包含真實四格編輯、翻頁、PNG下載、29區選擇、實際非零10秒WebAudio解碼／running播放、相同混音收件人頁、惡意參數拒絕、360/390/768和WebKit reduced-motion render。這是自動化瀏覽器證據，不是人耳聽感、真人好玩程度或實體iPhone／LINE驗收。結果逐項寫入 `artifacts/three-studios/`（不進Git）；中斷或失敗會保留failed狀態，不當成passed。
 
-## 驗收
+## 靜態發佈
 
 ```sh
-python3 scripts/browser-qa.py
-TEST_ORIGIN=https://your-preview.example python3 scripts/browser-qa.py
+PREVIEW_ORIGIN=https://taichungway.sowork.ai pnpm exec tsx scripts/package-release.ts /ABSOLUTE/EMPTY/OUTSIDE_DIR FULL_40_CHAR_GIT_SHA
 ```
 
-腳本使用實際 Chromium/WebKit 操作，輸出 `artifacts/local/browser-qa.json`、64 組 UI 結果及截圖；公開網址以 `ARTIFACT_SUBDIR=public` 保存獨立結果，抽測 8 種結果各一條完整路徑，任一必要案例失敗即非零退出。此為桌面引擎／行動 viewport 測試，不等於實體 iOS/Android/LINE 驗收。正式上線尚需：實體雙平台 LINE 端到端、文案人工審核、法務與素材授權確認、正式網域及部署環境、效能／流量驗證。其餘五站不在本次已完成聲明內。
-
-## 政策互動驗證
-
-```sh
-pnpm exec tsx --test tests/policy-experience.test.ts tests/policy-card.test.ts tests/policy-ui.test.ts
-pnpm exec tsx scripts/policy-card-layout.ts
-python3 scripts/policy-card-bounds-qa.py
-python3 scripts/policy-browser-qa.py
-```
-
-`artifacts/policy-play/source-verification.json` 保留官方查核時間、回應雜湊與兩項標題的逐字匹配結果，不代表適用條件、預算或實施成果已驗證。福氣抽籤隨機取兩項共同目錄；所有味道配對玩家皆玩同一市場場景，沒有立場推斷或客製政治勸說。結果圖卡同樣呈現政策原文、來源、概念示意與非成果聲明，分享連結仍不含暱稱、答案或結果。
-
-## 磁碟不足恢復
-
-此次安裝遭遇 `ENOSPC`，先 `df -h .` 與限定路徑 `du -sh` 查明，僅執行 `npm cache clean --force` 清可再下載快取，保留所有專案、附件、登入與歷史。恢復空間後重新跑完整安裝與測試。不要因為套件目錄存在就假定安裝完整，也不要刪除 `.hermes` 工作資料或其他專案。
-
-TypeScript 7 移除 `baseUrl`；本目錄改用實際 pnpm workspace links 與 package exports，不靠失真的 wildcard alias。UI 的入口實際為 `index.tsx`。Satori 的 fflate 0.7.3 在稽核時有公告漏洞，已以精確 override 0.7.5 修復，並重新通過實際 Satori 產圖測試與 pnpm audit；未將此掃描當作全面滲透測試。
+只複製三個 app 的 `out/`，不複製原始碼、node_modules、.env與主機設定。`release.json`紀錄來源SHA、逐檔hash與inline-script CSP hashes，正式Nginx須容許這些精確hash、同源字型／音訊與本機blob圖卡，不用unsafe-eval。部署應保留前一release／vhost設定以便回滾，公開讀回版本與圖卡／聲音操作後才能報完成。真實主機、SSH與憑證不得加入本repo。

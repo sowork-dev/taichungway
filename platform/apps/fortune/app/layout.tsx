@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import '@taichung/ui/styles.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.PREVIEW_ORIGIN ?? 'https://lectures-zoning-intervention-bloom.trycloudflare.com'),
+  metadataBase: new URL(process.env.PREVIEW_ORIGIN ?? 'https://taichungway.sowork.ai'),
   title: '沾福氣｜台中味',
   description: '長按，沾一點福氣。把一張原創祝福卡，留給今天的自己。',
   openGraph: {

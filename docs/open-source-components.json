@@ -1,0 +1,26 @@
+[
+  {
+    "component": "roughjs",
+    "repository": "https://github.com/rough-stuff/rough",
+    "license": "MIT",
+    "referenceRevision": "56a2762171b1294d643501e8d14f120db6b27bd7"
+  },
+  {
+    "component": "page-flip",
+    "repository": "https://github.com/Nodlik/StPageFlip",
+    "license": "MIT",
+    "referenceRevision": "ab30ecc1d9f6d98de1a99b8e296469382f41c120"
+  },
+  {
+    "component": "howler",
+    "repository": "https://github.com/goldfire/howler.js",
+    "license": "MIT",
+    "referenceRevision": "1d3053576a860e9854645493ad6c4a72c6cc6e45"
+  },
+  {
+    "component": "html-to-image",
+    "repository": "https://github.com/bubkoo/html-to-image",
+    "license": "MIT",
+    "referenceRevision": "e842e84cf68493f39dcb76f0a879d02d174b3edb"
+  }
+]
