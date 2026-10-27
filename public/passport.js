@@ -11,7 +11,7 @@
   const CARD_TEXT = Object.freeze({
     head: '我走完了', headSecond: '15 個城市議題', done: '城市護照完成',
     mine: '我的城市護照', starsLabel: '理解星星',
-    footer: Object.freeze(['概念示意・非施政成果・非官方互動', '尚未取得競選團隊授權或背書；理解議題，不代表立場。'])
+    footer: Object.freeze(['非官方互動'])
   });
   const FORBIDDEN = Object.freeze(['投票', '支持', '推薦', '贊成', '拉票', '選我']);
 

@@ -7,7 +7,7 @@ const chat=$('#chatDialog'),detail=$('#detailDialog');
 function el(tag,className,text){const n=document.createElement(tag);if(className)n.className=className;if(text!==undefined)n.textContent=text;return n;}
 function icon(id){const s=document.createElementNS('http://www.w3.org/2000/svg','svg');s.setAttribute('aria-hidden','true');const u=document.createElementNS(s.namespaceURI,'use');u.setAttribute('href','#i-'+id);s.append(u);return s;}
 function safeLink(url,text){const a=el('a','',text);a.href=url;a.target='_blank';a.rel='noopener noreferrer';return a;}
-function statusText(r){if(r.provenance==='user-provided-archive')return '提供文件主張 · 待獨立核實';if(r.status==='profile')return '公開紀錄';if(r.status==='proposed')return '公開主張 · 非實施公告';return '公開資料';}
+function statusText(r){if(r.provenance==='user-provided-archive')return '提供文件主張';if(r.status==='profile')return '公開紀錄';if(r.status==='proposed')return '公開主張 · 非實施公告';return '公開資料';}
 function validRecord(r){return r&&typeof r.id==='string'&&typeof r.title==='string'&&typeof r.category==='string'&&typeof r.summary==='string'&&typeof r.sourceTitle==='string'&&Array.isArray(r.aliases)&&Array.isArray(r.details)&&/^https:\/\//.test(r.sourceUrl)&&typeof r.verifiedAt==='string';}
 function categoryIcon(cat){if(/交通|運輸/.test(cat))return'train';if(/親子|家庭|育兒|托育/.test(cat))return'family';if(/青年|住宅|居住/.test(cat))return'home';if(/長照|銀髮|高齡|健康/.test(cat))return'care';if(/環境|永續|安全/.test(cat))return'leaf';return'city';}
 function categoryQuestion(cat){const r=records.find(x=>x.category===cat);return r?r.question:cat+'有哪些公開規劃？';}
