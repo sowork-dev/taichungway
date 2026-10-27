@@ -10,7 +10,7 @@ const teamColors=['#348cff','#ff7b71'];
 const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
 let state=null,you=null,code='',socket=null,connected=false,entering=false,generation=0,lastPacket=0,rtt=120,pingAt=0;
 let cw=390,ch=600,scale=1,cam={x:0,y:0},lastFrame=performance.now(),manual={x:0,y:0},stick={x:0,y:0},stickId=null,keys=new Set(),wasManual=false,cursor=null;
-let display=new Map(),previous=new Map(),seen=new Set(),floaters=[],toastUntil=0,lastRound=-1,lastPhase='',lobbyTimer=null,connectTimer=null;
+let shards=[],rings=[],display=new Map(),previous=new Map(),seen=new Set(),floaters=[],toastUntil=0,lastRound=-1,lastPhase='',lobbyTimer=null,connectTimer=null;
 const demo=A.createGame({now:Date.now()});A.addPlayer(demo,'preview');const preview=A.snapshot(demo);
 
 function rect(c,x,y,w,h,fill,r=0){c.fillStyle=fill;c.beginPath();c.roundRect(x,y,w,h,r);c.fill();}
@@ -39,7 +39,8 @@ function drawBoard(s,now){
 function ownerColor(s,id){return teamColors[s.players.find(p=>p.id===id)?.team??0];}
 function waterCells(s,b){try{return A.blastCells(s,b);}catch{return[{c:b.c,r:b.r}];}}
 function drawBall(b,s,now){const C=A.CELL,k=ownerColor(s,b.ownerId),left=Math.max(0,b.explodeAt-now),pulse=reduced?0:Math.sin(now/90)*1.8;
- ctx.save();ctx.globalAlpha=.11;for(const q of waterCells(s,b)){const p=tile(q.c,q.r);rect(ctx,p.x+4,p.y+4,C-8,C-8,k,9);}ctx.restore();
+ const urgency=Math.max(0,Math.min(1,1-left/1800)),cells=waterCells(s,b);ctx.save();ctx.globalAlpha=.16+urgency*.34;for(const q of cells){const p=tile(q.c,q.r);rect(ctx,p.x+4,p.y+4,C-8,C-8,k,9);}ctx.restore();
+ if(left<1000){ctx.save();ctx.strokeStyle='#ff5a4f';ctx.lineWidth=3;ctx.globalAlpha=reduced?.8:.45+.4*Math.abs(Math.sin(now/80));for(const q of cells){const p=tile(q.c,q.r);ctx.beginPath();ctx.roundRect(p.x+5,p.y+5,C-10,C-10,9);ctx.stroke();}ctx.restore();}
  circle(ctx,b.x,b.y+11,25,'#16519f28');circle(ctx,b.x,b.y,23+pulse,k);circle(ctx,b.x-5,b.y-7,15,'#91c1f1');circle(ctx,b.x-10,b.y-13,6,'#eaf4fd');
  ctx.strokeStyle='#eaf4fd';ctx.lineWidth=2;ctx.beginPath();ctx.arc(b.x,b.y,27,-Math.PI/2,-Math.PI/2+Math.PI*2*Math.min(1,left/1800));ctx.stroke();
  text(ctx,String(Math.max(1,Math.ceil(left/1000))),b.x+2,b.y+6,21,'#144585');
@@ -85,14 +86,16 @@ function accept(packet){if(!packet||packet.type!=='state'||!packet.state||!Array
  if(lastRound!==state.roundId){lastRound=state.roundId;display.clear();resetInput();if(state.players.length===2)flash('雙人開賽！');}
  if(state.phase!==lastPhase){if(['countdown','finished'].includes(state.phase))resetInput();if(state.phase==='playing'&&lastPhase==='countdown')flash('放水球，躲水波！');lastPhase=state.phase;}
  for(const e of state.events||[]){if(seen.has(e.id))continue;seen.add(e.id);if(!old)continue;
-  if(e.type==='place'&&e.playerId===you){firstAction=true;$('tapCoach').hidden=true;}
-  if(e.type==='destroy'){floaters.push({x:e.x,y:e.y,label:'✦',color:'#97cdf4',at:performance.now()});}
-  if(e.type==='capture'){const points=Number.isFinite(e.points)&&e.points>0?e.points:0,victimIsYou=e.victimId===you,selfSplash=e.victimId===e.playerId;if(points>0){flash(e.playerId===you?'困住對手！＋'+points:victimIsYou?'被泡泡困住了！':'對手得分',victimIsYou);floaters.push({x:e.x,y:e.y,label:'+'+points,color:teamColors[state.players.find(p=>p.id===e.playerId)?.team??0],at:performance.now()});}else{flash(victimIsYou?(selfSplash?'被自己的水波困住了！':'被泡泡困住了！'):(selfSplash?'對手被自己的水波困住了':'對手被泡泡困住了'),victimIsYou);}}
+  if(e.type==='place'){rings.push({x:e.x,y:e.y,at:performance.now(),mine:e.playerId===you});if(e.playerId===you){firstAction=true;$('tapCoach').hidden=true;}}
+  if(e.type==='destroy'){floaters.push({x:e.x,y:e.y,label:'✦',color:'#97cdf4',at:performance.now()});if(!reduced){for(let i=0;i<9;i++){const a=Math.PI*2*i/9+Math.random()*.5,v=90+Math.random()*120;shards.push({x:e.x,y:e.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-60,at:performance.now(),c:['#60b2ed','#a1d2f5','#ffffff','#1768d2'][i%4]});}shards=shards.slice(-60);if(e.playerId===you&&navigator.vibrate)navigator.vibrate(8);}}
+  if(e.type==='capture'){const points=Number.isFinite(e.points)&&e.points>0?e.points:0,victimIsYou=e.victimId===you,selfSplash=e.victimId===e.playerId;if(victimIsYou&&!reduced){const st=$('arenaStage');st.classList.remove('shake');void st.offsetWidth;st.classList.add('shake');if(navigator.vibrate)navigator.vibrate(45);}
+  if(points>0){flash(e.playerId===you?'困住對手！＋'+points:victimIsYou?'被泡泡困住了！':'對手得分',victimIsYou);floaters.push({x:e.x,y:e.y,label:'+'+points,color:teamColors[state.players.find(p=>p.id===e.playerId)?.team??0],at:performance.now()});}else{flash(victimIsYou?(selfSplash?'被自己的水波困住了！':'被泡泡困住了！'):(selfSplash?'對手被自己的水波困住了':'對手被泡泡困住了'),victimIsYou);}}
 
  }
  if(seen.size>180)seen=new Set((state.events||[]).map(e=>e.id));floaters=floaters.slice(-20);
  if(cursor&&Math.hypot(p.x-cursor.x,p.y-cursor.y)<15)cursor=null;
  updateHUD();
+ if(window.BubbleUI)BubbleUI.onState(state,you);
 }
 async function enter(wanted,fresh=false){if(entering)return;resetInput();if(socket){generation++;socket.close();socket=null;}connected=false;state=null;you=null;display.clear();lastRound=-1;lastPhase='';seen.clear();entering=true;const gen=++generation;
  $('startGame').disabled=true;$('startGame').textContent='連線中…';$('networkStatus').textContent='';if($('lobbyDialog').open)$('lobbyDialog').close();
@@ -104,11 +107,11 @@ async function enter(wanted,fresh=false){if(entering)return;resetInput();if(sock
   connectTimer=setTimeout(()=>{if(gen===generation&&!connected){ws.close();fail('連線逾時，請重新開玩。');}},8500);
   ws.addEventListener('open',()=>{if(gen!==generation){ws.close();return;}ws.send(JSON.stringify({type:'hello',code:session.code,token:session.token}));});
   ws.addEventListener('message',ev=>{if(gen!==generation)return;let packet;try{packet=JSON.parse(ev.data);}catch{return;}if(packet.type==='pong'){rtt=Math.min(1000,performance.now()-pingAt);return;}accept(packet);});
-  ws.addEventListener('close',()=>{if(gen!==generation)return;connected=false;entering=false;clearTimeout(connectTimer);resetInput();$('startGame').disabled=false;$('startGame').textContent='重新加入 ↗';$('networkStatus').textContent='連線已中斷，點重新加入。';$('entryLayer').hidden=false;$('resultLayer').hidden=true;$('gameControls').hidden=true;$('inviteButton').hidden=true;$('leaveButton').hidden=true;state=null;you=null;updateHUD();});
+  ws.addEventListener('close',()=>{if(gen!==generation)return;connected=false;entering=false;clearTimeout(connectTimer);resetInput();$('startGame').disabled=false;$('startGame').textContent='重新加入 ↗';if(window.BubbleUI)BubbleUI.onLeave();$('networkStatus').textContent='連線已中斷，點重新加入。';$('entryLayer').hidden=false;$('resultLayer').hidden=true;$('gameControls').hidden=true;$('inviteButton').hidden=true;$('leaveButton').hidden=true;state=null;you=null;updateHUD();});
   ws.addEventListener('error',()=>{if(gen===generation)$('networkStatus').textContent='連線暫時中斷。';});
  }catch(e){if(gen===generation)fail(e.name==='TimeoutError'?'連線逾時，請稍後重試。':e.message);}}
-function fail(message){connected=false;entering=false;clearTimeout(connectTimer);$('startGame').disabled=false;$('startGame').textContent='重新開玩 ↗';$('networkStatus').textContent=message;state=null;you=null;updateHUD();}
-function leave(){resetInput();send({type:'leave'});generation++;clearTimeout(connectTimer);socket?.close();socket=null;connected=false;entering=false;state=null;you=null;code='';display.clear();$('startGame').disabled=false;$('startGame').textContent='立即開玩 ↗';$('networkStatus').textContent='';$('countdownFlash').hidden=true;$('eventToast').hidden=true;updateHUD();}
+function fail(message){connected=false;entering=false;clearTimeout(connectTimer);$('startGame').disabled=false;$('startGame').textContent='重新開玩 ↗';if(window.BubbleUI)BubbleUI.onLeave();$('networkStatus').textContent=message;state=null;you=null;updateHUD();}
+function leave(){resetInput();send({type:'leave'});generation++;clearTimeout(connectTimer);socket?.close();socket=null;connected=false;entering=false;state=null;you=null;code='';display.clear();$('startGame').disabled=false;$('startGame').textContent='立即開玩 ↗';if(window.BubbleUI)BubbleUI.onLeave();$('networkStatus').textContent='';$('countdownFlash').hidden=true;$('eventToast').hidden=true;updateHUD();}
 function action(which){if(connected&&['practice','playing'].includes(state?.phase))send({type:'action',action:'bomb'});}
 let requested=new URL(location.href).searchParams.get('room');if(requested&&!/^[A-F0-9]{6}$/.test(requested)){requested=null;$('networkStatus').textContent='邀請已失效，可重新開玩。';}if(requested)$('startGame').textContent='加入朋友 ↗';
 $('startGame').addEventListener('click',()=>{const first=requested;requested=null;enter(first);});$('leaveButton').addEventListener('click',leave);$('rematchButton').addEventListener('click',()=>send({type:'rematch'}));
@@ -140,14 +143,16 @@ function frame(now){const dt=Math.min(.05,(now-lastFrame)/1000);lastFrame=now;co
  ctx.fillStyle='#4d9be9';ctx.fillRect(0,0,cw,ch);ctx.save();ctx.translate(ox,oy);ctx.scale(scale,scale);drawBoard(s,now);(s.bombs||[]).forEach(b=>drawBall(b,s,virtualNow));(s.blasts||[]).filter(b=>b.expiresAt>virtualNow).forEach(b=>drawWater(b,s,virtualNow));
  if(cursor&&p){ctx.strokeStyle='#2363b69c';ctx.lineWidth=3;ctx.setLineDash([4,8]);ctx.beginPath();ctx.moveTo(p.x,p.y);for(const n of cursor.path)ctx.lineTo(n.x,n.y);ctx.stroke();ctx.setLineDash([]);circle(ctx,cursor.x,cursor.y,5,'#ffffffcc');}
  (s.players||[]).slice().sort((a,b)=>a.y-b.y).forEach(q=>person(q,display.get(q.id)||q,virtualNow,q.id===you||!connected,!connected));
+ rings=rings.filter(g=>now-g.at<520);rings.forEach(g=>{const t=(now-g.at)/520;ctx.globalAlpha=(1-t)*.8;ctx.strokeStyle=g.mine?'#ffffff':'#fff4d6';ctx.lineWidth=4;ctx.beginPath();ctx.arc(g.x,g.y,18+t*44,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;});
+ shards=shards.filter(h=>now-h.at<650);shards.forEach(h=>{const t=(now-h.at)/1000;ctx.globalAlpha=Math.max(0,1-t/.65);ctx.fillStyle=h.c;ctx.fillRect(h.x+h.vx*t-5,h.y+h.vy*t+260*t*t-5,10,10);ctx.globalAlpha=1;});
  floaters=floaters.filter(f=>now-f.at<900);floaters.forEach(f=>{const age=(now-f.at)/900;ctx.globalAlpha=1-age;text(ctx,f.label,f.x,f.y-45-age*40,30,f.color,1000);ctx.globalAlpha=1;});ctx.restore();
  if(connected){const age=now-lastPacket,remaining=s.phase==='playing'?Math.max(0,(s.remainingMs??s.endsAt-s.now)-Math.min(age,1000)):0;$('gameClock').textContent=s.phase==='playing'?Math.ceil(remaining/1000):s.phase==='countdown'?'…':s.phase==='finished'?'0':'∞';$('gameClock').parentElement.classList.toggle('urgent',s.phase==='playing'&&remaining<11000);
   $('countdownFlash').hidden=s.phase!=='countdown';if(s.phase==='countdown')$('countdownFlash').textContent=Math.max(1,Math.ceil((s.phaseUntil-s.now-Math.min(age,250))/1000));
-  const full=(s.bombs||[]).filter(b=>b.ownerId===you).length>=2,blocked=p?.trappedUntil>virtualNow||p?.bombReadyAt>virtualNow; $('bombButton').classList.toggle('cooldown',full||blocked||!['practice','playing'].includes(s.phase));$('gameHint').textContent=p?.trappedUntil>virtualNow?'泡泡困住了！':s.phase==='playing'?'困住對手 ＋1 · 先3分勝':'放水球 → 躲水波';
+  const full=(s.bombs||[]).filter(b=>b.ownerId===you).length>=2,blocked=p?.trappedUntil>virtualNow||p?.bombReadyAt>virtualNow; $('bombButton').classList.toggle('cooldown',full||blocked||!['practice','playing'].includes(s.phase));$('gameHint').textContent=p?.trappedUntil>virtualNow?'泡泡困住了！':(window.BubbleUI&&BubbleUI.hint())||(s.phase==='playing'?'困住對手 ＋1 · 先3分勝':'放水球 → 躲水波');
   if(age>2500)$('networkStatus').textContent='等候同步…';
  }else{$('gameClock').textContent='60';$('gameHint').textContent='放水球 → 躲水波';$('countdownFlash').hidden=true;}
  if(toastUntil&&now>toastUntil){$('eventToast').hidden=true;toastUntil=0;}requestAnimationFrame(frame);
 }
-window.PlayGame=Object.freeze({walkTo,screenPoint,snapshot:()=>({connected,code,you,self:self()?structuredClone(self()):null,state:state?structuredClone(state):null,view:{cameraX:0,cameraY:0,x:ox,y:oy,scale,width:A.WORLD_WIDTH*scale,height:A.WORLD_HEIGHT*scale,canvasWidth:cw,canvasHeight:ch}})});
+window.PlayGame=Object.freeze({start:fresh=>enter(null,fresh),leave,walkTo,screenPoint,snapshot:()=>({connected,code,you,self:self()?structuredClone(self()):null,state:state?structuredClone(state):null,view:{cameraX:0,cameraY:0,x:ox,y:oy,scale,width:A.WORLD_WIDTH*scale,height:A.WORLD_HEIGHT*scale,canvasWidth:cw,canvasHeight:ch}})});
 updateHUD();requestAnimationFrame(frame);
 })();

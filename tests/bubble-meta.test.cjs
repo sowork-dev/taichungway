@@ -104,3 +104,22 @@ test('the meta layer is pure: no DOM, network or storage access in the module it
   const source = fs.readFileSync(path.join(__dirname, '../public/bubble-meta.js'), 'utf8');
   assert.doesNotMatch(source, /document\.|window\.|localStorage|fetch\(|XMLHttpRequest|WebSocket|sendBeacon/);
 });
+test('challenge UI sends nothing itself and the page loads meta before play and ui after', () => {
+  const ui = fs.readFileSync(path.join(__dirname, '../public/bubble-ui.js'), 'utf8');
+  assert.doesNotMatch(ui, /fetch\(|XMLHttpRequest|WebSocket|sendBeacon|innerHTML/);
+  const html = fs.readFileSync(path.join(__dirname, '../public/bubble.html'), 'utf8');
+  const at = name => html.indexOf('/' + name + '"');
+  assert.ok(at('bubble-core.js') > 0 && at('bubble-meta.js') > at('bubble-core.js') && at('play.js') > at('bubble-meta.js') && at('bubble-ui.js') > at('play.js'));
+  assert.match(html, /bubble-ui\.css/);
+});
+test('static server allows the new bubble assets', async () => {
+  const { createPlayServer } = require('../server/play-server.cjs');
+  const server = createPlayServer({ staticDir: path.join(__dirname, '../public') });
+  await new Promise(r => server.listen(0, '127.0.0.1', r));
+  try {
+    for (const name of ['bubble-meta.js', 'bubble-ui.js', 'bubble-ui.css']) {
+      const res = await fetch('http://127.0.0.1:' + server.address().port + '/' + name);
+      assert.equal(res.status, 200, name);
+    }
+  } finally { await (server.closePlay ? server.closePlay() : new Promise(r => server.close(r))); }
+});
