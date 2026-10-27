@@ -62,3 +62,5 @@
 .stage{background:linear-gradient(#FFF3D0,#F3F8FF)}
 .chat-links{background:#06162B}
 .chat-header{padding-top:26px;padding-bottom:16px}.chat-title .gk-3d{--s:28px}.chat-mark{margin-top:6px}.chat-icon{margin-top:6px}
+.chat-disclosure{background:#fff;color:#06162B;border-bottom:3px solid #06162B}.chat-disclosure b{background:#1A63C8;color:#fff}.chat-disclosure button{color:#0F4AA0}
+.chat-links{background:#fff;border-top:4px solid #06162B}.chat-links a{color:#0F4AA0;border:3px solid #06162B;background:#fff;box-shadow:0 3px 0 #06162B}
