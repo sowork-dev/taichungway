@@ -181,3 +181,4 @@ export function scoreFlavor(answers: readonly number[]): Flavor {
   const preferred = QUESTIONS[2].options[answers[2]!]!.scores.find((id) => scores.get(id) === maximum);
   return FLAVORS.find(({ id }) => preferred ? id === preferred : scores.get(id) === maximum)!;
 }
+export * from './cards.ts';

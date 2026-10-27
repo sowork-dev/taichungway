@@ -11,7 +11,9 @@
     "./gamekit": "./src/gamekit.tsx",
     "./gamekit.css": "./src/gamekit.css",
     "./studio-game.css": "./src/studio-game.css",
-    "./play-game.css": "./src/play-game.css"
+    "./play-game.css": "./src/play-game.css",
+    "./cards": "./src/cards.tsx",
+    "./cards.css": "./src/cards.css"
   },
   "dependencies": {
     "react": "19.3.1",

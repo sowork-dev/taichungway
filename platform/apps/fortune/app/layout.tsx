@@ -3,6 +3,8 @@ import type { ReactNode } from 'react';
 import '@taichung/ui/styles.css';
 import '@taichung/ui/gamekit.css';
 import '@taichung/ui/play-game.css';
+import '@taichung/ui/cards.css';
+import './fortune-cards.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.PREVIEW_ORIGIN ?? 'https://taichungway.sowork.ai'),

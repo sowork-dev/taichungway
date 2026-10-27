@@ -70,7 +70,7 @@ test('fortune feedback starts immediately, grows linearly, and caps at sixty par
     assert.ok(frame.particles >= 1 && frame.particles <= 60);
     assert.ok(frame.progress >= 0 && frame.progress <= 1);
   }
-  const fortune = read('apps/fortune/app/page.tsx');
+  const fortune = read('apps/fortune/app/classic/page.tsx'); // the hold-to-bless page moved to /fortune/classic/
   for (const selector of ['result-card', 'hold-button', 'fortune-tap']) assert.ok(fortune.includes(selector));
   assert.match(fortune, /onPointerCancel/);
   assert.match(fortune, /onLostPointerCapture/);
@@ -111,7 +111,7 @@ test('actual initial React markup includes five disabled-until-validated cards a
   const { createElement } = require('react');
   const { renderToStaticMarkup } = require('react-dom/server');
   const hub = (await import('../apps/hub/app/page')).default;
-  const fortune = (await import('../apps/fortune/app/page')).default;
+  const fortune = (await import('../apps/fortune/app/classic/page')).default;
   const flavor = (await import('../apps/flavor/app/page')).default;
   const hubHtml = renderToStaticMarkup(createElement(hub));
   assert.equal((hubHtml.match(/data-site-id=/g) ?? []).length, 5);
