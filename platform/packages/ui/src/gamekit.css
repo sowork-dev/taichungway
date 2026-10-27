@@ -16,7 +16,7 @@
 .gk-badge { position: relative; display: inline-grid; place-items: center; width: 84px; height: 84px; background: linear-gradient(var(--gk-hi), var(--gk-brand)); color: #FFFFFF; border: 4px solid var(--gk-ink); border-radius: 50% 50% 46% 46%; box-shadow: inset 0 4px 0 #FFFFFF55, inset 0 -6px 0 var(--gk-lo), 0 5px 0 var(--gk-ink); text-align: center; line-height: 1; }
 .gk-badge small { display: block; font-size: 13px; font-weight: 800; letter-spacing: .1em; opacity: .95; }
 .gk-badge b { display: block; font-size: 30px; font-weight: 900; text-shadow: 0 2px 0 var(--gk-ink); }
-.gk-ribbon { position: relative; display: inline-block; margin-inline: 22px; padding: 10px 34px; background: linear-gradient(var(--gk-hi), var(--gk-brand)); color: #FFFFFF; border: 4px solid var(--gk-ink); font: 900 22px/1.3 var(--gk-font); letter-spacing: .1em; text-align: center; text-shadow: 0 2px 0 var(--gk-ink); box-shadow: inset 0 4px 0 #FFFFFF55, 0 5px 0 var(--gk-ink); }
+.gk-ribbon { position: relative; z-index: 0; display: inline-block; margin-inline: 22px; padding: 10px 34px; background: linear-gradient(var(--gk-hi), var(--gk-brand)); color: #FFFFFF; border: 4px solid var(--gk-ink); font: 900 22px/1.3 var(--gk-font); letter-spacing: .1em; text-align: center; text-shadow: 0 2px 0 var(--gk-ink); box-shadow: inset 0 4px 0 #FFFFFF55, 0 5px 0 var(--gk-ink); }
 .gk-ribbon::before, .gk-ribbon::after { content: ''; position: absolute; top: 12px; width: 34px; height: 100%; background: var(--gk-lo); border: 4px solid var(--gk-ink); z-index: -1; }
 .gk-ribbon::before { left: -26px; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 34% 50%); }
 .gk-ribbon::after { right: -26px; clip-path: polygon(0 0, 100% 0, 66% 50%, 100% 100%, 0 100%); }

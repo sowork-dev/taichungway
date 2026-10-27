@@ -109,8 +109,8 @@ function createPlayServer(options = {}) {
     }
     if (options.staticDir && req.method === 'GET') {
       const pathname = req.url.split('?')[0];
-      const name = pathname === '/' ? 'index.html' : pathname.slice(1);
-      if (pathname === '/' || (pathname === '/' + name && PUBLIC_ASSETS.has(name))) {
+      const name = pathname === '/' ? 'index.html' : pathname === '/chat.html' ? 'index.html' : pathname.slice(1);
+      if (pathname === '/' || pathname === '/chat.html' || (pathname === '/' + name && PUBLIC_ASSETS.has(name))) {
         let file;
         try {
           const root = path.resolve(options.staticDir);

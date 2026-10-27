@@ -15,7 +15,7 @@ body:has(.studio-shell.gk-root) { background: #0D2039; }
 .studio-shell.gk-root .studio-breadcrumb { display: none; }
 .studio-shell.gk-root .studio-intro { margin: 12px 0 22px; padding: 0; border: 0; text-align: center; }
 .studio-shell.gk-root .studio-kicker { color: var(--gk-sky); letter-spacing: .18em; font-size: 12px; margin-bottom: 10px; }
-.studio-shell.gk-root .studio-intro h1 { display: inline-block; position: relative; margin: 0 22px 12px; padding: 10px 28px; font-size: clamp(26px, 7vw, 40px); font-weight: 900; letter-spacing: .06em; line-height: 1.25; color: #FFFFFF; text-shadow: 0 2px 0 var(--gk-ink), 0 0 8px var(--gk-ink); background: linear-gradient(var(--gk-hi), var(--gk-brand)); border: 4px solid var(--gk-ink); box-shadow: inset 0 4px 0 #FFFFFF55, 0 5px 0 var(--gk-ink); }
+.studio-shell.gk-root .studio-intro h1 { display: inline-block; position: relative; z-index: 0; margin: 0 22px 12px; padding: 10px 28px; font-size: clamp(26px, 7vw, 40px); font-weight: 900; letter-spacing: .06em; line-height: 1.25; color: #FFFFFF; text-shadow: 0 2px 0 var(--gk-ink), 0 0 8px var(--gk-ink); background: linear-gradient(var(--gk-hi), var(--gk-brand)); border: 4px solid var(--gk-ink); box-shadow: inset 0 4px 0 #FFFFFF55, 0 5px 0 var(--gk-ink); }
 .studio-shell.gk-root .studio-intro h1::before, .studio-shell.gk-root .studio-intro h1::after { content: ''; position: absolute; top: 12px; width: 34px; height: 100%; background: var(--gk-lo); border: 4px solid var(--gk-ink); z-index: -1; }
 .studio-shell.gk-root .studio-intro h1::before { left: -26px; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 34% 50%); }
 .studio-shell.gk-root .studio-intro h1::after { right: -26px; clip-path: polygon(0 0, 100% 0, 66% 50%, 100% 100%, 0 100%); }

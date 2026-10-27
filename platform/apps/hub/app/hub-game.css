@@ -1,0 +1,39 @@
+/* Hub as a level-select screen on the shared blue game kit. */
+body:has(.hub-game) { background: #0D2039; }
+.app-shell:has(.hub-game) { --gk-ink: #06162B; --gk-navy: #0D2039; --gk-navy-2: #132F57; --gk-brand: #1A63C8; --gk-hi: #4C9BF2; --gk-lo: #0F4AA0; --gk-sky: #7FC0F0; --gk-ice: #E3EFFF; --gk-font: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif; max-width: 720px; background-color: #0D2039; background-image: radial-gradient(ellipse at 50% -10%, #2B5BA0 0, transparent 55%), linear-gradient(#FFFFFF0A 1px, transparent 1px), linear-gradient(90deg, #FFFFFF0A 1px, transparent 1px); background-size: auto, 34px 34px, 34px 34px; color: #FFFFFF; font-family: var(--gk-font); }
+.app-shell:has(.hub-game) .site-header { padding: 16px 18px; border: 0; background: transparent; }
+.app-shell:has(.hub-game) .brand { color: #FFFFFF; font-family: var(--gk-font); font-weight: 900; }
+.app-shell:has(.hub-game) .brand-mark { width: 46px; height: 46px; border: 4px solid #06162B; border-radius: 14px; background: linear-gradient(#4C9BF2, #1A63C8); box-shadow: inset 0 3px 0 #FFFFFF55, 0 4px 0 #06162B; }
+.app-shell:has(.hub-game) .brand-sub { color: #7FC0F0; }
+.app-shell:has(.hub-game) .type-toggle { border: 3px solid #06162B; border-radius: 999px; background: linear-gradient(#FFFFFF, #CFE4FB); color: #0F4AA0; font-weight: 900; box-shadow: 0 3px 0 #06162B; }
+.app-shell:has(.hub-game) main { padding: 0 16px 40px; }
+.hub-game-hero { border: 0; padding: 4px 0 8px; text-align: center; position: relative; }
+.hub-hero-top { display: flex; justify-content: flex-end; margin-bottom: -6px; }
+.hub-game-hero .gk-ribbon { font-size: 26px; margin-bottom: 6px; }
+.hub-host { display: flex; align-items: flex-end; justify-content: center; gap: 12px; margin: 14px 0 18px; }
+.hub-host-fig { width: 104px; height: 130px; flex: none; }
+.hub-speech { margin-bottom: 52px; color: #0F4AA0; max-width: 190px; text-align: left; }
+.hub-speech::after { left: auto; right: auto; bottom: 18px; left: -12px; transform: rotate(135deg); }
+.hub-game-hero .clean-hero-disclosure { color: #8FB4E3; font-size: 12px; margin: 0; }
+.hub-game { padding: 0; }
+.hub-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.hub-grid-main .is-featured { grid-column: 1 / -1; flex-direction: row; justify-content: center; gap: 18px; padding: 18px; }
+.hub-grid-main .is-featured .gk-tile-icon { width: 92px; height: 92px; }
+.hub-grid-main .is-featured .gk-tile-title { font-size: 28px; }
+.hub-grid-main .is-featured .gk-tile-tag { display: none; }
+.hub-grid-main { margin-bottom: 8px; }
+.hub-divider { display: flex; align-items: center; gap: 12px; margin: 26px 0 14px; color: #7FC0F0; font-weight: 900; letter-spacing: .2em; font-size: 14px; }
+.hub-divider::before, .hub-divider::after { content: ''; flex: 1; height: 4px; border-radius: 4px; background: #1E3A63; }
+.hub-game .directory-notice { text-align: center; color: #8FB4E3; font-size: 13px; margin: 0 0 14px; }
+.clean-directory .hub-tile, .hub-game .experience-card { font-family: var(--gk-font); }
+.hub-game .experience-card, .hub-game .experience-card.live-card { border: 4px solid #06162B; border-radius: 26px; padding: 14px 10px; background: linear-gradient(#FFFFFF, #E3EFFF); box-shadow: inset 0 4px 0 #FFFFFF, inset 0 -6px 0 #BDD8FA, 0 6px 0 #06162B; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; color: #06162B; text-decoration: none; }
+.hub-game .experience-card.soon-card { filter: saturate(.3) brightness(.92); }
+.hub-game .experience-card .gk-tile-title { font: 900 19px/1.25 var(--gk-font); }
+.hub-game .gk-tile-tag { display: inline-flex; padding: 3px 10px; border-radius: 999px; background: #0D2039; color: #FFFFFF; font: 800 13px/1.4 var(--gk-font); border: 2px solid #06162B; }
+.hub-game .is-featured .gk-tile-title { color: #FFFFFF; text-shadow: 0 2px 0 #06162B; }
+.app-shell:has(.hub-game) .site-footer { background: #091526; border: 0; color: #8FB4E3; margin-top: 30px; }
+.app-shell:has(.hub-game) .site-footer a { color: #CFE4FB; }
+.app-shell:has(.hub-game) .site-footer .more-link, .app-shell:has(.hub-game) .site-footer .other-sites { display: none; }
+@media (hover: hover) { .hub-game .experience-card.live-card:hover, .hub-tile:hover { transform: translateY(-3px); } }
+.hub-game .experience-list.hub-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.hub-game-hero .gk-ribbon { font-size: 22px; white-space: nowrap; padding-inline: 26px; }
