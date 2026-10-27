@@ -37,3 +37,29 @@ body:has(.hub-game) { background: #0D2039; }
 @media (hover: hover) { .hub-game .experience-card.live-card:hover, .hub-tile:hover { transform: translateY(-3px); } }
 .hub-game .experience-list.hub-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .hub-game-hero .gk-ribbon { font-size: 22px; white-space: nowrap; padding-inline: 26px; }
+
+/* Pop skin */
+body:has(.hub-game) { background: #FFE6A0; }
+.app-shell:has(.hub-game) { background-color: #FFE6A0; background-image: radial-gradient(120% 40% at 0% 0%, #6EC6F0 0 36%, transparent 36.4%), radial-gradient(140% 50% at 100% 100%, #F4797B 0 30%, transparent 30.4%); background-size: auto; background-attachment: scroll; color: #06162B; }
+.app-shell:has(.hub-game) .brand, .app-shell:has(.hub-game) .brand-sub { color: #06162B; }
+.app-shell:has(.hub-game) .brand-sub { color: #0F4AA0; }
+.hub-game-hero { text-align: left; padding: 8px 4px 0; }
+.hub-hero-top { position: absolute; right: 0; top: -2px; }
+.hub-game-hero .gk-title-stack { margin: 10px 0 0 4px; }
+.hub-spark-1 { right: 22px; top: 70px; }
+.hub-spark-2 { left: 190px; top: 168px; width: 26px; height: 26px; }
+.hub-host { justify-content: flex-end; margin: -8px 4px 14px; }
+.hub-game-hero .clean-hero-disclosure, .hub-game .directory-notice { color: #5A4A1E; }
+.hub-divider { color: #06162B; }
+.hub-divider::before, .hub-divider::after { background: #06162B; height: 4px; }
+.hub-game .experience-card .gk-tile-title { color: #06162B; }
+.hub-game .gk-tile--blue .gk-tile-title { color: #FFFFFF; text-shadow: 0 2px 0 #06162B; }
+.hub-game .gk-tile--blue .gk-tile-tag { background: #FFFFFF; color: #0F4AA0; }
+.hub-game .experience-card.gk-tile--cyan { background: linear-gradient(#9ADBF7, #6EC6F0); }
+.hub-game .experience-card.gk-tile--coral { background: linear-gradient(#FFA1A2, #F4797B); }
+.hub-game .experience-card.gk-tile--sun { background: linear-gradient(#FFF0C4, #FFE6A0); }
+.hub-game .experience-card.gk-tile--blue { background: linear-gradient(#4C9BF2, #1A63C8); }
+.hub-game .experience-card.gk-tile--white { background: #FFFFFF; }
+.hub-game .experience-card:nth-child(odd) { transform: rotate(-1.2deg); }
+.hub-game .experience-card:nth-child(even) { transform: rotate(1.2deg); }
+.app-shell:has(.hub-game) .site-footer { background: #06162B; }

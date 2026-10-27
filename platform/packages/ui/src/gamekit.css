@@ -51,5 +51,22 @@
 @keyframes gk-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 @keyframes gk-wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-7deg); } 75% { transform: rotate(7deg); } }
 @keyframes gk-shine { 0% { background-position: 150% 0; } 60%, 100% { background-position: -50% 0; } }
+/* Pop layer: tilted 3D halftone headlines, wave colour blocks, stickers. Blue-led with flag-red and sunny accents. */
+.gk-root { --gk-coral: #F4797B; --gk-sun: #FFE6A0; --gk-cyan: #6EC6F0; }
+.gk-popbg { background-color: var(--gk-sun); background-image: radial-gradient(120% 52% at 0% 0%, var(--gk-cyan) 0 36%, transparent 36.4%), radial-gradient(140% 64% at 100% 100%, var(--gk-coral) 0 30%, transparent 30.4%); background-attachment: fixed; }
+.gk-3d { position: relative; display: inline-block; font: 900 var(--s, 64px)/1.08 var(--gk-font); transform: rotate(var(--r, -5deg)); letter-spacing: .02em; color: transparent; }
+.gk-3d::before { content: attr(data-text); position: absolute; left: 0; top: 0; color: var(--side-top, #4C9BF2); -webkit-text-stroke: calc(var(--s, 64px) * .1) #06162B; paint-order: stroke fill; text-shadow: 1px 1px 0 var(--side, #1A63C8),2px 2px 0 var(--side, #1A63C8),3px 3px 0 var(--side, #1A63C8),4px 4px 0 var(--side, #1A63C8),5px 5px 0 var(--side, #1A63C8),6px 6px 0 var(--side, #1A63C8),7px 7px 0 var(--side, #1A63C8),8px 8px 0 var(--side, #1A63C8),9px 9px 0 var(--side, #1A63C8),10px 10px 0 #06162B,11px 10px 0 #06162B,10px 11px 0 #06162B,11px 11px 0 #06162B; }
+.gk-3d > span { position: relative; background: radial-gradient(#06162B 24%, transparent 27%) 0 0 / .17em .17em, #FFFFFF; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-stroke: 1px #FFFFFF; }
+.gk-3d--coral { --side: #F4797B; --side-top: #FBB0B1; }
+.gk-3d--sun { --side: #E2B13C; --side-top: #FFE6A0; }
+.gk-title-stack { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin: 0; }
+.gk-title-stack .gk-3d + .gk-3d { margin-left: 44px; }
+.gk-sparkle { position: absolute; width: 34px; height: 34px; pointer-events: none; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none' stroke='%2306162B' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M20 4v10M20 26v10M4 20h10M26 20h10M9 9l7 7M24 24l7 7M31 9l-7 7M16 24l-7 7'/%3E%3C/svg%3E") center / contain no-repeat; }
+.gk-sticker { display: inline-block; padding: 6px 16px; background: #FFFFFF; border: 4px solid #06162B; border-radius: 999px; font: 900 16px/1.2 var(--gk-font); color: #06162B; box-shadow: 0 4px 0 #06162B; transform: rotate(-4deg); }
+.gk-tile--blue { background: linear-gradient(#4C9BF2, #1A63C8); color: #FFFFFF; }
+.gk-tile--cyan { background: linear-gradient(#9ADBF7, #6EC6F0); }
+.gk-tile--coral { background: linear-gradient(#FFA1A2, #F4797B); }
+.gk-tile--sun { background: linear-gradient(#FFF0C4, #FFE6A0); }
+.gk-tile--white { background: #FFFFFF; }
 .gk-root :focus-visible { outline: 4px solid var(--gk-sky); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { .gk-pop, .gk-float, .gk-wiggle, .gk-shine::after { animation: none !important; } .gk-btn, .gk-tile, .gk-progress > span { transition: none; } }
