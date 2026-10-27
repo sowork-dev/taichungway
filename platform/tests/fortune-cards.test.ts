@@ -85,10 +85,53 @@ import { readFileSync } from 'node:fs';
 test('card game page keeps exactly one primary action per screen and no analytics or upload code', () => {
   const page = readFileSync(new URL('../apps/fortune/app/page.tsx', import.meta.url), 'utf8');
   const stages = page.split(/\{stage === /).slice(1);
-  assert.ok(stages.length >= 4);
+  assert.ok(stages.length >= 6);
   for (const block of stages) assert.equal((block.match(/data-primary="true"/g) ?? []).length <= 1, true);
-  assert.equal((page.match(/data-primary="true"/g) ?? []).length, 4, 'one primary button for each of the four screens');
+  assert.equal((page.match(/data-primary="true"/g) ?? []).length, 6, 'one primary button for each of the six screens');
   assert.doesNotMatch(page, /sendBeacon|XMLHttpRequest|fetch\(|gtag|analytics/);
   assert.match(page, /不上傳/);
   assert.match(page, /未取得競選團隊授權或背書/);
+});
+
+import { encodeGift, decodeGift, giveSpare, spareCount, receiveGift, advanceTurn, turnProgress, TURN_NEEDED, compareCards } from '../packages/experience/src/cards.ts';
+test('gift links carry only a card number, reject typos and cannot forge rarity or foil', () => {
+  for (const card of CARDS) { const code = encodeGift(card.no); assert.equal(decodeGift('#' + code)?.no, card.no); assert.equal(decodeGift(code)?.no, card.no); }
+  const good = encodeGift(8);
+  const bad = ['', '#', '#gift=v1.8', '#gift=v1.8.00', '#gift=v1.99.00', '#gift=v2.8.' + good.slice(-2), '#gift=v1.8.' + good.slice(-2) + '&foil=1', '#gift=v1.8.' + good.slice(-2) + '.SSR', '#x=1', '#gift=v1.-1.00', '#gift=v1.8.' + String((Number(good.slice(-2)) + 1) % 100).padStart(2, '0')];
+  for (const hash of bad) assert.equal(decodeGift(hash), null, hash);
+  assert.doesNotMatch(good, /foil|rarity|SSR/);
+});
+test('only spare normal copies can be given; the last copy and foil-only holdings stay', () => {
+  let col = emptyCollection();
+  assert.equal(giveSpare(col, 4), null);
+  col = addToCollection(col, { card: CARDS[3]!, foil: false }).collection;
+  assert.equal(giveSpare(col, 4), null, 'keeps the only copy');
+  col = addToCollection(col, { card: CARDS[3]!, foil: false }).collection;
+  assert.equal(spareCount(col, 4), 1);
+  const after = giveSpare(col, 4)!; assert.equal(after.cards['4']!.n, 1); assert.equal(giveSpare(after, 4), null);
+  let foilOnly = addToCollection(emptyCollection(), { card: CARDS[3]!, foil: true }).collection;
+  foilOnly = addToCollection(foilOnly, { card: CARDS[3]!, foil: true }).collection;
+  assert.equal(giveSpare(foilOnly, 4), null, 'foil copies are never given away');
+  assert.equal(spareCount(foilOnly, 4), 0);
+  const mixed = addToCollection(addToCollection(emptyCollection(), { card: CARDS[3]!, foil: true }).collection, { card: CARDS[3]!, foil: false }).collection;
+  assert.equal(spareCount(mixed, 4), 1);
+  const got = receiveGift(emptyCollection(), CARDS[3]!);
+  assert.equal(got.isNew, true); assert.equal(got.collection.cards['4']!.foil, 0);
+});
+test('knob turn accumulates across the 0/360 seam in either direction and needs a near-full circle', () => {
+  let acc = 0, prev = 350;
+  for (const next of [10, 40, 90, 150, 210, 270, 330, 350 + 0]) { acc = advanceTurn(acc, prev, next); prev = next; }
+  assert.ok(acc > 0 && turnProgress(acc) === 1, String(acc));
+  let back = 0, p = 20;
+  for (const next of [350, 300, 240, 180, 120, 60, 20, 340]) { back = advanceTurn(back, p, next); p = next; }
+  assert.ok(back < 0 && turnProgress(back) === 1, String(back));
+  assert.ok(turnProgress(advanceTurn(0, 0, 90)) < 0.3);
+  assert.equal(turnProgress(TURN_NEEDED), 1);
+});
+test('compare shows both directions with weakness and resistance and a CP verdict', () => {
+  const dome = cardById(8)!, hill = cardById(13)!;
+  const r = compareCards(dome, hill);
+  assert.equal(r.aToB, 200); assert.equal(r.bToA, 30); assert.equal(r.cpDiff, 0); assert.equal(r.stronger, 'tie', 'both are CP 195');
+  assert.equal(compareCards(dome, cardById(3)!).stronger, 'a');
+  assert.equal(compareCards(dome, dome).stronger, 'tie');
 });

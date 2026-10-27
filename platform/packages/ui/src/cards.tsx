@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { CARDS, RARITY_INFO, TYPE_INFO, WEAK_TO, RESISTS, cardCp, cardCost, cardDamage, SET_NAME, type ObjectCard } from '@taichung/experience';
+import { CARDS, RARITY_INFO, TYPE_INFO, WEAK_TO, RESISTS, cardCp, cardCost, cardDamage, compareCards, SET_NAME, type ObjectCard } from '@taichung/experience';
 import { CARD_ART } from './card-art';
 
 const pad = (n: number) => String(n).padStart(3, '0');
@@ -70,4 +70,27 @@ export async function shareCardImage(el: HTMLElement, opts: { headline: string; 
   const url = URL.createObjectURL(blob), a = document.createElement('a');
   a.href = url; a.download = file.name; a.click(); window.setTimeout(() => URL.revokeObjectURL(url), 30_000);
   return 'downloaded';
+}
+
+/** Passport-style achievement card for a completed set (rendered off-screen and exported as an image). */
+export function AchievementCard({ owned, foil }: { owned: Record<number, { n: number; foil: number }>; foil: number }) {
+  return <div className="ach" data-testid="achievement-card">
+    <div className="ach-title">集滿 <b>{SET_NAME}</b></div>
+    <div className="ach-sub">{CARDS.length} / {CARDS.length} 張在地物件卡{foil ? `・閃卡 ${foil} 張` : ''}</div>
+    <div className="ach-grid">{CARDS.map(card => {
+      const e = owned[card.no];
+      return <div key={card.no} className={`ach-cell t-${card.type}`}><span>{TYPE_INFO[card.type].glyph}</span><b>{card.name}</b><small>{RARITY_INFO[card.rarity].symbol}{e && e.foil > 0 ? ' 閃' : ''}</small></div>;
+    })}</div>
+    <div className="ach-note">遊戲數值，不是政策評價；提案不等於已實施<br />非官方互動；未取得競選團隊授權或背書</div>
+  </div>;
+}
+
+/** Two cards side by side for sharing a comparison. */
+export function CompareSheet({ a, b, aFoil, bFoil }: { a: ObjectCard; b: ObjectCard; aFoil: boolean; bFoil: boolean }) {
+  const r = compareCards(a, b);
+  return <div className="cmp">
+    <div className="cmp-cards"><div className="cmp-side"><CardFront card={a} foil={aFoil} /></div><span className="cmp-vs">VS</span><div className="cmp-side"><CardFront card={b} foil={bFoil} /></div></div>
+    <div className="cmp-line"><span>CP {cardCp(a)} 對 {cardCp(b)}</span><span>{TYPE_INFO[a.type].name} 對 {TYPE_INFO[b.type].name}</span></div>
+    <div className="cmp-line"><span>{a.name} 打 {b.name}：{r.aToB}</span><span>{b.name} 打 {a.name}：{r.bToA}</span></div>
+  </div>;
 }

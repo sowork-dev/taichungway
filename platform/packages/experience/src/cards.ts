@@ -99,3 +99,46 @@ export function restoreCollection(raw: string | null): Collection | null {
 }
 export const shareText = (draw: Draw): string =>
   `我在台中味抽到【${draw.card.name}】${RARITY_INFO[draw.card.rarity].symbol}${RARITY_INFO[draw.card.rarity].name}${draw.foil ? '・閃卡' : ''}　CP ${cardCp(draw.card)}`;
+
+// ---- Gifts: send a spare copy to a friend by link. No server, so this is a gift, not a verified trade. ----
+// The link lives in the URL hash (never sent to a server) and carries only a card number plus a typo check.
+// Foil copies and rarity cannot be encoded, so a link can never forge a rarer card.
+const giftCheck = (no: number): string => String((no * 37 + 11) % 100).padStart(2, '0');
+export const encodeGift = (no: number): string => `gift=v1.${no}.${giftCheck(no)}`;
+export function decodeGift(hash: string): ObjectCard | null {
+  const match = /^#?gift=v1\.(\d{1,3})\.(\d{2})$/.exec(hash.trim());
+  if (!match) return null;
+  const no = Number(match[1]), card = cardById(no);
+  return card && match[2] === giftCheck(no) ? card : null;
+}
+/** Spare = a normal (non-foil) copy beyond the first copy you own in total. Returns the collection after giving one away, or null. */
+export function giveSpare(col: Collection, no: number): Collection | null {
+  const entry = col.cards[String(no)];
+  if (!entry || entry.n < 1 || entry.n + entry.foil < 2) return null;
+  return { v: 2, cards: { ...col.cards, [String(no)]: { n: entry.n - 1, foil: entry.foil } } };
+}
+export const spareCount = (col: Collection, no: number): number => {
+  const entry = col.cards[String(no)];
+  return !entry || entry.n + entry.foil < 2 ? 0 : Math.min(entry.n, entry.n + entry.foil - 1);
+};
+export function receiveGift(col: Collection, card: ObjectCard): { collection: Collection; isNew: boolean } {
+  const r = addToCollection(col, { card, foil: false });
+  return { collection: r.collection, isNew: r.isNew };
+}
+
+// ---- Knob gesture: accumulate the angle swept around a centre; a turn counts at TURN_NEEDED degrees (either direction). ----
+export const TURN_NEEDED = 330;
+export function advanceTurn(accumulated: number, previousAngle: number, nextAngle: number): number {
+  let delta = nextAngle - previousAngle;
+  while (delta > 180) delta -= 360;
+  while (delta < -180) delta += 360;
+  return accumulated + delta;
+}
+export const turnProgress = (accumulated: number): number => Math.min(1, Math.abs(accumulated) / TURN_NEEDED);
+
+// ---- Compare two cards (damage each way with weakness and resistance applied) ----
+export interface Comparison { readonly aToB: number; readonly bToA: number; readonly cpDiff: number; readonly stronger: 'a' | 'b' | 'tie' }
+export function compareCards(a: ObjectCard, b: ObjectCard): Comparison {
+  const cpDiff = cardCp(a) - cardCp(b);
+  return { aToB: attackDamage(a, b), bToA: attackDamage(b, a), cpDiff, stronger: cpDiff > 0 ? 'a' : cpDiff < 0 ? 'b' : 'tie' };
+}
