@@ -50,7 +50,7 @@ function policyTree(input:CardInput,policy:PolicyMission,bg:string,ink:string,ac
    h('span',{style:{fontSize:24,color:'#134E9E'}},'江啟臣政見'),
    h('span',{style:{fontSize:38,lineHeight:1.35,marginTop:12}},policy.title)),
   box({marginTop:'auto',paddingTop:22,borderTop:`2px solid ${accent}`,flexDirection:'column',fontSize:22,lineHeight:1.6,flexShrink:0},
-   h('span',{},'政策原文來源：taichungway.tw/future'),h('span',{},'SoWork 獨立預覽・非官方互動')));
+   h('span',{},'政策原文來源：taichungway.tw/future'),h('span',{},'獨立預覽・非官方互動')));
 }
 const escapeXml=(text:string)=>text.replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[char]!));
 export async function renderCardSvg(raw:CardInput,font:ArrayBuffer):Promise<string> {
@@ -67,7 +67,7 @@ export async function renderCardSvg(raw:CardInput,font:ArrayBuffer):Promise<stri
   box({fontSize:48,lineHeight:1.65,textAlign:'center',justifyContent:'center',marginTop:38,padding:'0 24px'},input.body),
   box({fontSize:30,justifyContent:'center',marginTop:32},input.nickname?`給 ${input.nickname}`:'把喜歡，留給今天的自己。'),
   box({marginTop:'auto',paddingTop:28,borderTop:`2px solid ${accent}`,flexDirection:'column',fontSize:24,lineHeight:1.7},
-   h('span',{},'原創互動預覽・本卡未使用 AI'),h('span',{},'官網參考：taichungway.tw'),h('span',{},'SoWork 獨立預覽・非官方互動')));
+   h('span',{},'原創互動預覽・本卡未使用 AI'),h('span',{},'官網參考：taichungway.tw'),h('span',{},'獨立預覽・非官方互動')));
  const svg=await satori(tree,{width:1080,height:1350,fonts:[{name:'LocalSansTC',data:font,weight:400,style:'normal'}]});
  return policy?svg.replace(/(<svg[^>]*>)/,`$1<title>${escapeXml(`${policy.title}；江啟臣政見；來源：${policy.sourceUrl}`)}</title>`):svg;
 }

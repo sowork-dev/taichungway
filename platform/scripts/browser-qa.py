@@ -44,7 +44,7 @@ with sync_playwright() as p:
     page.goto(BASE+route,wait_until='networkidle')
     assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),(width,route,'overflow')
     assert page.locator('html').get_attribute('lang')=='zh-Hant-TW'
-    assert page.get_by_text('SoWork 獨立互動預覽，非官方網站；尚未取得競選團隊授權或背書。',exact=True).count()==1
+    assert page.get_by_text('獨立互動預覽，非官方網站；尚未取得競選團隊授權或背書。',exact=True).count()==1
     if width==390:page.evaluate("window.scrollTo({top:0,behavior:'instant'})");page.screenshot(path=str(SHOTS/(route.strip('/').replace('/','-')or'hub'))+'.png',full_page=True)
   page.set_viewport_size({'width':390,'height':844})
   return {'widths':[360,390,768],'routes':4}

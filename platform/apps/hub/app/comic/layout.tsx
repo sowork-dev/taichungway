@@ -6,7 +6,7 @@ import './comic-game.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://taichungway.sowork.ai'),
   title: '巷口四格漫畫｜台中味・非官方互動',
-  description: '選一個日常場景，留下一句原文，創作自己的藍色四格。預製故事版，不使用 AI；SoWork 獨立製作，未取得競選團隊授權或背書。',
+  description: '選一個日常場景，留下一句原文，創作自己的藍色四格。預製故事版，不使用 AI；獨立製作，未取得競選團隊授權或背書。',
   alternates: { canonical: '/comic/' },
   openGraph: {
     title: '巷口四格漫畫｜台中味',
