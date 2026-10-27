@@ -11,7 +11,7 @@ const PUBLIC_ASSETS = new Set([
   'index.html', 'app.js', 'engine.js', 'knowledge.json', 'policy-catalog.json',
   'taichung-elements.js', 'style.css', 'world.css', 'icon.svg', 'robots.txt',
   'pk.js', 'pk.css', 'quest.js', 'quest.css', 'quest-core.js',
-  'arena-core.js', 'bubble-core.js', 'play.js', 'play.css', 'policies.html', 'bubble.html'
+  'arena-core.js', 'bubble-core.js', 'play.js', 'play.css', 'policies.html', 'bubble.html', 'adventure.html', 'chat.css', 'chat.js'
 ]);
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.txt': 'text/plain' };
 
@@ -20,7 +20,7 @@ function createPlayServer(options = {}) {
   const { now = Date.now, roundMs = 60000, countdownMs = 2000, hostOrigin,
     maxRooms = 50, roomTtlMs = 900000, trustProxy = false } = options;
   const requestRates = new Map();
-  function requestAllowed(req) {
+  function clientIp(req) {
     const peer = req.socket.remoteAddress || '';
     const loopback = peer === '::1' || peer === '127.0.0.1' || peer === '::ffff:127.0.0.1';
     let ip = peer;
@@ -30,6 +30,10 @@ function createPlayServer(options = {}) {
       const candidate = chain[chain.length - 1];
       if (isIP(candidate)) ip = candidate;
     }
+    return ip;
+  }
+  function requestAllowed(req) {
+    const ip = clientIp(req);
     const time = now();
     for (const [key, rate] of requestRates) if (time - rate.start >= 60000) requestRates.delete(key);
     let rate = requestRates.get(ip);
@@ -69,6 +73,7 @@ function createPlayServer(options = {}) {
   }
   const server = http.createServer(async (req, res) => {
     if (!requestAllowed(req)) return json(res, 429, { error: 'Request limit reached' });
+    if (options.chat && req.method === 'POST' && req.url === '/api/chat') return options.chat(req, res, { ip: clientIp(req), originAllowed: originAllowed(req) });
     if (req.method === 'GET' && req.url === '/api/play/health') return json(res, 200, { ok: true, mode: 'realtime', ...(A.GAME_KIND === 'bubble' ? { game: 'bubble' } : {}), rooms: rooms.size, players: count() });
     if (req.method === 'GET' && req.url === '/api/play/lobby') return json(res, 200, {
       rooms: [...rooms.values()].filter(r => connected(r).length).map(r => ({ code: r.code, players: connected(r).length, phase: r.game.phase, joinable: r.game.phase === 'practice' && connected(r).length === 1 && r.members.size < 2 })), online: count()
