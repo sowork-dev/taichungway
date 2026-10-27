@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>在地物件卡 原型（5 個政策、15 張）</title>
+<style>
+@property --a{syntax:'<angle>';initial-value:0deg;inherits:false}
+:root{--ink:#06162B;--blue:#1A63C8;--hi:#4C9BF2;--cyan:#6EC6F0;--ice:#E3EFFF;--coral:#F4797B;--sun:#FFE6A0;--f:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif}
+*{box-sizing:border-box}body{margin:0;background:#FFE6A0;font-family:var(--f);color:var(--ink);padding:26px 14px 80px}
+h1{margin:0;text-align:center;font-size:26px}h2{margin:34px 0 12px;font-size:19px;letter-spacing:.05em}
+p.sub{text-align:center;font-weight:700;margin:6px 0 0}
+.row{display:flex;flex-wrap:wrap;gap:20px;justify-content:center}
+.sec{max-width:1180px;margin:0 auto}
+.cap{text-align:center;font-weight:800;font-size:13px;margin-top:8px}
+/* ===== card ===== */
+.cd{--t1:#FFE6A0;--t2:#FFF7DD;--tc:#E2B13C;position:relative;width:300px;height:440px;border:6px solid var(--ink);border-radius:20px;background:linear-gradient(170deg,var(--t1),var(--t2));box-shadow:0 7px 0 var(--ink);overflow:hidden;isolation:isolate;font-family:var(--f)}
+.t-old{--t1:#FFE6A0;--t2:#FFF7DD;--tc:#E2B13C}.t-venue{--t1:#4C9BF2;--t2:#DDEBFC;--tc:#1A63C8}.t-sound{--t1:#6EC6F0;--t2:#E3F6FD;--tc:#2B9FD6}.t-hill{--t1:#F4797B;--t2:#FFE9E9;--tc:#C8333A}
+.cd::before{content:'';position:absolute;inset:0;z-index:0;background:radial-gradient(var(--ink) 18%,transparent 21%) 0 0/14px 14px;opacity:.06}
+.hd{position:absolute;left:10px;right:10px;top:8px;height:38px;display:flex;align-items:center;gap:6px;z-index:3}
+.hd .nm{font:900 22px/1 var(--f);letter-spacing:.02em;white-space:nowrap}
+.hd .ty{width:28px;height:28px;border-radius:50%;border:3px solid var(--ink);background:#fff;display:grid;place-items:center;font:900 13px/1 var(--f);flex:none}
+.hd .cp{margin-left:auto;display:flex;align-items:baseline;gap:3px;background:var(--ink);color:#fff;border-radius:12px;padding:3px 9px 4px;flex:none}
+.hd .cp small{font:800 10px/1 var(--f);letter-spacing:.1em;color:#9ADBF7}.hd .cp b{font:900 20px/1 var(--f)}
+.art{position:absolute;left:10px;right:10px;top:50px;height:166px;border:4px solid var(--ink);border-radius:12px;background:linear-gradient(180deg,#FFFFFF66,#FFFFFF00 55%),linear-gradient(var(--t1),var(--t2));overflow:hidden;z-index:2}
+.art::before{content:'';position:absolute;inset:0;background:radial-gradient(#fff 22%,transparent 25%) 0 0/12px 12px;opacity:.35}
+.art svg{position:absolute;left:50%;top:50%;width:220px;height:165px;transform:translate(-50%,-48%)}
+.art .no{position:absolute;left:6px;bottom:4px;font:900 10px/1 var(--f);background:var(--ink);color:#fff;border-radius:6px;padding:3px 6px;z-index:2}
+.info{position:absolute;left:12px;right:12px;top:220px;height:20px;z-index:3;font:800 11.5px/20px var(--f);text-align:center;background:#fff;border:2px solid var(--ink);border-radius:999px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 8px}
+.skill{position:absolute;left:10px;right:10px;top:246px;height:56px;z-index:3;display:flex;align-items:center;gap:8px;background:#fff;border:3px solid var(--ink);border-radius:12px;padding:0 10px;box-shadow:0 3px 0 var(--ink)}
+.skill .en{display:flex;gap:3px;flex:none}.skill .en i{width:16px;height:16px;border-radius:50%;border:2.5px solid var(--ink);background:var(--tc)}
+.skill b{font:900 18px/1.1 var(--f)}.skill small{display:block;font:700 10.5px/1.3 var(--f);color:#3D5F8F;margin-top:2px}
+.skill .dm{margin-left:auto;font:900 28px/1 var(--f)}
+.stats{position:absolute;left:12px;right:12px;top:308px;z-index:3;display:grid;gap:4px}
+.st{display:grid;grid-template-columns:34px 1fr 26px;gap:6px;align-items:center;font:800 11px/1 var(--f)}
+.st .bar{height:10px;border:2px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden}.st .bar span{display:block;height:100%;background:linear-gradient(var(--hi),var(--blue))}
+.st em{font:900 12px/1 var(--f);font-style:normal;text-align:right}
+.wr{position:absolute;left:10px;right:10px;top:366px;height:34px;z-index:3;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font:800 10.5px/1.1 var(--f)}
+.wr div{background:#ffffffcc;border:2px solid var(--ink);border-radius:9px;display:flex;align-items:center;justify-content:center;gap:4px;padding:0 3px}
+.wr .ty{width:18px;height:18px;border:2px solid var(--ink);border-radius:50%;background:#fff;display:grid;place-items:center;font:900 9px/1 var(--f)}
+.wr .dots i{display:inline-block;width:10px;height:10px;border-radius:50%;border:2px solid var(--ink);background:#fff;margin-left:2px}
+.ft{position:absolute;left:12px;right:12px;bottom:6px;display:flex;justify-content:space-between;align-items:center;font:800 9.5px/1 var(--f);z-index:3}
+.ft .rar{font:900 13px/1 var(--f)}
+/* rarity finishes */
+.fin-R{box-shadow:0 7px 0 var(--ink),0 0 0 4px #BDD8FA,0 0 16px #7FC0F088}
+.fin-R::after{content:'';position:absolute;inset:0;z-index:5;pointer-events:none;background:linear-gradient(105deg,transparent 40%,#ffffff88 50%,transparent 60%);background-size:260% 100%;animation:sweep 3.4s ease-in-out infinite}
+.fin-SR{box-shadow:0 7px 0 var(--ink),0 0 0 4px #fff,0 0 22px #6EC6F0aa}
+.fin-SR::after{content:'';position:absolute;inset:50px 10px 224px 10px;border-radius:10px;z-index:5;pointer-events:none;mix-blend-mode:color-dodge;opacity:.38;background:conic-gradient(from var(--a),#6EC6F0,#fff,#F4797B,#FFE6A0,#4C9BF2,#6EC6F0);animation:spin 6s linear infinite;-webkit-mask:radial-gradient(#000 34%,transparent 37%) 0 0/13px 13px;mask:radial-gradient(#000 34%,transparent 37%) 0 0/13px 13px}
+.fin-SSR{box-shadow:0 7px 0 var(--ink),0 0 0 5px var(--sun),0 0 0 8px var(--ink),0 0 30px #FFE6A0cc}
+.fin-SSR::after{content:'';position:absolute;inset:0;z-index:5;pointer-events:none;background:radial-gradient(circle,#fff 0 1.6px,transparent 2.6px) 0 0/24px 24px,radial-gradient(circle,#FFE6A0 0 1.3px,transparent 2.2px) 12px 12px/24px 24px;animation:glit 1.6s steps(2) infinite}
+.fin-SSR .art{box-shadow:0 0 0 3px var(--sun)}
+@keyframes sweep{0%{background-position:150% 0}60%,100%{background-position:-60% 0}}@keyframes spin{from{--a:0deg}to{--a:360deg}}@keyframes glit{0%{opacity:.35}50%{opacity:1}100%{opacity:.35}}
+/* back */
+.bk{background:linear-gradient(165deg,#1A63C8,#0D2039);color:#fff}
+.bk::before{background:radial-gradient(#fff 14%,transparent 17%) 0 0/14px 14px;opacity:.14}
+.bk .coin{position:absolute;left:50%;top:18px;transform:translateX(-50%);width:76px;height:76px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#CFE4FB 50%,#7FC0F0);border:5px solid var(--ink);display:grid;place-items:center;font:900 38px/1 var(--f);color:var(--blue);z-index:2}
+.bk .fact{position:absolute;left:14px;right:14px;top:104px;background:#fff;color:var(--ink);border:4px solid var(--ink);border-radius:16px;padding:10px 12px;font:700 13px/1.6 var(--f);z-index:2;box-shadow:0 3px 0 var(--ink)}
+.bk .fact h4{margin:0 0 4px;font:900 16px/1.2 var(--f)}
+.bk .pol{position:absolute;left:14px;right:14px;top:252px;font:700 12px/1.6 var(--f);z-index:2}.bk .pol b{color:#9ADBF7}
+.bk .sm{position:absolute;left:14px;right:14px;bottom:12px;font:600 10.5px/1.55 var(--f);color:#CFE4FB;z-index:2}
+/* guide */
+.guide{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+.gwrap{position:relative;width:300px}.gwrap .n{position:absolute;z-index:9;width:26px;height:26px;border-radius:50%;background:var(--coral);color:var(--ink);border:3px solid var(--ink);display:grid;place-items:center;font:900 13px/1 var(--f);box-shadow:0 2px 0 var(--ink)}
+.legend{max-width:520px;display:grid;gap:8px}.legend div{display:flex;gap:10px;align-items:flex-start;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:8px 12px;box-shadow:0 3px 0 var(--ink);font-weight:700;font-size:14px;line-height:1.55}
+.legend b.n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--coral);border:3px solid var(--ink);display:grid;place-items:center;font:900 13px/1 var(--f)}
+.tbl{background:#fff;border:4px solid var(--ink);border-radius:18px;box-shadow:0 5px 0 var(--ink);padding:12px 16px;font-weight:700;font-size:14px;line-height:1.7}
+.tbl table{border-collapse:collapse;width:100%}.tbl td,.tbl th{border-bottom:2px solid #BDD8FA;padding:6px 8px;text-align:center}.tbl th{font-weight:900}
+.ring{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;font-weight:900}
+.ring span{background:var(--ink);color:#fff;border-radius:999px;padding:4px 12px}.ring i{font-style:normal;font-size:20px}
+/* detail page + vs */
+.phone{width:340px;border:6px solid var(--ink);border-radius:34px;overflow:hidden;position:relative;background:#FFE6A0;box-shadow:0 8px 0 var(--ink);padding:14px 12px 20px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.phone .pwave{position:absolute;inset:0;z-index:0;background:radial-gradient(90% 26% at 0% 0%,#6EC6F0 0 36%,transparent 36.4%),radial-gradient(110% 30% at 100% 100%,#F4797B 0 30%,transparent 30.4%)}
+.phone>*{position:relative;z-index:1}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;border:4px solid var(--ink);border-radius:999px;background:linear-gradient(#4C9BF2,#1A63C8);color:#fff;font:900 20px/1 var(--f);letter-spacing:.08em;text-shadow:0 2px 0 var(--ink);box-shadow:inset 0 4px 0 #fff5,0 5px 0 var(--ink)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}.chips span{background:#fff;border:3px solid var(--ink);border-radius:999px;padding:3px 10px;font:800 12px/1.3 var(--f);box-shadow:0 2px 0 var(--ink)}
+.disc{font:700 10.5px/1.5 var(--f);text-align:center;color:#5A4A1E}
+.vs{display:flex;align-items:center;gap:6px}.vs .v{font:900 30px/1 var(--f);text-shadow:2px 2px 0 var(--coral);-webkit-text-stroke:1px var(--ink)}
+.sm1 .cd{transform:scale(.72);transform-origin:top center;margin-bottom:-120px}
+.set{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.set .g{text-align:center;font:900 13px/1.3 var(--f)}
+</style></head><body>
+<h1>在地物件卡 原型</h1>
+<p class="sub">5 個政策・15 張物件卡　｜　物件名稱與數字只取自提供的政策文件；戰鬥力是遊戲數值，不是政策評價</p>
+<div class="sec">
+
+<h2>① 怎麼看一張卡（對應寶可夢卡牌的版面：名稱＋屬性＋HP、插圖、招式、弱點／抗性／撤退、稀有度符號＋編號）</h2>
+<div class="guide"><div class="gwrap" id="gcard"></div><div class="legend" id="legend"></div></div>
+
+<h2>② 第一彈「文化旗艦」：5 個政策、15 張</h2>
+<div id="sets"></div>
+
+<h2>③ 屬性相剋（只是遊戲規則，不代表地區或政策的優劣）</h2>
+<div class="tbl"><div class="ring"><span>老城</span><i>›</i><span>聲音</span><i>›</i><span>場館</span><i>›</i><span>山城</span><i>›</i><span>老城</span></div>
+<p style="text-align:center;margin:8px 0 6px">「A › B」＝A 打 B 時傷害 ×2；B 打 A 時傷害 −30。環狀相剋，每一屬性都有一個剋星與一個被剋。</p>
+<table><tr><th>屬性</th><th>弱點（受到 ×2）</th><th>抗性（受到 −30）</th><th>代表</th></tr>
+<tr><td>老城</td><td>山城</td><td>聲音</td><td>臺中驛、第二市場、宮原眼科</td></tr><tr><td>聲音</td><td>老城</td><td>場館</td><td>薩克斯風、爵士鼓、音樂鈴、鐵支路開唱</td></tr>
+<tr><td>場館</td><td>聲音</td><td>山城</td><td>巨蛋、超巨蛋、流行影音中心、倉庫群</td></tr><tr><td>山城</td><td>場館</td><td>老城</td><td>東勢客家園區、新丁粄、巧聖仙師祭</td></tr></table></div>
+
+<h2>④ 稀有度符號與數值規則</h2>
+<div class="row"><div class="tbl" style="max-width:520px"><table><tr><th>符號</th><th>稀有度</th><th>光澤</th><th>機率（公開）</th></tr>
+<tr><td>●</td><td>普通</td><td>平面</td><td>60%</td></tr><tr><td>◆</td><td>稀有</td><td>銀藍外框＋流光</td><td>28%</td></tr><tr><td>★</td><td>超稀有</td><td>全息網點反光</td><td>10%</td></tr><tr><td>✦</td><td>傳說</td><td>暖金雙框＋閃粒</td><td>2%</td></tr></table>
+<p style="margin:8px 0 0;font-size:13px">稀有度只是「抽到的機會」，與政策重要性、卡牌強弱無關；強弱以戰鬥力計。</p></div>
+<div class="tbl" style="max-width:560px"><b>戰鬥力（CP）＝人氣＋底蘊＋規模</b>（各 0–99）
+<ul style="margin:6px 0 0;padding-left:20px;font-size:13px"><li>招式傷害＝人氣（取到 10）；招式費用＝規模每 30 點 1 顆（最少 1）。</li><li>換場成本＝規模每 30 點 1 顆（最少 1）。</li><li>規模有公開席位數時：1 點＝500 席（巨蛋 15,000 席→30；超巨蛋 45,000 席→90；副場館 5,000 席→10）。</li><li>其他數值為<b>設計設定值</b>，卡背會標「設定值」，不代表事實。</li></ul></div></div>
+
+<h2>⑤ 卡牌詳情頁（點一張卡進入；唯一主要按鈕＝分享）</h2>
+<div class="row" id="detail"></div>
+
+<h2>⑥ 網路上討論：並排比較（唯一主要按鈕＝分享比較）</h2>
+<div class="row" id="vs"></div>
+</div>
+
+<script>
+const TY={old:['老城','城'],venue:['場館','館'],sound:['聲音','音'],hill:['山城','山']};
+const WEAK={old:'hill',sound:'old',venue:'sound',hill:'venue'},RES={old:'sound',sound:'venue',venue:'hill',hill:'old'};
+const RAR={N:['●','普通'],R:['◆','稀有'],SR:['★','超稀有'],SSR:['✦','傳說']};
+const S='stroke="#06162B" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"';
+const ART={
+1:`<ellipse cx="100" cy="132" rx="92" ry="9" fill="#06162B22"/><rect x="22" y="78" width="156" height="52" fill="#F4797B" ${S}/><rect x="22" y="78" width="156" height="9" fill="#fff" ${S}/><rect x="84" y="36" width="32" height="94" fill="#F4797B" ${S}/><rect x="84" y="62" width="32" height="7" fill="#fff" ${S}/><path d="M78 36 100 10l22 26z" fill="#1A63C8" ${S}/><circle cx="100" cy="50" r="11" fill="#fff" ${S}/><path d="M100 43v7h6" fill="none" ${S} stroke-width="3"/><path d="M33 130v-20a9 9 0 0 1 18 0v20zM55 130v-20a9 9 0 0 1 18 0v20zM127 130v-20a9 9 0 0 1 18 0v20zM149 130v-20a9 9 0 0 1 18 0v20z" fill="#FFE6A0" ${S} stroke-width="3"/><path d="M91 130v-18a9 9 0 0 1 18 0v18z" fill="#1A63C8" ${S} stroke-width="3"/>`,
+2:`<ellipse cx="100" cy="134" rx="90" ry="8" fill="#06162B22"/><rect x="26" y="72" width="148" height="60" fill="#E3EFFF" ${S}/>${[0,1,2,3,4,5,6,7].map(i=>`<rect x="${26+i*18.5}" y="44" width="18.5" height="30" fill="${i%2?'#fff':'#1A63C8'}" ${S} stroke-width="3"/>`).join('')}<rect x="62" y="16" width="76" height="24" rx="5" fill="#FFE6A0" ${S}/><text x="100" y="34" text-anchor="middle" font-size="16" font-weight="900" fill="#06162B" font-family="sans-serif">第二市場</text>${[44,76,124,156].map(x=>`<path d="M${x} 74v12" ${S} stroke-width="3" fill="none"/><circle cx="${x}" cy="94" r="8" fill="#F4797B" ${S} stroke-width="3"/>`).join('')}<rect x="38" y="108" width="32" height="24" fill="#6EC6F0" ${S} stroke-width="3"/><rect x="84" y="108" width="32" height="24" fill="#FFE6A0" ${S} stroke-width="3"/><rect x="130" y="108" width="32" height="24" fill="#F4797B" ${S} stroke-width="3"/>`,
+3:`<ellipse cx="100" cy="134" rx="90" ry="8" fill="#06162B22"/><rect x="30" y="64" width="140" height="68" fill="#FFF7DD" ${S}/><path d="M24 64 100 22l76 42z" fill="#1A63C8" ${S}/><circle cx="100" cy="46" r="15" fill="#fff" ${S}/><circle cx="100" cy="46" r="8" fill="#4C9BF2" ${S} stroke-width="3"/><circle cx="100" cy="46" r="3" fill="#06162B"/>${[44,80,116,152].map(x=>`<path d="M${x-9} 124v-30a9 9 0 0 1 18 0v30z" fill="#6EC6F0" ${S} stroke-width="3"/>`).join('')}<rect x="30" y="64" width="140" height="8" fill="#F4797B" ${S} stroke-width="3"/>`,
+4:`<ellipse cx="100" cy="136" rx="94" ry="8" fill="#06162B22"/><path d="M14 132V86l30-22 30 22v46z" fill="#4C9BF2" ${S}/><path d="M126 132V86l30-22 30 22v46z" fill="#4C9BF2" ${S}/><path d="M66 132V76l34-28 34 28v56z" fill="#FFE6A0" ${S}/><path d="M80 132v-34h40v34z" fill="#fff9d8" ${S} stroke-width="3"/><path d="M86 132 70 140h60l-16-8" fill="#FFE6A055" stroke="none"/><path d="M92 112v-14l12-3v13" fill="none" ${S} stroke-width="3"/><circle cx="90" cy="113" r="4" fill="#06162B"/><circle cx="102" cy="110" r="4" fill="#06162B"/><path d="M60 36 76 56M140 36 124 56" ${S} stroke-width="3"/><circle cx="58" cy="32" r="6" fill="#fff" ${S} stroke-width="3"/><circle cx="142" cy="32" r="6" fill="#fff" ${S} stroke-width="3"/>`,
+5:`<ellipse cx="100" cy="136" rx="94" ry="8" fill="#06162B22"/><path d="M20 126V62l120-34 40 20v78z" fill="#fff" ${S}/><path d="M20 62l120-34v70L20 126z" fill="#1A63C8" ${S}/><path d="M140 28l40 20v78l-40-28z" fill="#CFE4FB" ${S}/><circle cx="78" cy="78" r="22" fill="#fff" ${S}/><path d="M72 68v20l18-10z" fill="#F4797B" ${S} stroke-width="3"/><path d="M118 52l8 2v30M126 54l16 4v26" fill="none" ${S} stroke-width="3"/><circle cx="118" cy="88" r="6" fill="#FFE6A0" ${S} stroke-width="3"/><circle cx="142" cy="88" r="6" fill="#FFE6A0" ${S} stroke-width="3"/><path d="M160 70v40" ${S} stroke-width="3"/><circle cx="168" cy="16" r="6" fill="#FFE6A0" ${S} stroke-width="3"/><circle cx="186" cy="26" r="4" fill="#fff" ${S} stroke-width="3"/>`,
+6:`<ellipse cx="100" cy="136" rx="94" ry="8" fill="#06162B22"/><path d="M88 22 112 22 172 132 28 132z" fill="#CFE4FB" ${S}/>${[34,52,72,96].map((y,i)=>`<path d="M${100-(y-22)*0.52-6} ${y+14}L${100+(y-22)*0.52+6} ${y+14}" stroke="#06162B" stroke-width="${3+i}" stroke-linecap="round"/>`).join('')}<path d="M94 22 52 132M106 22 148 132" fill="none" stroke="#06162B" stroke-width="7" stroke-linecap="round"/><g transform="rotate(-28 148 78)"><rect x="143" y="14" width="10" height="66" rx="3" fill="#FFE6A0" ${S} stroke-width="3"/><path d="M148 74c-26 0-34 24-22 36-8 12 4 28 22 28s30-16 22-28c12-12 4-36-22-36z" fill="#F4797B" ${S}/><circle cx="148" cy="106" r="8" fill="#fff" ${S} stroke-width="3"/><rect x="141" y="8" width="14" height="14" rx="3" fill="#06162B"/></g>`,
+7:`<ellipse cx="100" cy="136" rx="94" ry="8" fill="#06162B22"/><path d="M20 118a80 62 0 0 1 160 0z" fill="#fff" ${S}/><path d="M100 56v62M64 66l-8 52M136 66l8 52M36 86l-8 32M164 86l8 32" fill="none" stroke="#4C9BF2" stroke-width="4"/><path d="M12 118h176v14H12z" fill="#1A63C8" ${S}/><path d="M100 56v-14M60 70 46 58M140 70l14-12" ${S} stroke-width="3"/><path d="M46 20l6 14M100 12v16M154 20l-6 14" stroke="#FFE6A0" stroke-width="6" stroke-linecap="round"/>`,
+8:`<ellipse cx="100" cy="138" rx="96" ry="7" fill="#06162B22"/><path d="M6 122a94 78 0 0 1 188 0z" fill="#fff" ${S}/><path d="M100 44v78M58 56l-14 66M142 56l14 66M26 84l-14 38M174 84l14 38" fill="none" stroke="#4C9BF2" stroke-width="4"/><path d="M0 122h200v14H0z" fill="#1A63C8" ${S}/><circle cx="100" cy="86" r="22" fill="#fff" ${S}/><path d="M84 74c8 8 8 24 0 32M116 74c-8 8-8 24 0 32" fill="none" stroke="#F4797B" stroke-width="3.5"/><path d="M14 40v28M186 40v28" ${S} stroke-width="6"/><circle cx="14" cy="34" r="8" fill="#FFE6A0" ${S} stroke-width="3"/><circle cx="186" cy="34" r="8" fill="#FFE6A0" ${S} stroke-width="3"/>`,
+9:`<ellipse cx="100" cy="136" rx="80" ry="7" fill="#06162B22"/><path d="M38 118a62 40 0 0 1 124 0z" fill="#fff" ${S}/><path d="M100 78v40M70 84l-8 34M130 84l8 34" fill="none" stroke="#4C9BF2" stroke-width="4"/><path d="M30 118h140v14H30z" fill="#1A63C8" ${S}/><path d="M100 66V50M82 70 72 58M118 70l10-12" ${S} stroke-width="3"/><circle cx="154" cy="46" r="7" fill="#FFE6A0" ${S} stroke-width="3"/><path d="M161 46V22l14 4" fill="none" ${S} stroke-width="3"/>`,
+10:`<ellipse cx="100" cy="138" rx="70" ry="7" fill="#06162B22"/><path d="M66 18c20-8 34 2 34 22v62c0 24 30 24 38 2l14-40" fill="none" stroke="#06162B" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/><path d="M66 18c20-8 34 2 34 22v62c0 24 30 24 38 2l14-40" fill="none" stroke="#FFE6A0" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="156" cy="52" rx="20" ry="9" transform="rotate(-62 156 52)" fill="#FFE6A0" ${S}/><circle cx="100" cy="44" r="4" fill="#06162B"/><circle cx="100" cy="62" r="4" fill="#06162B"/><circle cx="100" cy="80" r="4" fill="#06162B"/><path d="M52 28 38 14M70 10 66 -2" ${S} stroke-width="3"/><circle cx="34" cy="26" r="5" fill="#fff" ${S} stroke-width="3"/>`,
+11:`<ellipse cx="100" cy="138" rx="86" ry="7" fill="#06162B22"/><circle cx="100" cy="92" r="40" fill="#1A63C8" ${S}/><circle cx="100" cy="92" r="28" fill="#fff" ${S} stroke-width="3"/><circle cx="100" cy="92" r="10" fill="#4C9BF2" ${S} stroke-width="3"/><ellipse cx="46" cy="84" rx="24" ry="12" fill="#6EC6F0" ${S}/><ellipse cx="154" cy="84" rx="24" ry="12" fill="#6EC6F0" ${S}/><ellipse cx="32" cy="42" rx="26" ry="6" fill="#FFE6A0" ${S}/><ellipse cx="168" cy="38" rx="26" ry="6" fill="#FFE6A0" ${S}/><path d="M32 48v38M168 44v40M46 96v32M154 96v32" ${S} stroke-width="3"/><path d="M96 40l-26-24M104 40l26-24" ${S} stroke-width="5"/>`,
+12:`<ellipse cx="100" cy="138" rx="80" ry="7" fill="#06162B22"/><rect x="26" y="58" width="130" height="50" rx="10" fill="#FFE6A0" ${S}/>${Array.from({length:9},(_,i)=>`<circle cx="${42+i*13}" cy="${72+(i*7)%22}" r="2.6" fill="#06162B"/>`).join('')}<path d="M30 118h122" ${S} stroke-width="3"/>${Array.from({length:9},(_,i)=>`<rect x="${34+i*13}" y="112" width="8" height="${14+(i%4)*4}" fill="#CFE4FB" ${S} stroke-width="2.5"/>`).join('')}<path d="M156 82h18l6-12" fill="none" ${S} stroke-width="5"/><circle cx="182" cy="66" r="7" fill="#F4797B" ${S} stroke-width="3"/><circle cx="38" cy="28" r="5" fill="#fff" ${S} stroke-width="3"/><path d="M43 28V10l12 3" fill="none" ${S} stroke-width="3"/>`,
+13:`<ellipse cx="100" cy="136" rx="94" ry="8" fill="#06162B22"/><rect x="18" y="82" width="164" height="48" fill="#FFF7DD" ${S}/><path d="M10 82 100 46l90 36z" fill="#F4797B" ${S}/><rect x="84" y="56" width="32" height="22" rx="4" fill="#fff" ${S} stroke-width="3"/><text x="100" y="73" text-anchor="middle" font-size="14" font-weight="900" fill="#06162B" font-family="sans-serif">東勢</text><path d="M18 100h164" ${S} stroke-width="3"/>${[36,64,136,164].map(x=>`<rect x="${x-9}" y="104" width="18" height="26" fill="#6EC6F0" ${S} stroke-width="3"/>`).join('')}<path d="M92 130v-22h16v22z" fill="#1A63C8" ${S} stroke-width="3"/><path d="M10 136h180" ${S} stroke-width="4"/><circle cx="168" cy="30" r="9" fill="#FFE6A0" ${S} stroke-width="3"/><path d="M36 38c6-8 14-8 20 0" fill="none" ${S} stroke-width="3"/>`,
+14:`<ellipse cx="100" cy="132" rx="84" ry="14" fill="#fff" ${S}/><circle cx="64" cy="96" r="32" fill="#F4797B" ${S}/><circle cx="64" cy="96" r="22" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="3 6"/><circle cx="136" cy="96" r="32" fill="#F4797B" ${S}/><circle cx="136" cy="96" r="22" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="3 6"/><circle cx="100" cy="58" r="32" fill="#F4797B" ${S}/><circle cx="100" cy="58" r="22" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="3 6"/><text x="100" y="68" text-anchor="middle" font-size="30" font-weight="900" fill="#fff" stroke="#06162B" stroke-width="3" paint-order="stroke" font-family="sans-serif">丁</text><path d="M30 20l6 10M170 18l-6 10M100 8v10" stroke="#FFE6A0" stroke-width="5" stroke-linecap="round"/>`,
+15:`<ellipse cx="100" cy="138" rx="84" ry="7" fill="#06162B22"/><path d="M40 20v100h70v-16H58V20z" fill="#FFE6A0" ${S}/><path d="M46 36h8M46 52h8M46 68h8M46 84h8M46 100h8" ${S} stroke-width="3"/><path d="M84 98h72l14-20H98z" fill="#1A63C8" ${S}/><path d="M96 86 142 86" ${S} stroke-width="3"/><rect x="108" y="64" width="20" height="14" rx="4" fill="#4C9BF2" ${S} stroke-width="3"/><path d="M140 112c10-6 22 0 18 10s-20 6-14-4M156 122c10-4 18 4 12 12" fill="none" stroke="#06162B" stroke-width="5" stroke-linecap="round"/><path d="M150 22l5 12 12 2-9 8 3 12-11-6-11 6 3-12-9-8 12-2z" fill="#fff" ${S} stroke-width="3"/>`
+};
+let DATA;
+function cpOf(c){return c.stats.reduce((a,b)=>a+b,0)}
+function dots(n,cls){return Array.from({length:n},()=>'<i></i>').join('')}
+function cost(c){return Math.max(1,Math.floor(c.stats[2]/30))}
+function dmg(c){return Math.round(c.stats[0]/10)*10}
+function card(c,total,opt={}){
+ const [tn,tg]=TY[c.type],w=TY[WEAK[c.type]],r=TY[RES[c.type]],cp=cpOf(c),n=String(c.no).padStart(3,'0'),rr=RAR[c.rarity];
+ const rows=[['人氣',c.stats[0]],['底蘊',c.stats[1]],['規模',c.stats[2]]].map(([k,v])=>`<div class="st"><span>${k}</span><div class="bar"><span style="width:${v}%"></span></div><em>${v}</em></div>`).join('');
+ return `<div class="cd t-${c.type} fin-${c.rarity}"><div class="hd"><span class="nm">${c.name}</span><span class="ty" title="${tn}">${tg}</span><span class="cp"><small>CP</small><b>${cp}</b></span></div><div class="art">${`<svg viewBox="0 0 200 150">${ART[c.no]}</svg>`}<span class="no">${tn}・${c.policyShort}</span></div><div class="info">${c.status}</div><div class="skill"><div class="en">${dots(cost(c))}</div><div><b>${c.skill}</b></div><span class="dm">${dmg(c)}</span></div><div class="stats">${rows}</div><div class="wr"><div>弱點 <span class="ty">${w[1]}</span>×2</div><div>抗性 <span class="ty">${r[1]}</span>−30</div><div>換場 <span class="dots">${dots(cost(c))}</span></div></div><div class="ft"><span>${n}/${String(total).padStart(3,'0')} <span class="rar">${rr[0]}</span></span><span>文化旗艦・原型</span><span>插畫：原創草稿</span></div></div>`}
+function back(c){const rr=RAR[c.rarity];const setStat=c.basis.map((b,i)=>b==='set'?['人氣','底蘊','規模'][i]:null).filter(Boolean);return `<div class="cd bk"><div class="coin">福</div><div class="fact"><h4>${c.name}</h4>${c.fact}</div><div class="pol"><b>對應政策：</b>${c.policyTitle}<br><b>來源：</b>使用者提供的「${c.doc}」文件<br><b>數值：</b>${setStat.join('、')}為設定值${c.basis.includes('doc')?'，規模依公開席位換算':''}</div><div class="sm">遊戲數值，不是政策評價；提案不等於已實施。<br>非官方互動；未取得競選團隊授權或背書。</div></div>`}
+fetch('fortune-ip-cards.json').then(r=>r.json()).then(d=>{DATA=d;go(d)}).catch(()=>{document.body.insertAdjacentHTML('afterbegin','<p style="color:#C8333A;font-weight:900;text-align:center">請用 http 伺服器開啟（需要同資料夾的 fortune-ip-cards.json）</p>')});
+function go(d){
+ const P={};d.policies.forEach(p=>P[p.id]=p);const short={'EDU-21':'文化門戶','IND-18':'星光計畫','CUL-07':'流行音樂','CUL-08':'文化品牌','EDU-27':'客家園區'};
+ d.cards.forEach(c=>{c.policyShort=short[c.policy];c.policyTitle=P[c.policy].title;c.doc=P[c.policy].doc});
+ const total=d.cards.length;
+ // guide
+ const g=d.cards[7];document.getElementById('gcard').innerHTML=card(g,total)+[[1,'-8px','-12px'],[2,'40px','-12px'],[3,'216px','-12px'],[4,'250px','-12px'],[5,'312px','-12px'],[6,'368px','-12px'],[7,'424px','60px'],[8,'424px','130px'],[9,'424px','246px']].map(([n,t,l])=>`<span class="n" style="top:${t};left:${l}">${n}</span>`).join('');
+ const L=[['名稱、屬性、戰鬥力 CP','左：卡名；圓圈：屬性（老城／場館／聲音／山城）；右上：戰鬥力＝人氣＋底蘊＋規模（類似寶可夢的 HP 位置）。'],['插圖框','政策文件裡提到的建設或物件，各自畫成一張圖。左下小標：屬性與所屬政策。'],['狀態列','文件怎麼寫：已列入範圍、提出、或預計完工年份。不寫成已完成。'],['招式','招式名稱、費用（左邊圓點）、傷害（右邊數字，＝人氣取到 10）。'],['三項能力','人氣、底蘊、規模（0–99）。規模若有公開席位數就照席位換算，其他是設定值。'],['弱點／抗性／換場','弱點受到 ×2、抗性受到 −30、換場成本（規模越大越重）。環狀相剋，沒有最強屬性。'],['稀有度符號','● 普通　◆ 稀有　★ 超稀有　✦ 傳說（＝抽到的機會，與強弱無關）。'],['編號與彈數','008/015＝本彈第 8 張，共 15 張；「文化旗艦」是第一彈。'],['插畫','目前是原創草稿；正式版由設計師繪製。']];
+ document.getElementById('legend').innerHTML=L.map((x,i)=>`<div><b class="n">${i+1}</b><span><b>${x[0]}</b><br>${x[1]}</span></div>`).join('');
+ // sets
+ const keys=['EDU-21','IND-18','CUL-07','CUL-08','EDU-27'];
+ document.getElementById('sets').innerHTML=keys.map(k=>`<div style="margin-bottom:26px"><div style="font-weight:900;font-size:16px;margin:0 0 10px;text-align:center;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:6px 14px;box-shadow:0 3px 0 var(--ink)">${P[k].title}<span style="font-weight:700;font-size:12px;color:#3D5F8F"> ｜ 來源：${P[k].doc}文件</span></div><div class="row">${d.cards.filter(c=>c.policy===k).map(c=>`<div>${card(c,total)}</div>`).join('')}</div></div>`).join('');
+ // detail
+ const c=d.cards[7];
+ document.getElementById('detail').innerHTML=`<div><div class="phone"><div class="pwave"></div><div class="chips"><span>008/015</span><span>✦ 傳說</span><span>場館</span></div><div class="sm1" style="height:340px;width:300px">${card(c,total)}</div><div class="chips"><span>你有 1 張</span><span>CP ${cpOf(c)}</span></div><button class="btn">分享</button><div style="font-weight:800;text-decoration:underline;font-size:14px">看卡背（來源與說明）</div></div><div class="cap">卡牌詳情｜主要按鈕：分享</div></div><div><div class="phone"><div class="pwave"></div><div class="chips"><span>卡背</span></div><div class="sm1" style="height:340px;width:300px">${back(c)}</div><button class="btn">分享</button><div style="font-weight:800;text-decoration:underline;font-size:14px">回到卡面</div></div><div class="cap">卡背｜來源與數值依據</div></div>`;
+ // vs
+ const a=d.cards[7],b=d.cards[12];
+ const aDmg=Math.round(dmg(a)*(WEAK[b.type]===a.type?2:1)-(RES[b.type]===a.type?30:0));
+ document.getElementById('vs').innerHTML=`<div><div class="phone" style="width:min(92vw,720px)"><div class="pwave"></div><div class="vs"><div class="sm1" style="height:340px;width:216px">${card(a,total)}</div><span class="v">VS</span><div class="sm1" style="height:340px;width:216px">${card(b,total)}</div></div><div class="chips"><span>CP ${cpOf(a)} 對 ${cpOf(b)}</span><span>${TY[a.type][0]} 對 ${TY[b.type][0]}</span><span>${a.name} 打 ${b.name}：${aDmg} 傷害</span></div><div class="disc">遊戲比較，不代表任何政策或地區的優劣。<br>非官方互動；未取得競選團隊授權或背書。</div><button class="btn" style="max-width:340px">分享比較</button></div><div class="cap">比較頁｜貼到社群討論誰比較強、誰比較稀有</div></div>`;
+}
+</script></body></html>

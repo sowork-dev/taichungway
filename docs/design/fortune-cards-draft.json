@@ -1,0 +1,476 @@
+{
+  "note": "草案：依使用者提供的 5 份政策文件整理；已排除文件內的內部備註與統計數據；全部需人工核對後才可上線。",
+  "cards": [
+    {
+      "no": 1,
+      "code": "L01",
+      "family": "living",
+      "title": "生活圈幸福指標",
+      "wish": "願資源先補不足的地方。",
+      "gist": "提出以AI與地理資訊系統建立生活圈幸福指標，編列預算時連動指標，優先補不足區域。",
+      "policyIds": [
+        "RES-16"
+      ],
+      "sourceDoc": "20分鐘生活圈",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 2,
+      "code": "L02",
+      "family": "living",
+      "title": "公車路網改革",
+      "wish": "願轉車不再等很久。",
+      "gist": "提出五大生活圈轉運樞紐、加密生活圈內班次，並在捷運成形前推動公車免費。",
+      "policyIds": [
+        "TRA-07",
+        "TRA-08",
+        "TRA-09"
+      ],
+      "sourceDoc": "20分鐘生活圈",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 3,
+      "code": "L03",
+      "family": "living",
+      "title": "生活圈青創",
+      "wish": "願年輕人留在家鄉築夢。",
+      "gist": "提出活化公有閒置空間成青創孵化器與加速器，各生活圈發展特色產業。",
+      "policyIds": [
+        "IND-11"
+      ],
+      "sourceDoc": "20分鐘生活圈",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 4,
+      "code": "I01",
+      "family": "indig",
+      "title": "職業培力探索",
+      "wish": "願孩子找到更寬的路。",
+      "gist": "提出強化原住民族職業探索，升級高階科技業與製造業培訓。",
+      "policyIds": [
+        "IND-16"
+      ],
+      "sourceDoc": "原住民族政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 5,
+      "code": "I02",
+      "family": "indig",
+      "title": "原民微型保險",
+      "wish": "願意外來時有人撐著。",
+      "gist": "提出設籍臺中15到64歲原住民族人全額補助微型保險。",
+      "policyIds": [
+        "IND-17"
+      ],
+      "sourceDoc": "原住民族政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 6,
+      "code": "I03",
+      "family": "indig",
+      "title": "行動長照車",
+      "wish": "願山上的阿公有人看診。",
+      "gist": "提出打造原民行動長照車與特色文健站，深入山城部落。",
+      "policyIds": [
+        "HEA-19"
+      ],
+      "sourceDoc": "原住民族政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 7,
+      "code": "I04",
+      "family": "indig",
+      "title": "族語祭儀智慧庫",
+      "wish": "願孩子大方說母語。",
+      "gist": "提出採集耆老語言與文化記憶，推動情境式族語學習與祭儀工坊。",
+      "policyIds": [
+        "EDU-32"
+      ],
+      "sourceDoc": "原住民族政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 8,
+      "code": "I05",
+      "family": "indig",
+      "title": "原民文化據點",
+      "wish": "願族青在城市有個家。",
+      "gist": "提出獎勵民間單位設置都會型原住民族據點。",
+      "policyIds": [],
+      "sourceDoc": "原住民族政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 9,
+      "code": "E01",
+      "family": "edu",
+      "title": "校園安全第一",
+      "wish": "願每條通學路都安心。",
+      "gist": "提出每年至少編列10億元更新老舊校舍、廁所與跑道，並充實特教與教師心理支持。",
+      "policyIds": [
+        "EDU-13"
+      ],
+      "sourceDoc": "教育政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 10,
+      "code": "E02",
+      "family": "edu",
+      "title": "AI減壓教學",
+      "wish": "願老師多點時間教學。",
+      "gist": "提出以AI系統減少行政庶務、逐年降低生師比，並引進AI助教。",
+      "policyIds": [
+        "EDU-08",
+        "EDU-09"
+      ],
+      "sourceDoc": "教育政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 11,
+      "code": "E03",
+      "family": "edu",
+      "title": "科學教育",
+      "wish": "願孩子玩著學科學。",
+      "gist": "提出成立科技教育發展中心，建置STEAM示範學校與據點。",
+      "policyIds": [
+        "EDU-10",
+        "EDU-12"
+      ],
+      "sourceDoc": "教育政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 12,
+      "code": "E04",
+      "family": "edu",
+      "title": "翻轉技職",
+      "wish": "願每個孩子找到所長。",
+      "gist": "提出成立技職教育專責單位與職業探索中心。",
+      "policyIds": [
+        "EDU-14",
+        "EDU-11"
+      ],
+      "sourceDoc": "教育政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 13,
+      "code": "E05",
+      "family": "edu",
+      "title": "越在地越國際",
+      "wish": "願孩子自信對世界說話。",
+      "gist": "提出雙語教學Plus、在地食材優先，並鼓勵學生擔任國際活動志工。",
+      "policyIds": [
+        "EDU-15",
+        "EDU-16"
+      ],
+      "sourceDoc": "教育政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 14,
+      "code": "E06",
+      "family": "edu",
+      "title": "友善育兒學前",
+      "wish": "願育兒的路好走些。",
+      "gist": "提出成立婦幼發展委員會，統籌托育與學前教育。",
+      "policyIds": [
+        "EDU-01"
+      ],
+      "sourceDoc": "教育政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 15,
+      "code": "H01",
+      "family": "hakka",
+      "title": "客家文化園區",
+      "wish": "願山城的客家味被看見。",
+      "gist": "提出升級東勢客家文化園區，加入科技互動與親子體驗。",
+      "policyIds": [
+        "EDU-27"
+      ],
+      "sourceDoc": "客家政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 16,
+      "code": "H02",
+      "family": "hakka",
+      "title": "客家慶典",
+      "wish": "願節慶熱鬧一整年。",
+      "gist": "提出讓客家慶典全年不間斷，並重新包裝成旗艦節慶。",
+      "policyIds": [],
+      "sourceDoc": "客家政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 17,
+      "code": "H03",
+      "family": "hakka",
+      "title": "客語音樂季",
+      "wish": "願客語歌唱上舞台。",
+      "gist": "提出舉辦Hakka Sound音樂季，推動客語流行音樂。",
+      "policyIds": [
+        "EDU-30"
+      ],
+      "sourceDoc": "客家政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 18,
+      "code": "H04",
+      "family": "hakka",
+      "title": "山城客家菜",
+      "wish": "願山城的味道傳出去。",
+      "gist": "提出推廣以東勢為核心的山城風味客家菜。",
+      "policyIds": [],
+      "sourceDoc": "客家政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 19,
+      "code": "H05",
+      "family": "hakka",
+      "title": "大埔腔保存",
+      "wish": "願老人家的聲音留下來。",
+      "gist": "提出落實專任客語教師，並以AI保存大埔腔語音。",
+      "policyIds": [
+        "EDU-29"
+      ],
+      "sourceDoc": "客家政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 20,
+      "code": "C01",
+      "family": "culture",
+      "title": "文化門戶計畫",
+      "wish": "願舊城活成會呼吸的博物館。",
+      "gist": "提出以臺中車站為核心，活化周邊古蹟與建物。",
+      "policyIds": [
+        "EDU-21"
+      ],
+      "sourceDoc": "文化政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 21,
+      "code": "C02",
+      "family": "culture",
+      "title": "星光計畫",
+      "wish": "願舊城夜裡也有音樂。",
+      "gist": "提出在新民街倉庫群設立Live House，活化舊城區。",
+      "policyIds": [
+        "IND-18"
+      ],
+      "sourceDoc": "文化政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 22,
+      "code": "C03",
+      "family": "culture",
+      "title": "臺灣設計展",
+      "wish": "願城市處處有美感。",
+      "gist": "提出爭取臺灣設計展重返臺中。",
+      "policyIds": [
+        "EDU-18"
+      ],
+      "sourceDoc": "文化政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 23,
+      "code": "C04",
+      "family": "culture",
+      "title": "臺中設計中心",
+      "wish": "願公車亭也有好設計。",
+      "gist": "提出轉型文化建設基金會，成立臺中設計中心。",
+      "policyIds": [
+        "EDU-19"
+      ],
+      "sourceDoc": "文化政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 24,
+      "code": "C05",
+      "family": "culture",
+      "title": "週週有主題",
+      "wish": "願每個週末都有活動。",
+      "gist": "提出整合資源，打造週週有主題、月月有節日的文化活動。",
+      "policyIds": [
+        "EDU-20"
+      ],
+      "sourceDoc": "文化政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 25,
+      "code": "C06",
+      "family": "culture",
+      "title": "巷弄文化小蜜蜂",
+      "wish": "願巷口也有小劇場。",
+      "gist": "提出與劇團、樂團、街頭藝術家合作，定期走進廟口與社區。",
+      "policyIds": [
+        "EDU-22"
+      ],
+      "sourceDoc": "文化政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 26,
+      "code": "C07",
+      "family": "culture",
+      "title": "流行音樂之都",
+      "wish": "願臺中的歌傳到遠方。",
+      "gist": "提出以流行影音中心與巨蛋等場館，發展流行音樂與表演藝術。",
+      "policyIds": [],
+      "sourceDoc": "文化政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 27,
+      "code": "C08",
+      "family": "culture",
+      "title": "文化品牌國際化",
+      "wish": "願在地節慶被世界看見。",
+      "gist": "提出發展定目劇與節慶活動，結合在地音樂產業打造文化品牌。",
+      "policyIds": [],
+      "sourceDoc": "文化政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 28,
+      "code": "C09",
+      "family": "culture",
+      "title": "國際藝文交流",
+      "wish": "願世界的藝術走進來。",
+      "gist": "提出與國際藝術節、美術館合作，也帶臺中創作者出國展演。",
+      "policyIds": [
+        "EDU-23"
+      ],
+      "sourceDoc": "文化政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 29,
+      "code": "C10",
+      "family": "culture",
+      "title": "購物節升級",
+      "wish": "願逛街也能逛文化。",
+      "gist": "提出結合商圈文創、文化走讀與職人市集，升級購物節。",
+      "policyIds": [
+        "IND-20"
+      ],
+      "sourceDoc": "文化政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 30,
+      "code": "C11",
+      "family": "culture",
+      "title": "文化社會處方箋",
+      "wish": "願故事和手作能療癒人。",
+      "gist": "提出結合歷史藝術、文化活動與照護，以文化促進身心健康。",
+      "policyIds": [],
+      "sourceDoc": "文化政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 31,
+      "code": "C12",
+      "family": "culture",
+      "title": "文化投資平台",
+      "wish": "願創作者有人撐腰。",
+      "gist": "提出架構文化產業投資平台，提供補助、低利與媒合。",
+      "policyIds": [
+        "EDU-24"
+      ],
+      "sourceDoc": "文化政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 32,
+      "code": "C13",
+      "family": "culture",
+      "title": "企業認養場域",
+      "wish": "願公私一起點亮文化。",
+      "gist": "提出企業認養文化場域獎勵計畫。",
+      "policyIds": [
+        "EDU-25"
+      ],
+      "sourceDoc": "文化政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 33,
+      "code": "C14",
+      "family": "culture",
+      "title": "跨域人才庫",
+      "wish": "願年輕人投入文化路。",
+      "gist": "提出建構跨域文化人才庫與藝文創業孵化器。",
+      "policyIds": [
+        "EDU-26"
+      ],
+      "sourceDoc": "文化政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    },
+    {
+      "no": 34,
+      "code": "C15",
+      "family": "culture",
+      "title": "多元文化保存",
+      "wish": "願每種母語都被留下。",
+      "gist": "提出以AI保存大埔腔與原住民族語、祭儀等多元文化。",
+      "policyIds": [
+        "EDU-29",
+        "EDU-32"
+      ],
+      "sourceDoc": "文化政策",
+      "provenance": "user-provided-document",
+      "needsReview": true
+    }
+  ]
+}

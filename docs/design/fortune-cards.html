@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>福氣閃卡 設計稿</title>
+<link rel="stylesheet" href="../../public/gamekit.css">
+<style>
+:root{--ink:#06162B;--blue:#1A63C8;--hi:#4C9BF2;--cyan:#6EC6F0;--coral:#F4797B;--sun:#FFE6A0;--ice:#E3EFFF}
+*{box-sizing:border-box}body{margin:0;background:#FFE6A0;font-family:'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;color:var(--ink);padding:24px 16px 60px}
+h1,h2{margin:0}h2{font-size:18px;margin:28px 0 10px;letter-spacing:.06em}
+.row{display:flex;gap:18px;flex-wrap:wrap;justify-content:center}
+.cap{text-align:center;font-weight:800;font-size:14px;margin-top:8px}
+/* ---- card ---- */
+.fc{--c1:#6EC6F0;--c2:#E3EFFF;--side:#1A63C8;position:relative;width:260px;height:384px;border:5px solid var(--ink);border-radius:24px;background:linear-gradient(160deg,var(--c1),var(--c2) 70%);box-shadow:0 6px 0 var(--ink);overflow:hidden;isolation:isolate;transform-style:preserve-3d}
+.fc::before{content:'';position:absolute;inset:0;background:radial-gradient(var(--ink) 18%,transparent 21%) 0 0/16px 16px;opacity:.07;z-index:0}
+.fc-top{position:absolute;left:12px;right:12px;top:10px;display:flex;justify-content:space-between;align-items:center;z-index:3}
+.fc-no{font:900 13px/1 'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;background:var(--ink);color:#fff;border-radius:999px;padding:4px 10px;letter-spacing:.1em}
+.fc-rare{font:900 14px/1 'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:999px;padding:3px 9px;letter-spacing:2px}
+.fc-art{position:absolute;left:50%;top:52px;transform:translateX(-50%);width:170px;height:150px;display:grid;place-items:center;z-index:2}
+.fc-art .disc{position:absolute;inset:6px 10px;border-radius:50%;background:#fff;border:5px solid var(--ink);box-shadow:inset 0 -10px 0 #BDD8FA}
+.fc-art svg{position:relative;width:104px;height:104px}
+.fc-title{position:absolute;left:0;right:0;top:204px;text-align:center;z-index:3}
+.fc-title b{display:inline-block;font:900 34px/1.1 'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;color:#fff;-webkit-text-stroke:0;text-shadow:2px 2px 0 var(--side),-1px -1px 0 var(--ink),1px -1px 0 var(--ink),-1px 1px 0 var(--ink),3px 3px 0 var(--ink),4px 4px 0 var(--ink);transform:rotate(-3deg);letter-spacing:.04em}
+.fc-wish{position:absolute;left:14px;right:14px;top:256px;min-height:62px;display:grid;place-items:center;background:#fff;border:4px solid var(--ink);border-radius:16px;padding:8px 10px;font:800 14px/1.5 'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;text-align:center;z-index:3;box-shadow:0 3px 0 var(--ink)}
+.fc-foot{position:absolute;left:12px;right:12px;bottom:11px;display:flex;justify-content:space-between;align-items:center;font:800 12px/1 'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;z-index:3}
+.fc-foot span{background:var(--ink);color:#fff;border-radius:999px;padding:4px 10px}
+.fc-foot i{font-style:normal;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:2px 8px}
+/* families (colour = family, never policy importance) */
+.fam-living{--c1:#4C9BF2;--c2:#DDEBFC;--side:#0F4AA0}
+.fam-indig{--c1:#6EC6F0;--c2:#E3F6FD;--side:#1A63C8}
+.fam-edu{--c1:#F4797B;--c2:#FFE9E9;--side:#C8333A}
+.fam-hakka{--c1:#FFE6A0;--c2:#FFF7DD;--side:#1A63C8}
+.fam-culture{--c1:#FFFFFF;--c2:#CFE4FB;--side:#4C9BF2}
+/* finishes */
+.fin-r::after{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(105deg,transparent 38%,#ffffff99 50%,transparent 62%);background-size:260% 100%;animation:sweep 3.2s ease-in-out infinite}
+.fin-r{box-shadow:0 6px 0 var(--ink),0 0 0 4px #BDD8FA,0 0 18px #7FC0F088}
+.fin-sr{box-shadow:0 6px 0 var(--ink),0 0 0 4px #FFFFFF,0 0 22px #6EC6F0aa}
+.fin-sr .holo,.fin-ssr .holo{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:color-dodge;opacity:.55;background:conic-gradient(from var(--a,0deg) at 50% 50%,#6EC6F0,#FFFFFF,#F4797B,#FFE6A0,#4C9BF2,#6EC6F0);animation:spin 6s linear infinite;-webkit-mask:radial-gradient(#000 35%,transparent 38%) 0 0/14px 14px;mask:radial-gradient(#000 35%,transparent 38%) 0 0/14px 14px}
+.fin-sr::after{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(115deg,transparent 30%,#ffffffaa 48%,#6EC6F055 52%,transparent 70%);background-size:300% 100%;animation:sweep 2.6s ease-in-out infinite}
+.fin-ssr{border-color:var(--ink);box-shadow:0 6px 0 var(--ink),0 0 0 5px var(--sun),0 0 0 8px var(--ink),0 0 30px #FFE6A0cc}
+.fin-ssr{background:linear-gradient(160deg,#FFF3C4,var(--c1) 40%,#FFE6A0 75%,#fff)}
+.fin-ssr::after{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(circle,#fff 0 1.5px,transparent 2.5px) 0 0/26px 26px,radial-gradient(circle,#FFE6A0 0 1.2px,transparent 2px) 13px 13px/26px 26px;animation:glitter 1.6s steps(2) infinite;opacity:.9}
+.fin-ssr .ring{position:absolute;left:50%;top:44px;width:190px;height:190px;margin-left:-95px;border-radius:50%;z-index:1;background:conic-gradient(from 0deg,#fff0,#FFE6A0,#fff0,#fff,#fff0,#FFE6A0,#fff0);animation:spin 5s linear infinite;filter:blur(2px)}
+@keyframes sweep{0%{background-position:150% 0}60%,100%{background-position:-60% 0}}
+@keyframes spin{to{--a:360deg;transform:none}}
+@keyframes glitter{0%{opacity:.35}50%{opacity:.95}100%{opacity:.35}}
+@property --a{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes spin{from{--a:0deg}to{--a:360deg}}
+/* back */
+.fb{background:linear-gradient(160deg,#1A63C8,#0D2039)}
+.fb::before{opacity:.2;background:radial-gradient(#fff 14%,transparent 17%) 0 0/16px 16px}
+.fb .coin{position:absolute;left:50%;top:26px;transform:translateX(-50%);width:84px;height:84px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#CFE4FB 50%,#7FC0F0);border:5px solid var(--ink);display:grid;place-items:center;font:900 40px/1 'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;color:var(--blue);z-index:2}
+.fb .gist{position:absolute;left:14px;right:14px;top:118px;background:#fff;border:4px solid var(--ink);border-radius:16px;padding:10px 12px;font:700 13px/1.6 'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;z-index:2;box-shadow:0 3px 0 var(--ink)}
+.fb .gist h4{margin:0 0 4px;font-size:15px}
+.fb .src{position:absolute;left:14px;right:14px;top:252px;font:700 12px/1.5 'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;color:#fff;z-index:2}
+.fb .src a{color:#9ADBF7}
+.fb .disc2{position:absolute;left:14px;right:14px;bottom:14px;font:600 10.5px/1.5 'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;color:#CFE4FB;z-index:2}
+/* phone flows */
+.phone{width:300px;height:620px;border:6px solid var(--ink);border-radius:36px;overflow:hidden;position:relative;background:#FFE6A0;box-shadow:0 8px 0 var(--ink);display:flex;flex-direction:column;align-items:center}
+.phone .bar{width:100%;padding:12px 16px 0;display:flex;justify-content:space-between;align-items:center}
+.phone .mini{font:800 12px/1 'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:6px 10px;box-shadow:0 2px 0 var(--ink)}
+.phone .pwave{position:absolute;inset:0;z-index:0;background:radial-gradient(90% 30% at 0% 0%,#6EC6F0 0 36%,transparent 36.4%),radial-gradient(110% 36% at 100% 100%,#F4797B 0 30%,transparent 30.4%)}
+.phone>*{position:relative;z-index:1}
+.gk-btn{font-size:22px;min-height:60px;padding:8px 40px}
+.machine{width:210px;height:250px;margin:6px 0;position:relative}
+.dome{position:absolute;left:10px;right:10px;top:0;height:140px;border:5px solid var(--ink);border-radius:50% 50% 14% 14%;background:radial-gradient(circle at 30% 25%,#fff9,#CFE4FB88);overflow:hidden}
+.dome i{position:absolute;width:38px;height:38px;border-radius:50%;border:4px solid var(--ink);background:radial-gradient(circle at 35% 30%,#fff,var(--c,#7FC0F0))}
+.base{position:absolute;left:0;right:0;top:130px;height:110px;border:5px solid var(--ink);border-radius:22px;background:linear-gradient(#4C9BF2,#1A63C8);box-shadow:inset 0 5px 0 #fff5,0 5px 0 var(--ink)}
+.knob{position:absolute;left:50%;top:150px;transform:translateX(-50%);width:84px;height:84px;border-radius:50%;border:5px solid var(--ink);background:radial-gradient(circle at 35% 30%,#fff,#E3EFFF 60%,#9CC4F0);display:grid;place-items:center;font:900 34px/1 'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;color:var(--blue);z-index:3}
+.knob::after{content:'';position:absolute;inset:-12px;border-radius:50%;border:6px solid transparent;border-top-color:#fff;border-right-color:#fff;transform:rotate(30deg)}
+.capsule{width:130px;height:130px;border-radius:50%;border:6px solid var(--ink);background:linear-gradient(#fff 0 50%,var(--blue) 50%);position:relative;margin:30px 0;box-shadow:0 8px 0 #0004}
+.capsule::after{content:'福';position:absolute;inset:0;display:grid;place-items:center;font:900 44px/1 'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;color:#fff;text-shadow:0 2px 0 var(--ink)}
+.book{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;padding:10px 14px}
+.slot{aspect-ratio:5/7;border:3px solid var(--ink);border-radius:10px;background:#fff9;display:grid;place-items:center;font:900 16px/1 'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;color:#06162B55;position:relative;overflow:hidden}
+.slot.got{background:linear-gradient(160deg,var(--c1),var(--c2));color:var(--ink)}
+.slot.got b{font-size:11px;text-align:center;padding:0 3px}
+.slot em{position:absolute;right:2px;top:2px;font:900 9px/1 'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;background:var(--ink);color:#fff;border-radius:6px;padding:2px 4px;font-style:normal}
+.share-img{width:300px;height:375px;border:5px solid var(--ink);border-radius:8px;position:relative;overflow:hidden;background:#FFE6A0;box-shadow:0 6px 0 var(--ink)}
+.share-img .pwave{position:absolute;inset:0;background:radial-gradient(90% 40% at 0% 0%,#6EC6F0 0 36%,transparent 36.4%),radial-gradient(110% 40% at 100% 100%,#F4797B 0 30%,transparent 30.4%)}
+.share-img .fc{position:absolute;left:50%;top:44px;transform:translateX(-50%) scale(.78) rotate(-4deg);transform-origin:top center}
+.share-img .t{position:absolute;left:10px;top:8px;font:900 15px/1 'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif}
+.share-img .f{position:absolute;left:8px;right:8px;bottom:6px;font:700 8.5px/1.4 'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;text-align:center}
+.odds{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:640px;margin:0 auto}
+.odds div{border:4px solid var(--ink);border-radius:16px;background:#fff;padding:8px;text-align:center;font-weight:800;box-shadow:0 4px 0 var(--ink)}
+.odds b{display:block;font-size:20px}
+</style></head><body class="gk-root">
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="i-living" viewBox="0 0 64 64"><rect x="6" y="26" width="18" height="32" rx="3" fill="#7FC0F0" stroke="#06162B" stroke-width="3.5"/><rect x="22" y="12" width="20" height="46" rx="3" fill="#fff" stroke="#06162B" stroke-width="3.5"/><rect x="40" y="30" width="18" height="28" rx="3" fill="#4C9BF2" stroke="#06162B" stroke-width="3.5"/><path d="M28 22h8M28 32h8M28 42h8" stroke="#1A63C8" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="i-indig" viewBox="0 0 64 64"><path d="M4 54 24 20l12 20 8-12 16 26z" fill="#fff" stroke="#06162B" stroke-width="3.5" stroke-linejoin="round"/><path d="M22 22l-5 9h10zM44 29l-4 7h8z" fill="#7FC0F0"/><circle cx="48" cy="14" r="6" fill="#6EC6F0" stroke="#06162B" stroke-width="3.5"/></symbol>
+<symbol id="i-edu" viewBox="0 0 64 64"><path d="M32 14 4 26l28 12 28-12z" fill="#fff" stroke="#06162B" stroke-width="3.5" stroke-linejoin="round"/><path d="M14 34v12c0 4 8 8 18 8s18-4 18-8V34" fill="#7FC0F0" stroke="#06162B" stroke-width="3.5" stroke-linejoin="round"/><path d="M58 26v16" stroke="#06162B" stroke-width="3.5" stroke-linecap="round"/></symbol>
+<symbol id="i-hakka" viewBox="0 0 64 64"><path d="M10 28h44l-6 26H16z" fill="#fff" stroke="#06162B" stroke-width="3.5" stroke-linejoin="round"/><path d="M54 32c8 0 8 14-2 14" fill="none" stroke="#06162B" stroke-width="3.5"/><path d="M22 20c-4-5 4-7 0-12M34 20c-4-5 4-7 0-12M46 20c-4-5 4-7 0-12" fill="none" stroke="#1A63C8" stroke-width="3.5" stroke-linecap="round"/><path d="M18 38h28" stroke="#6EC6F0" stroke-width="4" stroke-linecap="round"/></symbol>
+<symbol id="i-culture" viewBox="0 0 64 64"><path d="M24 44V14l30-6v30" fill="none" stroke="#06162B" stroke-width="3.5" stroke-linejoin="round"/><path d="M24 14l30-6v10l-30 6z" fill="#fff" stroke="#06162B" stroke-width="3.5" stroke-linejoin="round"/><ellipse cx="17" cy="46" rx="10" ry="7" fill="#4C9BF2" stroke="#06162B" stroke-width="3.5"/><ellipse cx="47" cy="40" rx="10" ry="7" fill="#7FC0F0" stroke="#06162B" stroke-width="3.5"/></symbol>
+</defs></svg>
+
+<h1 style="text-align:center;font-size:26px">福氣閃卡 設計稿 v1</h1>
+<p style="text-align:center;font-weight:700;margin:6px 0 0">卡面顏色＝政策類別，光澤＝稀有度；稀有度和政策重要性無關</p>
+
+<h2>① 同一張卡的四種光澤</h2>
+<div class="row" id="finishes"></div>
+
+<h2>② 卡背（點卡翻面）</h2>
+<div class="row"><div class="fc fb"><div class="coin">福</div><div class="gist"><h4>行動長照車與健康站</h4>提出打造原民行動長照車與特色文健站，深入山城部落。</div><div class="src">來源：taichungway.tw/future<br>提供文件主張・待獨立核實</div><div class="disc2">提案・非施政成果・概念示意非實測結果<br>非官方互動；未取得競選團隊授權或背書</div></div></div>
+
+<h2>③ 稀有度與機率（公開顯示）</h2>
+<div class="odds"><div>普通<b>60%</b>★</div><div>稀有<b>28%</b>★★</div><div>超稀有<b>10%</b>★★★</div><div>傳說<b>2%</b>★★★★</div></div>
+
+<h2>④ 每頁只有一個主要按鈕</h2>
+<div class="row" id="flow"></div>
+
+<h2>⑤ 分享圖（1080×1350，縮小顯示）</h2>
+<div class="row"><div class="share-img"><div class="pwave"></div><div class="t">我抽到傳說卡！</div><div id="shareCard"></div><div class="f">福氣卡・提案非施政成果・非官方互動，未取得競選團隊授權或背書</div></div></div>
+
+<script>
+const FIN={n:'普通',r:'稀有',sr:'超稀有',ssr:'傳說'},STAR={n:'★',r:'★★',sr:'★★★',ssr:'★★★★'};
+function card(o){const f=o.fin;return `<div class="fc fam-${o.fam} fin-${f}">${f==='ssr'?'<div class="ring"></div>':''}${f==='sr'||f==='ssr'?'<div class="holo"></div>':''}<div class="fc-top"><span class="fc-no">No.${o.no}</span><span class="fc-rare">${STAR[f]}</span></div><div class="fc-art"><div class="disc"></div><svg><use href="#i-${o.fam}"/></svg></div><div class="fc-title"><b>${o.title}</b></div><div class="fc-wish">${o.wish}</div><div class="fc-foot"><span>${o.famName}</span><i>提案</i></div></div>`}
+const base={no:'07',fam:'indig',famName:'原住民族',title:'行動長照車',wish:'願山上的阿公有人看診。'};
+document.getElementById('finishes').innerHTML=['n','r','sr','ssr'].map(f=>`<div>${card({...base,fin:f})}<div class="cap">${FIN[f]} ${STAR[f]}</div></div>`).join('');
+const samples=[{fam:'living',famName:'生活圈',title:'公車路網',no:'02',fin:'n',wish:'願轉車不再等很久。'},{fam:'edu',famName:'教育',title:'校園安全',no:'11',fin:'r',wish:'願每條通學路都安心。'},{fam:'hakka',famName:'客家',title:'客家慶典',no:'20',fin:'sr',wish:'願節慶熱鬧一整年。'},{fam:'culture',famName:'文化',title:'星光計畫',no:'25',fin:'ssr',wish:'願舊城夜裡也有音樂。'}];
+const slots=[['living','公車',1],['indig','長照車',1],['edu','校園',1],['hakka','慶典',0],['culture','星光',1],['edu','STEAM',0],['hakka','山歌',0],['culture','設計',1],['indig','族語',0]];
+const bookHtml=slots.map(s=>s[2]?`<div class="slot got fam-${s[0]}"><b>${s[1]}</b><em>${['','R','SR','SSR'][Math.floor(Math.random()*0)]||'★'}</em></div>`:'<div class="slot">？</div>').join('');
+document.getElementById('flow').innerHTML=`
+<div><div class="phone"><div class="pwave"></div><div class="bar"><span class="mini">福氣冊 7/34</span><span class="mini">說明</span></div><div class="machine"><div class="dome"><i style="left:8px;top:70px;--c:#F4797B"></i><i style="left:54px;top:84px;--c:#FFE6A0"></i><i style="left:100px;top:66px;--c:#7FC0F0"></i><i style="left:30px;top:30px;--c:#fff"></i><i style="left:84px;top:28px;--c:#4C9BF2"></i></div><div class="base"></div><div class="knob">福</div></div><button class="gk-btn gk-btn--wide" style="width:220px;margin-top:20px">轉</button></div><div class="cap">1 機台｜主要按鈕：轉</div></div>
+<div><div class="phone"><div class="pwave"></div><div class="bar"><span class="mini">福氣冊 7/34</span><span></span></div><div class="capsule"></div><button class="gk-btn gk-btn--wide" style="width:220px">開</button></div><div class="cap">2 開膠囊｜主要按鈕：開</div></div>
+<div><div class="phone"><div class="pwave"></div><div class="bar"><span class="mini">NEW！ 已收進福氣冊</span><span></span></div><div style="margin:8px 0;transform:scale(.88);transform-origin:top center;height:330px">${card({...samples[3]})}</div><button class="gk-btn gk-btn--wide" style="width:220px">分享</button><div style="font-weight:800;margin-top:10px;text-decoration:underline">再轉一次</div></div><div class="cap">3 揭曉｜主要按鈕：分享</div></div>
+<div><div class="phone"><div class="pwave"></div><div class="bar"><span class="mini">福氣冊 7/34</span><span class="mini">交換</span></div><div class="book">${bookHtml}</div><button class="gk-btn gk-btn--wide" style="width:220px;margin-top:auto;margin-bottom:22px">再轉一次</button></div><div class="cap">4 福氣冊｜主要按鈕：再轉一次</div></div>
+<div><div class="phone"><div class="pwave"></div><div class="bar"><span class="mini">送出重複卡</span><span></span></div><div style="margin:8px 0;transform:scale(.8);transform-origin:top center;height:300px">${card({...samples[1]})}</div><div class="gk-sticker" style="margin-bottom:12px">你有 2 張，可以送出 1 張</div><button class="gk-btn gk-btn--wide" style="width:240px">分享交換連結</button></div><div class="cap">5 交換｜主要按鈕：分享交換連結</div></div>
+<div><div class="phone"><div class="pwave"></div><div class="bar"><span class="mini">朋友送你一張</span><span></span></div><div style="margin:8px 0;transform:scale(.8);transform-origin:top center;height:300px">${card({...samples[2]})}</div><div class="gk-sticker" style="margin-bottom:12px">🤝 來自朋友</div><button class="gk-btn gk-btn--wide" style="width:220px">收下</button></div><div class="cap">6 收卡｜主要按鈕：收下</div></div>`;
+document.getElementById('shareCard').innerHTML=card({...samples[3]});
+</script></body></html>
