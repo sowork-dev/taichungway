@@ -481,8 +481,9 @@ test('createState returns the exact independent initial state', () => {
   const a = q.createState();
   const b = q.createState();
   assert.deepEqual(a, { x: 300, y: 520, phase: 'explore', missionId: null,
-    selectedPolicyId: null, completed: [], paused: false, path: [],
+    selectedPolicyId: null, completed: [], stars: {}, paused: false, path: [],
     destinationMissionId: null, dashRemaining: 0 });
+  a.stars.commute = 3; assert.deepEqual(b.stars, {}, 'stars are not shared between states');
   a.completed.push('commute'); a.path.push({ x: 20, y: 20 });
   assert.deepEqual(b.completed, []); assert.deepEqual(b.path, []);
 });
@@ -530,4 +531,96 @@ test('activatePolicy requires choose and a valid selected policy, never complete
   q.choosePolicy(s, 'transport-public-transit');
   assert.equal(q.activatePolicy(s), true); assert.equal(s.phase, 'demonstrate');
   assert.deepEqual(s.completed, []); assert.equal(q.activatePolicy(s), false);
+});
+
+// ---- Passport: stars, badges, soft unlock, persistence ----
+function finish(core, state, id, evidence) {
+  const mission = core.MISSIONS.find(m => m.id === id);
+  assert.ok(core.selectMission(state, id), id);
+  assert.ok(core.choosePolicy(state, mission.policyIds[0]), id);
+  assert.ok(core.activatePolicy(state), id);
+  assert.ok(core.showReview(state), id);
+  assert.ok(core.completeMission(state, evidence), id);
+}
+test('stars record understanding: 1 for finishing, +1 for the source, +1 for the proposal quiz, best result kept on replay', () => {
+  const C = require('../public/quest-core.js'), s = C.createState();
+  finish(C, s, 'commute');
+  assert.equal(s.stars.commute, 1);
+  finish(C, s, 'commute', { sourceViewed: true });
+  assert.equal(s.stars.commute, 2);
+  finish(C, s, 'commute', { sourceViewed: true, quizPassed: true });
+  assert.equal(s.stars.commute, 3);
+  finish(C, s, 'commute');
+  assert.equal(s.stars.commute, 3, 'a weaker replay never lowers the best result');
+  assert.equal(C.totalStars(s), 3);
+  assert.equal(C.checkQuiz('proposal'), true);
+  assert.equal(C.checkQuiz('enacted'), false);
+});
+test('zones unlock softly after two understood missions in the previous zone; badges need the whole zone', () => {
+  const C = require('../public/quest-core.js'), s = C.createState();
+  assert.equal(C.isZoneUnlocked(s, 'living'), true);
+  assert.equal(C.isZoneUnlocked(s, 'innovation'), false);
+  assert.equal(C.missionUnlocked(s, 'exhibition-168'), false);
+  finish(C, s, 'commute');
+  assert.equal(C.isZoneUnlocked(s, 'innovation'), false);
+  finish(C, s, 'childcare');
+  assert.equal(C.isZoneUnlocked(s, 'innovation'), true);
+  assert.equal(C.isZoneUnlocked(s, 'culture'), false, 'unlock is sequential');
+  assert.deepEqual(C.badges(s), []);
+  assert.deepEqual(C.nextBadgeHint(s), { zoneId: 'living', total: 3, done: 2, remaining: 1, complete: false, unlocked: true });
+  finish(C, s, 'care');
+  assert.deepEqual(C.badges(s), ['living']);
+  assert.equal(C.nextBadgeHint(s), null, 'no started, unlocked zone is pending');
+});
+test('finishing all 15 completes the passport and zone completion is independent of order', () => {
+  const C = require('../public/quest-core.js'), s = C.createState();
+  assert.equal(C.passportComplete(s), false);
+  for (const m of C.MISSIONS) { s.completed.push(m.id); C.awardStars(s, m.id, { sourceViewed: true, quizPassed: true }); }
+  assert.equal(C.passportComplete(s), true);
+  assert.equal(C.badges(s).length, 5);
+  assert.equal(C.totalStars(s), 45);
+});
+test('progress persistence fails closed on unknown ids, bad stars and malformed data', () => {
+  const C = require('../public/quest-core.js'), s = C.createState();
+  finish(C, s, 'commute', { sourceViewed: true });
+  const raw = C.serialize(s);
+  const other = C.createState();
+  assert.equal(C.restore(other, raw), true);
+  assert.deepEqual(other.completed, ['commute']);
+  assert.equal(other.stars.commute, 2);
+  const bad = [
+    'not json', '{}', '{"v":2,"completed":[],"stars":{}}',
+    '{"v":1,"completed":["nope"],"stars":{}}',
+    '{"v":1,"completed":["commute"],"stars":{"commute":9}}',
+    '{"v":1,"completed":["commute"],"stars":{"care":2}}',
+    '{"v":1,"completed":"commute","stars":{}}'
+  ];
+  for (const text of bad) {
+    const probe = C.createState();
+    assert.equal(C.restore(probe, text), false, text);
+    assert.deepEqual(probe.completed, [], 'state untouched: ' + text);
+  }
+  C.resetProgress(other);
+  assert.deepEqual(other.completed, []);
+  assert.deepEqual(other.stars, {});
+});
+
+test('achievement card and passport copy never use endorsement wording; nicknames reject personal data', () => {
+  const P = require('../public/passport.js');
+  const printed = [P.CARD_TEXT.head, P.CARD_TEXT.headSecond, P.CARD_TEXT.done, P.CARD_TEXT.mine, P.CARD_TEXT.starsLabel, ...P.CARD_TEXT.footer].join('\n');
+  for (const word of P.FORBIDDEN) assert.equal(printed.includes(word), false, word);
+  assert.match(printed, /非施政成果/);
+  assert.match(printed, /非官方互動/);
+  assert.match(printed, /授權或背書/);
+  assert.equal(P.nickIssue('小明'), '');
+  for (const bad of ['0912345678', 'a@b.co', 'A123456789', '123456']) assert.notEqual(P.nickIssue(bad), '', bad);
+  assert.equal(P.cleanNick('  1234567890123 '), '1234567890');
+});
+test('adventure page keeps the disclosures and local-only wording, and no analytics or upload code is added', () => {
+  const html = fs.readFileSync(path.join(__dirname, '../public/adventure.html'), 'utf8');
+  assert.match(html, /進度只存在這台裝置/);
+  assert.match(html, /不代表支持或投票意向/);
+  assert.match(html, /清除全部進度/);
+  const code = fs.readFileSync(path.join(__dirname, '../public/passport.js'), 'utf8') + fs.readFileSync(path.join(__dirname, '../public/quest.js'), 'utf8');
+  assert.doesNotMatch(code, /sendBeacon|XMLHttpRequest|gtag|analytics/);
 });

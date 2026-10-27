@@ -1,0 +1,74 @@
+/* Mission dialog, passport and stamp for the city adventure (pop skin). */
+.mission-emoji { display: flex; justify-content: center; align-items: center; gap: 10px; min-height: 84px; font-size: 52px; line-height: 1; padding: 8px; margin: 4px 0 6px; background: #FFFFFF; border: 4px solid #06162B; border-radius: 22px; box-shadow: 0 5px 0 #06162B; }
+.mission-emoji span { display: inline-block; animation: gk-float 2.4s ease-in-out infinite; }
+.mission-emoji span:nth-child(2) { animation-delay: .3s; }
+.mission-emoji .worry { font-size: 40px; }
+.mission-progress { display: flex; align-items: center; gap: 10px; margin: 12px 0 8px; }
+.mission-progress .gk-progress { flex: 1; height: 18px; }
+.mission-stars { display: inline-flex; gap: 2px; font-size: 26px; line-height: 1; color: #4C9BF2; text-shadow: 0 2px 0 #06162B; letter-spacing: 1px; }
+.mission-stars .off { color: #3B5A86; }
+.mission-info, .mission-limits, .mission-source { border: 3px solid #06162B; border-radius: 16px; background: #F3F8FF; padding: 2px 12px; margin: 8px 0; }
+.mission-info > summary, .mission-limits > summary, .mission-source > summary { min-height: 44px; display: flex; align-items: center; font-weight: 800; color: #0F4AA0; cursor: pointer; }
+.mission-info p, .mission-limits p { margin: 4px 0 10px; }
+.quest-dialog .mission-step p { display: none; }
+.quest-dialog .policy-skill { display: flex; align-items: center; gap: 10px; border: 4px solid #06162B; border-radius: 20px; background: linear-gradient(#FFFFFF, #DDEBFC); box-shadow: 0 5px 0 #06162B; padding: 14px; text-align: left; margin-bottom: 12px; }
+.quest-dialog .policy-skill strong { font-size: 20px; line-height: 1.35; }
+.quest-dialog .policy-skill p { display: none; }
+.quest-dialog .policy-skill .skill-level { font-size: 12px; }
+.quest-dialog .policy-skill.selected { background: linear-gradient(#4C9BF2, #1A63C8); color: #FFFFFF; }
+.quest-dialog .policy-skill.selected strong, .quest-dialog .policy-skill.selected .skill-level { color: #FFFFFF; }
+.mission-quiz { margin: 12px 0; padding: 12px; border: 4px solid #06162B; border-radius: 20px; background: #FFFFFF; box-shadow: 0 4px 0 #06162B; }
+.mission-quiz > p:first-child { margin: 0 0 10px; font-weight: 900; font-size: 18px; color: #06162B; }
+.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.quiz-options button { min-height: 56px; border: 3px solid #06162B; border-radius: 16px; background: linear-gradient(#FFFFFF, #CFE4FB); color: #0F4AA0; font-weight: 900; font-size: 16px; box-shadow: 0 4px 0 #06162B; }
+.quiz-options button.is-right { background: linear-gradient(#4C9BF2, #1A63C8); color: #FFFFFF; }
+.quiz-options button.is-wrong { background: #F4797B; color: #06162B; }
+#quizFeedback { min-height: 1.6em; margin: 8px 0 0; font-weight: 800; color: #0F4AA0; }
+.quest-count { font: inherit; cursor: pointer; }
+.quest-count small { display: block; min-height: 1em; font-size: 10px; font-weight: 800; color: #F4797B; text-shadow: 0 1px 0 #06162B; }
+body.game-home .quest-count small { color: #C8333A; text-shadow: none; }
+/* stamp slam over the map */
+.stamp-overlay { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; z-index: 8; }
+.stamp-overlay .stamp { display: grid; place-items: center; gap: 2px; width: 190px; height: 190px; border: 10px solid #1A63C8; border-radius: 50%; background: #FFFFFFE6; color: #1A63C8; font-weight: 900; text-align: center; transform: rotate(-12deg); animation: stamp-slam 1.5s cubic-bezier(.2, 1.4, .4, 1) both; box-shadow: 0 0 0 6px #FFFFFF, 0 10px 0 6px #06162B55; }
+.stamp-overlay .stamp b { font-size: 34px; line-height: 1; }
+.stamp-overlay .stamp span { font-size: 36px; letter-spacing: 2px; color: #4C9BF2; text-shadow: 0 2px 0 #06162B; }
+@keyframes stamp-slam { 0% { transform: scale(3) rotate(-30deg); opacity: 0; } 35% { transform: scale(1) rotate(-12deg); opacity: 1; } 45% { transform: scale(1.08) rotate(-12deg); } 55%, 80% { transform: scale(1) rotate(-12deg); opacity: 1; } 100% { transform: scale(1) rotate(-12deg); opacity: 0; } }
+/* passport */
+.passport-dialog { border: 4px solid #06162B; border-radius: 26px; padding: 0; max-width: min(94vw, 520px); width: 100%; background: #FFE6A0; color: #06162B; }
+.passport-dialog::backdrop { background: #06162BAA; }
+.passport-dialog .city-dialog-header { background: #FFE6A0; color: #06162B; border-bottom: 4px solid #06162B; }
+.passport-scroll { padding: 14px; max-height: 78dvh; overflow: auto; }
+.passport-badges { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.passport-badge { display: grid; justify-items: center; gap: 2px; text-align: center; }
+.passport-badge i { display: grid; place-items: center; width: 56px; height: 56px; border: 4px solid #06162B; border-radius: 50%; background: #E3EFFF; color: #9CC4F0; font: 900 16px/1 inherit; font-style: normal; box-shadow: 0 3px 0 #06162B; }
+.passport-badge.is-got i { background: var(--fill); color: #FFFFFF; text-shadow: 0 1px 0 #06162B; animation: gk-pop .5s both; }
+.passport-badge b { font-size: 12px; }
+.passport-badge small { font-size: 12px; color: #0F4AA0; font-weight: 800; }
+.passport-stamps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin: 14px 0; }
+.passport-stamp { display: grid; place-items: center; min-height: 66px; padding: 4px; border: 3px dashed #06162B80; border-radius: 14px; background: #FFFFFF99; text-align: center; }
+.passport-stamp i { font-style: normal; font-size: 20px; font-weight: 900; color: #06162B80; }
+.passport-stamp small { font-size: 10px; line-height: 1.2; font-weight: 800; }
+.passport-stamp.is-got { border: 3px solid #06162B; background: #FFFFFF; box-shadow: 0 3px 0 #06162B; }
+.passport-stamp.is-got i { color: #1A63C8; }
+.passport-stamp.is-got small { color: #4C9BF2; text-shadow: 0 1px 0 #06162B; font-size: 13px; }
+.passport-stamp.is-locked { opacity: .55; }
+.passport-totals { font-weight: 900; text-align: center; margin: 6px 0; }
+.passport-locked { text-align: center; font-weight: 800; color: #0F4AA0; }
+.passport-card-box canvas { width: 100%; height: auto; border: 4px solid #06162B; border-radius: 18px; box-shadow: 0 5px 0 #06162B; margin: 8px 0; }
+.passport-nick { display: grid; gap: 4px; font-weight: 800; }
+.passport-nick input { min-height: 48px; border: 3px solid #06162B; border-radius: 14px; padding: 0 12px; font-size: 16px; }
+#passportNickNote { min-height: 1.4em; color: #C8333A; font-weight: 800; margin: 4px 0; }
+.passport-reset { margin-top: 12px; font-size: 14px; }
+.passport-reset button { min-height: 44px; border: 3px solid #06162B; border-radius: 14px; background: #F4797B; font-weight: 900; padding: 0 16px; }
+@media (prefers-reduced-motion: reduce) { .mission-emoji span, .stamp-overlay .stamp, .passport-badge.is-got i { animation: none !important; } .stamp-overlay .stamp { opacity: 1; } }
+
+.passport-dialog .city-dialog-header h2 { color: #06162B; }
+.passport-dialog .city-dialog-header span { color: #0F4AA0; }
+.passport-dialog .city-dialog-header button { background: #FFFFFF; color: #06162B; border: 3px solid #06162B; }
+.quest-dialog .mission-header { background: #FFE6A0; color: #06162B; border-bottom: 4px solid #06162B; }
+.quest-dialog .mission-header span, .quest-dialog .mission-header h2 { color: #06162B; }
+.quest-dialog .mission-header span { color: #0F4AA0; font-weight: 800; }
+.quest-dialog .mission-header button { background: #FFFFFF; color: #06162B; border: 3px solid #06162B; }
+.quest-dialog .mission-primary { background: linear-gradient(#4C9BF2, #1A63C8); color: #FFFFFF; border: 4px solid #06162B; border-radius: 999px; font-weight: 900; text-shadow: 0 2px 0 #06162B; box-shadow: inset 0 3px 0 #FFFFFF55, 0 5px 0 #06162B; min-height: 56px; }
+.quest-dialog .mission-primary:disabled { filter: grayscale(.7); }
+.passport-dialog .mission-primary { background: linear-gradient(#4C9BF2, #1A63C8); color: #FFFFFF; border: 4px solid #06162B; border-radius: 999px; font-weight: 900; text-shadow: 0 2px 0 #06162B; box-shadow: 0 5px 0 #06162B; min-height: 56px; width: 100%; }

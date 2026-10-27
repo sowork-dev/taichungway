@@ -13,6 +13,6 @@ test('documented local launcher serves real game, WS health, and preserved polic
  const home=await(await fetch(url)).text();assert.match(home,/id="form"/);assert.match(home,/啟臣，聊一下/);assert.doesNotMatch(home,/questCanvas/);
  const adventure=await(await fetch(url+'/adventure.html')).text();assert.match(adventure,/id="questCanvas"/);
  const bubble=await(await fetch(url+'/bubble.html')).text();assert.match(bubble,/id="startGame"/);assert.match(bubble,/id="avatarDisclosure"/);assert.doesNotMatch(bubble,/id="pkQuestion"/);
- for(const asset of ['/arena-core.js','/play.js','/play.css','/policies.html','/chat.js','/chat.css','/chat.html','/gamekit.css','/pop.css'])assert.equal((await fetch(url+asset)).status,200,asset);
+ for(const asset of ['/arena-core.js','/play.js','/play.css','/policies.html','/chat.js','/chat.css','/chat.html','/gamekit.css','/pop.css','/passport.css','/passport.js'])assert.equal((await fetch(url+asset)).status,200,asset);
  const records=await(await fetch(url+'/knowledge.json')).json();assert.equal(records.length,100);
 });
