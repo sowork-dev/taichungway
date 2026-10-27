@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import './comic.css';
+import './comic-game.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://taichungway.sowork.ai'),
