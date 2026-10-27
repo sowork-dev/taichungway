@@ -26,11 +26,13 @@ function Directory() {
 export default function Page() {
   return <AppShell title="台中味" eyebrow="TAICHUNG · 日常遊樂場">
     <section className="hub-hero" aria-labelledby="hub-title">
+      <span className="hub-eyebrow">TAICHUNG WAY · PLAY</span>
       <div className="hero-title-row"><h1 id="hub-title">把日常，<br />玩成<span className="warm-underline">一點喜歡。</span></h1><span className="round-stamp" aria-hidden="true">慢慢玩<br />好好過</span></div>
       <p className="hero-description">市場的早安、山裡的茶香、海邊的風。<br />用一點時間，遇見你喜歡的台中。</p>
       <div className="hub-panorama"><LocalArt kind="market" className="panorama-market" /><LocalArt kind="tea" className="panorama-tea" /><span className="panorama-note">風土有味，日子有趣。</span></div>
       <a className="hero-jump" href="#experiences">挑一個，開始玩 <span aria-hidden="true">↓</span></a>
     </section>
+    <div className="ticker" aria-hidden="true"><div className="ticker-track">{[0, 1].map(i => <span key={i} style={{ display: 'contents' }}><span>好玩的政見</span><span>日常的臺中味</span><span>一起玩一下</span></span>)}</div></div>
     <Directory />
     <aside className="editorial-note"><span className="note-mark" aria-hidden="true">味</span><div><h2>城市的味道，從日常開始。</h2><p>這裡沒有標準答案。<br />只有一點好奇，和屬於你的小小趣味。</p></div></aside>
   </AppShell>;

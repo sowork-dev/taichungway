@@ -27,3 +27,22 @@
 :focus-visible{outline:3px solid var(--sky);outline-offset:2px}
 .chat-dialog{border:2px solid var(--brand);border-radius:20px;max-width:min(92vw,420px);padding:20px;color:var(--ink)}.chat-dialog::backdrop{background:#0d2039aa}.chat-dialog h2{margin:0 0 8px;font-size:20px}.chat-dialog p{font-size:15px;line-height:1.7;margin:8px 0}.chat-dialog button{margin-top:8px;width:100%;min-height:48px;border:2px solid var(--deep);border-radius:14px;background:var(--brand);color:#fff;font-size:16px;font-weight:800;box-shadow:0 4px 0 var(--deep)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+.stage{display:flex;align-items:flex-end;gap:10px;padding:8px 16px 0;background:linear-gradient(#dcebfd,#f3f8ff);border-bottom:2px solid #bdd8fa;flex-shrink:0}
+.avatar{width:92px;height:112px;padding:0;border:0;background:none;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+.avatar svg{width:100%;height:100%;overflow:visible}
+.avatar .body{animation:idle 3.2s ease-in-out infinite;transform-origin:60px 140px}
+.avatar .eyes{animation:blink 4.6s infinite;transform-origin:60px 45px}
+.avatar .talk{display:none}.avatar .arm-r{transform-origin:95px 76px}.avatar .head{transform-origin:60px 66px}
+.avatar.is-thinking .head{animation:think 1.2s ease-in-out infinite}
+.avatar.is-talking .smile{display:none}.avatar.is-talking .talk{display:block;animation:talk .22s infinite alternate}
+.avatar.is-wave .arm-r{animation:wave .45s ease-in-out 3}
+.avatar.is-hop .body{animation:hop .5s ease-out 1}
+.caption{flex:1;margin:0 0 18px;padding:10px 14px;background:#fff;border:2px solid var(--brand);border-radius:16px 16px 16px 4px;font-size:14px;font-weight:700;color:var(--deep);line-height:1.5;box-shadow:0 3px 0 #bdd8fa}
+.bubble.typing-caret::after{content:'▍';color:var(--brand);animation:blink 1s steps(2) infinite}
+@keyframes idle{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+@keyframes think{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(5deg)}}
+@keyframes talk{from{transform:scaleY(.5)}to{transform:scaleY(1.2)}}
+@keyframes wave{0%,100%{transform:rotate(0)}50%{transform:rotate(-150deg)}}
+@keyframes hop{0%{transform:translateY(0)}40%{transform:translateY(-22px)}100%{transform:translateY(0)}}
+@media (max-height:640px){.stage{display:none}}

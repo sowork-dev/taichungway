@@ -271,7 +271,7 @@
 
 /* Bold brand layer: solid candidate-blue blocks, heavy sans headlines, tactile buttons. Shared with the 啟臣，聊一下 quest look. */
 @layer brand {
-  :root { --serif: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif; --navy: #0D2039; --brand-deep: #0F3F86; --sky: #7FC0F0; --mist: #E3EFFF; }
+  :root { --serif: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif; --navy: #0D2039; --brand-deep: #004C9F; --sky: #7FC0F0; --mist: #E3EFFF; }
   body { background: var(--navy); }
   h1, h2, h3 { font-weight: 900; letter-spacing: 0; }
   .app-shell { background: #F3F8FF; box-shadow: 0 0 70px #0D203980; }
@@ -285,15 +285,25 @@
   .hub-hero { margin: 0 -22px; padding: 30px 22px 0; background: var(--brand); color: #FFFFFF; border-radius: 0 0 32px 32px; overflow: hidden; }
   .hub-hero h1 { font-size: clamp(1.7em, 8.4vw, 2.2em); line-height: 1.25; }
   .hub-hero .warm-underline { background: linear-gradient(transparent 70%, var(--navy) 70%, var(--navy) 92%, transparent 92%); }
+  .hub-hero .hub-eyebrow { color: var(--mist); }
   .hub-hero .hero-description { color: var(--mist); font-weight: 500; }
   .hub-hero .round-stamp { color: var(--navy); background: #FFFFFF; border: 0; font-weight: 800; box-shadow: 0 4px 0 var(--brand-deep); }
   .hub-panorama { margin: 14px -22px 0; border-bottom: 0; background: radial-gradient(ellipse at 48% 85%, var(--mist) 0, var(--mist) 42%, transparent 43%); }
   .hub-panorama .panorama-note { color: #FFFFFF; }
   .hero-jump { background: var(--navy); color: #FFFFFF; margin: 0 -22px; padding: 0 22px; border-bottom: 0; font-weight: 800; }
   .hero-jump + .directory { padding-top: 34px; }
-  .game-header h1, .result-heading h1 { font-weight: 900; }
-  .game-header { padding-top: 26px; }
-  .game-kicker { color: var(--brand); font-weight: 800; }
+  .result-heading h1 { font-weight: 900; }
+  .game-header { margin: 0 -22px 8px; padding: 28px 22px 26px; background: var(--brand); color: #FFFFFF; border-radius: 0 0 32px 32px; }
+  .game-header .hero-description { color: var(--mist); }
+  .game-kicker { color: var(--mist); font-weight: 800; letter-spacing: .1em; font-size: .9em; }
+  .game-kicker::before, .game-kicker::after { background: var(--sky); }
+  .game-header h1 { font-size: 2.3em; }
+  .game-privacy { color: var(--brand-deep); font-weight: 700; }
+  .hub-eyebrow { display: block; margin-bottom: 14px; font-family: Georgia, 'Times New Roman', serif; font-weight: 700; font-size: .85em; letter-spacing: .22em; color: var(--mist); }
+  .ticker { overflow: hidden; background: var(--navy); color: #FFFFFF; border-top: 1px solid #1B3A66; border-bottom: 1px solid #1B3A66; margin: 0 -22px; white-space: nowrap; }
+  .ticker-track { display: inline-flex; gap: 34px; padding: 12px 0; font-weight: 900; font-size: 1.15em; animation: ticker 22s linear infinite; }
+  .ticker-track span::after { content: '✦'; margin-left: 34px; color: var(--sky); }
+  @keyframes ticker { to { transform: translateX(-50%); } }
   .button { border: 2px solid var(--brand-deep); border-radius: 16px; font-weight: 800; min-height: 56px; box-shadow: 0 5px 0 var(--brand-deep); transition: transform .1s, box-shadow .1s; }
   .button.primary { border-color: var(--brand-deep); }
   .button.secondary { background: #FFFFFF; color: var(--brand-deep); }
@@ -322,7 +332,8 @@
   .policy-button { border: 2px solid var(--brand-deep); border-radius: 14px; box-shadow: 0 5px 0 var(--brand-deep); font-weight: 800; }
   .hold-caption { background: var(--brand); color: #FFFFFF; border-color: var(--brand-deep); font-weight: 800; box-shadow: 0 4px 0 var(--brand-deep); }
   .market-stall { border-radius: 8px; }
-  @media (max-width: 360px) { .hub-hero, .hub-panorama, .hero-jump { margin-inline: -16px; } .hub-hero, .hero-jump { padding-inline: 16px; } }
+  @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
+  @media (max-width: 360px) { .game-header, .ticker { margin-inline: -16px; } .game-header { padding-inline: 16px; } .hub-hero, .hub-panorama, .hero-jump { margin-inline: -16px; } .hub-hero, .hero-jump { padding-inline: 16px; } }
   @media (hover: hover) { .button.primary:hover { background: var(--brand-dk); } }
 }
 
