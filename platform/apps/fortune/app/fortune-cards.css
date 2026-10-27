@@ -1,0 +1,40 @@
+.fc-wrap { padding: 6px 0 24px; }
+.fc-page { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.fc-bar { display: flex; justify-content: space-between; width: 100%; gap: 8px; }
+.fc-chip { min-height: 44px; padding: 6px 14px; background: #FFFFFF; color: #06162B; border: 3px solid #06162B; border-radius: 999px; font: 800 14px/1.2 var(--gk-font, sans-serif); box-shadow: 0 3px 0 #06162B; cursor: pointer; }
+.fc-primary { max-width: 320px; font-size: 24px; min-height: 64px; }
+.fc-link { background: none; border: 0; min-height: 44px; font: 800 15px/1 var(--gk-font, sans-serif); color: #0F4AA0; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.fc-hint { margin: 0; text-align: center; font-weight: 800; color: #06162B; min-height: 1.5em; }
+.fc-shot { padding: 18px 10px 12px; }
+.fc-machine { position: relative; width: 230px; height: 270px; margin: 14px 0 6px; }
+.fc-machine .dome { position: absolute; left: 12px; right: 12px; top: 0; height: 150px; border: 5px solid #06162B; border-radius: 50% 50% 14% 14%; background: radial-gradient(circle at 30% 25%, #FFFFFF99, #CFE4FB88); overflow: hidden; }
+.fc-machine .dome i { position: absolute; width: 40px; height: 40px; border-radius: 50%; border: 4px solid #06162B; background: radial-gradient(circle at 35% 30%, #FFFFFF, var(--c, #7FC0F0)); }
+.fc-machine .base { position: absolute; left: 0; right: 0; top: 140px; height: 120px; border: 5px solid #06162B; border-radius: 22px; background: linear-gradient(#4C9BF2, #1A63C8); box-shadow: inset 0 5px 0 #FFFFFF55, 0 5px 0 #06162B; }
+.fc-machine .knob { position: absolute; left: 50%; top: 162px; transform: translateX(-50%); width: 88px; height: 88px; border-radius: 50%; border: 5px solid #06162B; background: radial-gradient(circle at 35% 30%, #FFFFFF, #E3EFFF 60%, #9CC4F0); display: grid; place-items: center; font: 900 36px/1 var(--gk-font, sans-serif); color: #1A63C8; }
+.fc-machine.is-spinning .knob { animation: fc-turn 1.1s ease-in-out; }
+.fc-machine.is-spinning .dome i { animation: fc-jig .25s linear infinite; }
+.fc-machine.is-spinning { animation: fc-shake .12s linear 9; }
+@keyframes fc-turn { to { transform: translateX(-50%) rotate(540deg); } }
+@keyframes fc-jig { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+@keyframes fc-shake { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
+.fc-capsule { width: 150px; height: 150px; border-radius: 50%; border: 6px solid #06162B; background: linear-gradient(#FFFFFF 0 50%, #1A63C8 50%); position: relative; margin: 50px 0 36px; box-shadow: 0 10px 0 #0004; animation: fc-drop .8s cubic-bezier(.3, 1.6, .5, 1) both; }
+.fc-capsule::after { content: '福'; position: absolute; inset: 0; display: grid; place-items: center; font: 900 52px/1 var(--gk-font, sans-serif); color: #FFFFFF; text-shadow: 0 2px 0 #06162B; }
+@keyframes fc-drop { 0% { transform: translateY(-160px); } 100% { transform: none; } }
+.fc-book { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; width: 100%; }
+.fc-slot { position: relative; aspect-ratio: 5 / 7; border: 4px solid #06162B; border-radius: 14px; background: linear-gradient(160deg, var(--t1, #FFE6A0), var(--t2, #FFF7DD)); box-shadow: 0 4px 0 #06162B; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 4px; text-align: center; font: 900 14px/1.2 var(--gk-font, sans-serif); color: #06162B; cursor: pointer; }
+.fc-slot .fc-slot-ty { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; border: 3px solid #06162B; background: #FFFFFF; font-size: 16px; }
+.fc-slot small { font-size: 11px; font-weight: 800; }
+.fc-slot em { position: absolute; left: 4px; top: 4px; font: 900 10px/1 var(--gk-font, sans-serif); font-style: normal; background: #06162B; color: #FFFFFF; border-radius: 6px; padding: 2px 5px; }
+.fc-slot u { position: absolute; right: 4px; bottom: 4px; text-decoration: none; font: 900 11px/1 var(--gk-font, sans-serif); background: #FFFFFF; border: 2px solid #06162B; border-radius: 999px; padding: 2px 6px; }
+.fc-slot.is-empty { cursor: default; background: #FFFFFF99; border-style: dashed; box-shadow: none; color: #06162B66; font-size: 26px; }
+.fc-slot.fin-SR, .fc-slot.fin-SSR { box-shadow: 0 4px 0 #06162B, 0 0 0 3px #FFFFFF; }
+.fc-slot.fin-SSR { outline: 3px solid #FFE6A0; outline-offset: 3px; }
+.fc-help { border: 4px solid #06162B; border-radius: 22px; max-width: min(92vw, 440px); padding: 18px; background: #FFFFFF; color: #06162B; }
+.fc-help::backdrop { background: #06162BAA; }
+.fc-help h2 { margin: 0 0 8px; font-size: 22px; }
+.fc-help h3 { margin: 14px 0 4px; font-size: 16px; }
+.fc-help p, .fc-help li { font-size: 14px; line-height: 1.7; margin: 4px 0; }
+.fc-help ul { padding-left: 20px; margin: 4px 0; }
+.fc-help-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+@media (prefers-reduced-motion: reduce) { .fc-machine.is-spinning, .fc-machine.is-spinning .knob, .fc-machine.is-spinning .dome i, .fc-capsule { animation: none; } }
+.fc-offscreen { position: fixed; left: -10000px; top: 0; width: 300px; height: 440px; pointer-events: none; }

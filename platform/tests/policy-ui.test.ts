@@ -18,7 +18,7 @@ const pageSource = (app: string) => readFileSync(new URL(`../apps/${app}/app/pag
 
 // Static state-boundary contracts complement real markup tests; browser interaction belongs to parent QA.
 test('fortune state boundary gates nickname/export until policy flip and resets on replay', () => {
-  const source = pageSource('fortune');
+  const source = readFileSync(new URL('../apps/fortune/app/classic/page.tsx', import.meta.url), 'utf8');
   assert.match(source, /ReturnType<typeof pickPolicyFortune>/);
   assert.match(source, /pickPolicyFortune\(\)/);
   assert.match(source, /<PolicyPlay[^>]+mission=\{result.mission\}[^>]+mode="flip"[^>]+onComplete=\{\(\) => setPolicyRevealed\(true\)\}/);
