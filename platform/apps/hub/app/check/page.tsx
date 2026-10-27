@@ -108,12 +108,12 @@ export default function CheckPage() {
           {!locked && <StampButton formRef={formRef} />}
           {locked && <p className="check-locked-note">願望已蓋章。想改？按「再開一張」。</p>}
         </form>
-        <p className="check-safe"><span aria-hidden="true">🔒</span> 不傳送、不儲存、不追蹤</p>
+        <p className="check-safe"><span aria-hidden="true">🔒</span> 私人文字不傳送、不儲存；僅匿名計次</p>
         <details className="check-info">
           <summary>說明</summary>
           <p className="studio-muted">不用寫得很宏大。你每天走的路、逛的市場、想安定下來的家，都可以。</p>
           <p className="studio-muted" id="check-nickname-help">暱稱最多 10 字。留白會署名「一位台中生活者」，不用真名。</p>
-          <p id="check-privacy" className="studio-note check-privacy">不傳送、不儲存、不追蹤。請勿填入電話、Email、門牌地址或證件號碼；可辨識的資料會被攔下，仍請自行檢查。</p>
+          <p id="check-privacy" className="studio-note check-privacy">私人文字不傳送、不儲存；僅匿名計次。請勿填入電話、Email、門牌地址或證件號碼；可辨識的資料會被攔下，仍請自行檢查。</p>
           <p className="check-method">{LOCAL_MATCH_LABEL}。本頁不使用 AI；輸入中的指令也只當作文字，不會執行。</p>
         </details>
       </section>

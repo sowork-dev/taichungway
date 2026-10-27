@@ -73,6 +73,7 @@ function createPlayServer(options = {}) {
   }
   const server = http.createServer(async (req, res) => {
     if (!requestAllowed(req)) return json(res, 429, { error: 'Request limit reached' });
+    if (options.metrics && req.method === 'POST' && req.url === '/api/metrics') return options.metrics(req, res, { originAllowed: originAllowed(req) });
     if (options.chat && req.method === 'POST' && req.url === '/api/chat') return options.chat(req, res, { ip: clientIp(req), originAllowed: originAllowed(req) });
     if (req.method === 'GET' && req.url === '/api/play/health') return json(res, 200, { ok: true, mode: 'realtime', ...(A.GAME_KIND === 'bubble' ? { game: 'bubble' } : {}), rooms: rooms.size, players: count() });
     if (req.method === 'GET' && req.url === '/api/play/lobby') return json(res, 200, {
@@ -303,7 +304,9 @@ if (require.main === module) {
     const { createChatHandler } = require('./chat-api.cjs');
     // /api/chat answers 503 until ANTHROPIC_API_KEY or OPENAI_API_KEY is set; the key stays in the server environment only.
     const chat = createChatHandler({ apiKey: process.env.ANTHROPIC_API_KEY, openaiApiKey: process.env.OPENAI_API_KEY, model: process.env.CHAT_MODEL || undefined });
-    const server = createPlayServer({ hostOrigin: process.env.HOST_ORIGIN || undefined, trustProxy: process.env.TRUST_PROXY === 'true', chat });
+    const { createMetricsHandler } = require('./anonymous-metrics.cjs');
+    const metrics = createMetricsHandler({ enabled: process.env.ANON_METRICS_ENABLED === '1', filePath: process.env.ANON_METRICS_FILE || '/var/lib/taichungway/analytics.json' });
+    const server = createPlayServer({ hostOrigin: process.env.HOST_ORIGIN || undefined, trustProxy: process.env.TRUST_PROXY === 'true', chat, metrics });
     server.listen(port, host, () => process.stdout.write(`Realtime play API listening on port ${server.address().port}\n`));
     server.on('error', () => { process.stderr.write('Play API could not listen\n'); server.closePlay().then(() => { process.exitCode = 1; }); });
     const stop = () => server.closePlay().then(() => { process.exitCode = 0; });

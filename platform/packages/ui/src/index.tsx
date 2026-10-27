@@ -195,7 +195,7 @@ export function AppShell({ children, title = '台中味', eyebrow = '把日常�
       })}</nav>
       <p className="preview-disclosure">獨立互動預覽，非官方網站；尚未取得競選團隊授權或背書。</p>
       <nav className="legal-links" aria-label="網站資訊"><a href="https://taichungway.tw/" target="_blank" rel="noopener noreferrer">臺中味官網 ↗</a><a href="/privacy/">隱私權聲明</a></nav>
-      <p>不設 Cookie、不追蹤；作答只留在這個頁面。</p>
+      <p>不設 Cookie；僅匿名彙總瀏覽及功能使用次數，作答不納入統計。</p>
     </footer>
   </div></SitesContext.Provider>;
 }
