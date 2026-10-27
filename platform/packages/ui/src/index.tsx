@@ -178,7 +178,7 @@ export function AppShell({ children, title = '台中味', eyebrow = '把日常�
   const [large, setLarge] = useState(false);
   const directory = useLiveDirectory();
   const others = directory.sites.filter(site => site.title !== title);
-  return <SitesContext.Provider value={directory}><div className={`app-shell${large ? ' large-type' : ''}`}>
+  return <SitesContext.Provider value={directory}><div className={`app-shell gk-root${large ? ' large-type' : ''}`}>
     <a className="skip-link" href="#main">跳到主要內容</a>
     <header className="site-header">
       <a className="brand" href="/" aria-label="台中味互動首頁"><span className="brand-mark" aria-hidden="true">味</span><span>台中味<span className="brand-sub">日常遊樂場</span></span></a>

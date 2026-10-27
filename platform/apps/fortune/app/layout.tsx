@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import '@taichung/ui/styles.css';
+import '@taichung/ui/gamekit.css';
+import '@taichung/ui/play-game.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.PREVIEW_ORIGIN ?? 'https://taichungway.sowork.ai'),

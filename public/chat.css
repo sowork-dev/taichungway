@@ -46,3 +46,7 @@
 @keyframes wave{0%,100%{transform:rotate(0)}50%{transform:rotate(-150deg)}}
 @keyframes hop{0%{transform:translateY(0)}40%{transform:translateY(-22px)}100%{transform:translateY(0)}}
 @media (max-height:640px){.stage{display:none}}
+.chat-disclosure button{background:none;border:0;color:#fff;text-decoration:underline;font:inherit;font-weight:800;cursor:pointer;min-height:32px;padding:0 4px}
+.chat-disclosure{padding:6px 16px;font-size:13px}
+.chips button{font-size:17px}
+.sources a{font-size:13px}

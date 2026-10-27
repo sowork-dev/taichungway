@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { FLAVORS, MARKET_MISSION, QUESTIONS, scoreFlavor, type Flavor } from '@taichung/experience';
+import { Stars, GameDefs } from '@taichung/ui/gamekit';
 import { AppShell, FLAVOR_ART, LocalArt, NicknameField, PolicyPlay, ResultActions, cssVars, type ArtKind } from '@taichung/ui';
 
 const scenes: readonly { kind: ArtKind; label: string }[] = [
@@ -41,13 +42,13 @@ export default function Page() {
     requestAnimationFrame(() => startButton.current?.focus());
   }
 
-  return <AppShell title="你是哪一味" eyebrow="日常提案 02 / 你是哪一味">
+  return <AppShell title="你是哪一味" eyebrow=""><GameDefs />
     {stage === 'intro' && <>
-      <section className="game-header" aria-labelledby="flavor-title"><p className="game-kicker">用日常小選擇，遇見城市提案</p><h1 id="flavor-title">你是<br />哪一種台中味？</h1><p className="hero-description">3 個選擇，找到你的日常滋味。<br />中途玩 1 次市場冷氣實驗，預覽江啟臣政見。</p></section>
+      <section className="game-header" aria-labelledby="flavor-title"><h1 id="flavor-title"><span className="game-title-1">你是哪一種</span><span className="game-title-2">台中味？</span></h1><p className="hero-description">3 個選擇，找到你的日常滋味。</p></section>
       <div className="flavor-intro-art"><LocalArt kind="market" /><span className="intro-sticker" aria-hidden="true">八種味，各有喜歡。</span></div>
       <div className="intro-steps" aria-label="遊戲方式"><span>3 個小選擇</span><span>1 次市場實驗</span><span>8 種原創結果</span></div>
       <button ref={startButton} id="start-flavor" type="button" className="button primary wide" onClick={() => setStage('questions')}>開始測驗 <span aria-hidden="true">→</span></button>
-      <p className="intro-note">只配對生活滋味，不推論政治立場。<br />每個人看到相同的市場政策示意。</p>
+      <details className="game-details"><summary>遊戲說明</summary><p className="intro-note">只配對生活滋味，不推論政治立場。<br />每個人看到相同的市場政策示意。</p></details>
       <div className="game-privacy"><span>無 AI</span><span>作答不送出</span><span>不留紀錄</span></div>
     </>}
     {stage === 'market' && <section className="market-interlude" aria-labelledby="market-interlude-title">
@@ -59,7 +60,7 @@ export default function Page() {
       <button type="button" className="text-button" onClick={() => { setAnswers([]); setMarketReady(false); setStage('questions'); }}>← 回第一題</button>
     </section>}
     {stage === 'questions' && <section className="question-panel" aria-labelledby="question-title">
-      <div className="question-progress"><span>第 {questionIndex + 1} 題，共 3 題</span><div className="progress-dots" aria-hidden="true">{QUESTIONS.map((_, i) => <span className={i <= questionIndex ? 'is-active' : ''} key={i} />)}</div></div>
+      <div className="question-progress"><span>第 {questionIndex + 1} 題，共 3 題</span><div className="gk-progress" aria-hidden="true" style={cssVars({ '--p': (questionIndex + 1) / 3 })}><span /></div><div className="progress-dots" aria-hidden="true">{QUESTIONS.map((_, i) => <span className={i <= questionIndex ? 'is-active' : ''} key={i} />)}</div></div>
       <h1 ref={questionTitle} tabIndex={-1} id="question-title" data-testid="question-title" className="question-title">{question.title}</h1>
       <div className="question-scene"><LocalArt kind={scene.kind} /><p className="scene-label">{scene.label}</p></div>
       <div className="answer-list" role="group" aria-labelledby="question-title">{question.options.map((option, index) => <button key={`${questionIndex}-${index}`} id={`answer-${index}`} data-testid={`answer-${index}`} type="button" className="answer-button" onClick={event => { if (event.detail <= 1) answer(index); }}>
@@ -68,7 +69,7 @@ export default function Page() {
       <div className="question-navigation"><button type="button" className="text-button" onClick={() => { if (answers.length) setAnswers(answers.slice(0, -1)); else setStage('intro'); }}>← {answers.length ? '回上一題' : '回到介紹'}</button><p>跟著直覺，不用想太久。</p></div>
     </section>}
     {stage === 'result' && result && <section className="result-panel" aria-labelledby="flavor-result-title">
-      <div className="result-heading"><h1 ref={resultTitle} tabIndex={-1} id="flavor-result-title">原來，你的日常是這一味。</h1><p>一座城市，裝得下好多種喜歡。</p></div>
+      <div className="result-heading"><div className="result-burst" aria-hidden="true">{Array.from({ length: 14 }, (_, i) => <i key={i} style={cssVars({ '--i': i })} />)}</div><div className="result-stars"><Stars value={3} label="配對完成" /></div><h1 ref={resultTitle} tabIndex={-1} id="flavor-result-title">原來，你的日常是這一味。</h1><p>一座城市，裝得下好多種喜歡。</p></div>
       <article id="result-card" data-testid="result-card" className="result-card flavor-result" data-flavor={result.id} style={cssVars({ '--accent': result.accent })} aria-label={`你的台中味：${result.name}`}>
         <p className="card-kicker">台中味 / 我的日常風景</p><LocalArt kind={FLAVOR_ART[result.id]} />
         {nickname && <p className="card-dedication">{nickname} 的台中味</p>}<h2>{result.name}</h2><p className="result-description">{result.description}</p>

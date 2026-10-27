@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState, type PointerEvent } from 'react';
 import { FORTUNE_STYLES, POLICY_MISSIONS, pickPolicyFortune } from '@taichung/experience';
-import { AppShell, LocalArt, NicknameField, PolicyPlay, ResultActions, cssVars, holdFeedback } from '@taichung/ui';
+import { Stars, GameDefs } from '@taichung/ui/gamekit';
+import { AppShell, NicknameField, PolicyPlay, ResultActions, cssVars, holdFeedback } from '@taichung/ui';
 
 type Fortune = ReturnType<typeof pickPolicyFortune>;
 
@@ -76,14 +77,14 @@ export default function Page() {
     requestAnimationFrame(() => holdButton.current?.focus());
   }
 
-  return <AppShell title="沾福氣" eyebrow="日常提案 01 / 沾福氣">
+  return <AppShell title="沾福氣" eyebrow=""><GameDefs />
     {!result ? <>
-      <section className="game-header" aria-labelledby="fortune-title"><p className="game-kicker">用一點好玩，預覽候選人政見</p><h1 id="fortune-title">長按，<br />沾一點福氣。</h1><p className="hero-description">先收下一張日常心願，<br />再翻開江啟臣政見，看看心願背後的提案。</p></section>
+      <section className="game-header" aria-labelledby="fortune-title"><h1 id="fortune-title"><span className="game-title-1">長按，</span><span className="game-title-2">沾一點福氣。</span></h1><p className="hero-description">按住金幣 1.5 秒，收下今天的祝福。</p></section>
       <section className={`fortune-stage${reduced ? ' reduced-motion' : ''}`} aria-label="領取今日福氣">
-        <button ref={holdButton} id="hold-button" data-testid="hold-button" type="button" className={`hold-button${holding ? ' is-holding' : ''}`} aria-label="長按一點五秒，沾一點福氣；也可按 Enter 或空白鍵" aria-describedby="hold-help" onPointerDown={begin} onPointerUp={release} onPointerCancel={cancel} onLostPointerCapture={cancel} onContextMenu={event => event.preventDefault()} onKeyDown={event => {
+        <button ref={holdButton} id="hold-button" data-testid="hold-button" type="button" className={`hold-button${holding ? ' is-holding' : ''}`} style={cssVars({ '--hold': feedback.progress })} aria-label="長按一點五秒，沾一點福氣；也可按 Enter 或空白鍵" aria-describedby="hold-help" onPointerDown={begin} onPointerUp={release} onPointerCancel={cancel} onLostPointerCapture={cancel} onContextMenu={event => event.preventDefault()} onKeyDown={event => {
           if ((event.key === 'Enter' || event.key === ' ') && !event.repeat) { event.preventDefault(); reveal(); }
         }} onClick={event => { if (event.detail === 0) reveal(); }}>
-          <LocalArt kind="gate" />
+          <span className="coin-face" aria-hidden="true"><b>福</b></span>
           <span className="hold-caption"><svg viewBox="0 0 24 28" fill="none" aria-hidden="true"><path d="M8 15V5a2 2 0 0 1 4 0v8-2a2 2 0 0 1 4 0v3-1a2 2 0 0 1 4 0v7c0 4-3 6-6 6h-3c-2 0-4-1-5-3l-4-7a2 2 0 0 1 3-2l3 3" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>{holding ? '福氣，慢慢聚起來了' : '手指放這裡，長按一下'}</span>
           <span className="fortune-particles" aria-hidden="true">{Array.from({ length: feedback.particles }, (_, i) => <span className="fortune-particle" data-testid="fortune-particle" key={i} style={cssVars({ '--x': `${8 + (i * 37) % 85}%`, '--y': `${12 + (i * 23) % 60}%`, '--size': `${4 + i % 5}px`, '--delay': `${-(i % 9) * .13}s` })} />)}</span>
         </button>
@@ -94,7 +95,7 @@ export default function Page() {
       <div className="game-privacy"><span>無 AI</span><span>不必登入</span><span>不留資料</span></div>
       <aside className="fortune-footnote"><span aria-hidden="true">✳</span><div><h2>好玩是載體，政策才是內容。</h2><p>{POLICY_MISSIONS.length} 個政策心願、{FORTUNE_STYLES.length} 款藍白卡面。<br />隨機抽取，不依個人資料選擇政見。</p></div></aside>
     </> : <section className="result-panel" aria-labelledby="fortune-result-title">
-      <div className="result-heading"><h1 ref={resultHeading} tabIndex={-1} id="fortune-result-title">今天的福氣，收好了。</h1><p>{policyRevealed ? '把心願和政策，一起留下來。' : '翻開心願，看看它連到哪一項政策。'}</p></div>
+      <div className="result-heading"><div className="result-burst" aria-hidden="true">{Array.from({ length: 14 }, (_, i) => <i key={i} style={cssVars({ '--i': i })} />)}</div><div className="result-stars"><Stars value={3} label="福氣滿格" /></div><h1 ref={resultHeading} tabIndex={-1} id="fortune-result-title">今天的福氣，收好了。</h1><p>{policyRevealed ? '把心願和政策，一起留下來。' : '翻開心願，看看它連到哪一項政策。'}</p></div>
       <article id="result-card" data-testid="result-card" className="result-card fortune-result" data-pattern={result.style.pattern} data-variant={result.style.id} style={cssVars({ '--card-bg': result.style.bg, '--card-ink': result.style.ink, '--card-accent': result.style.accent })} aria-label="今日福氣卡">
         <p className="card-kicker">台中味 / 一張政策福氣籤</p>
         {nickname && <p className="card-dedication">給 {nickname}</p>}

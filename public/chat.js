@@ -30,11 +30,11 @@ async function ask(text){
   if(r.status===429){state(null,'我先喘口氣…');history.pop();add('bot','你問得有點快，請稍等一分鐘再試。',{error:true});return;}
   if(!r.ok){state(null,'有點狀況，晚點再試');history.pop();add('bot',r.status===503?'聊天服務目前尚未開放，請稍後再試。':'暫時連不上，請稍後再試。',{error:true});return;}
   const d=await r.json();history.push({role:'assistant',content:d.reply});
-  state('is-talking','我來說明…');add('bot',d.reply,{sources:d.sources,notice:d.notice,type:true});if(reduced)state(null,'還想聊哪一題？');
+  state('is-talking','我來說明…');add('bot',d.reply,{sources:d.sources,type:true});if(reduced)state(null,'還想聊哪一題？');
  }catch{wait.remove();state(null,'網路好像斷了');history.pop();add('bot','網路好像斷了，請稍後再試。',{error:true});}
  finally{busy=false;send.disabled=false;input.focus();}
 }
 form.addEventListener('submit',e=>{e.preventDefault();ask(input.value);});
-if(chips)chips.addEventListener('click',e=>{const b=e.target.closest('button');if(b)ask(b.textContent);});
-const dlg=$('about');$('aboutButton').addEventListener('click',()=>dlg.showModal());$('aboutClose').addEventListener('click',()=>dlg.close());
+if(chips)chips.addEventListener('click',e=>{const b=e.target.closest('button');if(b)ask(b.dataset.q||b.textContent);});
+const dlg=$('about');$('aboutLink').addEventListener('click',()=>dlg.showModal());$('aboutButton').addEventListener('click',()=>dlg.showModal());$('aboutClose').addEventListener('click',()=>dlg.close());
 })();
