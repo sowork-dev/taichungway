@@ -2,8 +2,8 @@
 
 import { AppShell, LocalArt, cssVars, siteHref, useSites, type ArtKind, type SiteId } from '@taichung/ui';
 
-const art: Record<SiteId, ArtKind> = { fortune: 'gate', flavor: 'market', check: 'letter', thanks: 'letter', postcard: 'sea', comic: 'comic', machine: 'machine' };
-const order: SiteId[] = ['fortune', 'flavor', 'check', 'thanks', 'postcard', 'comic', 'machine'];
+const art: Record<SiteId, ArtKind> = { fortune: 'gate', flavor: 'market', check: 'letter', postcard: 'sea', comic: 'comic' };
+const order: SiteId[] = ['fortune', 'flavor', 'check', 'postcard', 'comic'];
 
 function Directory() {
   const { sites, loading, error } = useSites();

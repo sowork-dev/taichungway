@@ -5,17 +5,17 @@ import { resolve } from 'node:path';
 import { createRequire } from 'node:module';
 const root = resolve(import.meta.dirname, '..');
 
-const fixtureSites = () => ['check', 'fortune', 'flavor', 'thanks', 'postcard', 'comic', 'machine'].map(id => ({
+const fixtureSites = () => ['check', 'fortune', 'flavor', 'postcard', 'comic'].map(id => ({
   id, title: id === 'fortune' ? '沾福氣' : '互動體驗', tagline: '玩一口日常',
-  url: `https://${id}.example.test/`, durationSec: 30, usesAI: ['check', 'thanks', 'comic'].includes(id),
+  url: `https://${id}.example.test/`, durationSec: 30, usesAI: ['check', 'comic'].includes(id),
   accent: '#173F4C', status: id === 'fortune' || id === 'flavor' ? 'live' : 'soon',
 }));
 
-test('live directory accepts exactly seven safe records and builds tagged live links only', async () => {
+test('live directory accepts exactly five safe records and builds tagged live links only', async () => {
   const ui = await import('../packages/ui/src/index');
   assert.equal(typeof ui.validateSites, 'function', 'shared live-directory validator must exist');
   const valid = ui.validateSites(fixtureSites(), 'http://localhost:4173');
-  assert.equal(valid?.length, 7);
+  assert.equal(valid?.length, 5);
   assert.equal(ui.siteHref(valid![0]!), undefined, 'soon cards must not have a navigation target');
   const live = new URL(ui.siteHref(valid![1]!)!);
   assert.equal(live.searchParams.get('utm_source'), 'hub');
@@ -29,7 +29,7 @@ test('live directory accepts exactly seven safe records and builds tagged live l
     assert.equal(ui.validateSites(data, 'http://localhost:4173'), null, unsafe);
   }
   const local = fixtureSites(); local[1]!.url = 'http://localhost:4173/fortune/';
-  assert.equal(ui.validateSites(local, 'http://localhost:4173')?.length, 7);
+  assert.equal(ui.validateSites(local, 'http://localhost:4173')?.length, 5);
   const secure = fixtureSites(); secure[1]!.url = 'https://fortune.example.test/?keep=yes';
   assert.equal(new URL(ui.siteHref(ui.validateSites(secure, 'http://localhost:4173')![1]!)!).searchParams.get('keep'), 'yes');
 });
@@ -106,7 +106,7 @@ test('share targets preserve deployed paths but exclude all nickname, answer and
   assert.doesNotMatch(source, /^import .*from ['"]@taichung\/share-card['"]/m, 'heavy card renderer must stay lazy');
 });
 
-test('actual initial React markup includes seven disabled-until-validated cards and accessible game controls', async () => {
+test('actual initial React markup includes five disabled-until-validated cards and accessible game controls', async () => {
   const require = createRequire(resolve(root, 'apps/hub/package.json'));
   const { createElement } = require('react');
   const { renderToStaticMarkup } = require('react-dom/server');
@@ -114,8 +114,8 @@ test('actual initial React markup includes seven disabled-until-validated cards 
   const fortune = (await import('../apps/fortune/app/page')).default;
   const flavor = (await import('../apps/flavor/app/page')).default;
   const hubHtml = renderToStaticMarkup(createElement(hub));
-  assert.equal((hubHtml.match(/data-site-id=/g) ?? []).length, 7);
-  assert.equal((hubHtml.match(/class="experience-card soon-card"/g) ?? []).length, 7);
+  assert.equal((hubHtml.match(/data-site-id=/g) ?? []).length, 5);
+  assert.equal((hubHtml.match(/class="experience-card soon-card"/g) ?? []).length, 5);
   assert.doesNotMatch(hubHtml, /href="(?:\/fortune\/|\/flavor\/)"/, 'initial state cannot assert stale availability');
   for (const Page of [fortune, flavor]) {
     const html = renderToStaticMarkup(createElement(Page));
