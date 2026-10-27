@@ -19,7 +19,6 @@ export function CheckArtwork({ result, revealed }: { result: CheckResult; reveal
         <p className="check-document-label">寫給下一個四年的生活願望</p>
         <blockquote className="check-wish">「{result.wish}」</blockquote>
         <div className="check-issuer"><span>願望署名</span><strong>{result.nickname || '一位台中生活者'}</strong></div>
-        <p className="check-document-footnote">只代表填寫者自己的願望，不代替任何人承諾。</p>
       </article>
       <div className="check-perforation" aria-hidden="true"><span>對開，看見彼此</span></div>
       <article className={`check-sheet check-official${revealed ? '' : ' is-sealed'}`} aria-label={revealed ? '第二張：官方政見對照' : '尚未對開的第二張'}>
@@ -29,15 +28,14 @@ export function CheckArtwork({ result, revealed }: { result: CheckResult; reveal
           <p className="check-document-label">{policy ? `${policy.category} · ${policy.id}` : '保留你的願望，不猜測對應'}</p>
           {!policy && <p className="check-no-match">{NO_LOCAL_MATCH}</p>}
           {policy ? <PolicySource policyId={policy.id} /> : <a className="check-source-link" href="https://taichungway.tw/future" target="_blank" rel="noopener noreferrer">查閱官網完整 117 項政見 ↗</a>}
-          <p className="check-document-footnote">對照只是閱讀起點，不是認同、背書或兌現證明。</p>
         </> : <div className="check-sealed-copy"><span className="check-sealed-mark" aria-hidden="true">＋</span><h2>第二張，等你對開</h2><p>先保留自己的願望，<br />再看看公開政見怎麼說。</p></div>}
       </article>
     </div>
-    {revealed && <div className="check-stamp-row"><span>把願望與政見放在一起，留給未來持續關心。</span><strong className="check-stamp">我們的四年<span>願望 × 對照</span></strong></div>}
+    {revealed && <div className="check-stamp-row"><span>願望 × 政見，放在一起看。</span><strong className="check-stamp">我們的四年<span>願望 × 對照</span></strong></div>}
     <footer className="check-export-notes">
       <p>{LOCAL_MATCH_LABEL}。</p>
-      <p>非官方互動作品；非有價證券，無金額、無兌付效力；署名僅為使用者暱稱。</p>
-      <p>內容只在本頁記憶體處理，不傳送、不儲存、不追蹤；分享前請再次確認沒有個人資料。官網：taichungway.tw/future</p>
+      <p>非官方互動作品；非有價證券，無金額、無兌付效力。</p>
+      <p>內容只在本頁處理，不傳送、不儲存。官網：taichungway.tw/future</p>
     </footer>
   </>;
 }

@@ -162,3 +162,20 @@
 @keyframes check-flip { from { transform:rotateY(-100deg); opacity:.2; } to { transform:rotateY(0); opacity:1; } }
 @keyframes check-fall { from { transform:translateY(-10px) rotate(var(--r)); opacity:1; } to { transform:translateY(150px) rotate(calc(var(--r) + 220deg)); opacity:0; } }
 @media (prefers-reduced-motion:reduce) { .check-slam, .check-win i, .check-stage, .check-stage * { animation:none !important; transition:none !important; } }
+
+/* ---- Pop cheque: coloured sheets, thick ink, big stamp (screen + export) ---- */
+.check-artwork { background: #FFE6A0 radial-gradient(#F4B94A55 1.5px, transparent 1.6px) 0 0 / 14px 14px; border: 4px solid #06162B; border-radius: 18px; padding: 14px; color: #06162B; }
+.check-artwork-header { background: #1A63C8; color: #fff; border: 4px solid #06162B; border-radius: 14px; box-shadow: 0 5px 0 #06162B; padding: 10px 14px; margin-bottom: 16px; font-weight: 900; }
+.check-sheet { border: 4px solid #06162B; border-top-width: 4px; border-radius: 12px; box-shadow: 0 5px 0 #06162B; background-image: none; background-color: #FFF; }
+.check-sheet.check-personal { background-color: #BFE0FB; }
+.check-sheet-meta { color: #06162B; font-weight: 900; border-bottom: 3px solid #06162B; }
+.check-sheet-meta>span:first-child { background: #1A63C8; color: #fff; border-radius: 999px; padding: 0 10px; }
+.check-wish { font-weight: 900; font-size: 24px; line-height: 1.5; color: #06162B; }
+.check-perforation { border-left: 3px dashed #06162B; border-right: 0; margin: 0 8px; }
+.check-stamp-row { color: #06162B; font-weight: 800; }
+.check-stamp { display: inline-grid; place-items: center; text-align: center; padding: 10px 14px; background: #F4797B; color: #06162B; border: 4px solid #06162B; border-radius: 14px; font-weight: 900; font-size: 20px; line-height: 1.3; transform: rotate(-6deg); box-shadow: 0 4px 0 #06162B; }
+.check-export-notes { margin-top: 8px; font-size: 13px; font-weight: 800; color: #06162B; }
+.check-export-notes p { margin: 2px 0; }
+.check-artwork-header .check-wordmark, .check-artwork-header .check-edition { color: #fff; }
+.check-artwork-header .check-edition { color: #E3EFFF; font-weight: 800; }
+.check-document-label { color: #0F4AA0; font-weight: 800; }

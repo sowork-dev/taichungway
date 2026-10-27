@@ -73,3 +73,38 @@
   .comic-celebrate-card { animation: none; }
   .comic-reveal .comic-panel, .comic-scene-choice .comic-scene-icon { animation: none !important; }
 }
+
+/* ---- Pop comic page: bold blocks, thick ink, coloured panels (applies to the screen and the exported image) ---- */
+.comic-page { background: #FFE6A0 radial-gradient(#F4B94A55 1.5px, transparent 1.6px) 0 0 / 14px 14px; border: 4px solid #06162B; border-radius: 18px; padding: 14px; color: #06162B; }
+.comic-page-heading { align-items: center; padding: 12px 14px; border: 4px solid #06162B; border-radius: 14px; background: #1A63C8; box-shadow: 0 5px 0 #06162B; }
+.comic-edition { display: none; }
+.comic-page-heading h2 { color: #FFFFFF; font-size: clamp(28px, 7vw, 38px); font-weight: 900; letter-spacing: .04em; text-shadow: 3px 3px 0 #06162B, -1px -1px 0 #06162B, 1px -1px 0 #06162B, -1px 1px 0 #06162B; }
+.comic-byline { color: #E3EFFF; font-size: 14px; margin-top: 4px; font-weight: 700; }
+.comic-scene-stamp { background: #F4797B; color: #06162B; border: 3px solid #06162B; border-radius: 12px; font-size: 22px; font-weight: 900; box-shadow: 0 3px 0 #06162B; transform: rotate(4deg); }
+.comic-scene-stamp span { font-size: 13px; font-weight: 800; }
+.comic-supplied { margin: 14px 0 12px; padding: 10px 14px; background: #FFFFFF; border: 3px solid #06162B; border-radius: 14px; position: relative; }
+.comic-supplied > span { color: #0F4AA0; font-weight: 900; font-size: 13px; }
+.comic-supplied p { font-size: 17px; font-weight: 700; line-height: 1.6; }
+.comic-panels { gap: 12px; }
+.comic-panel { position: relative; display: flex; flex-direction: column; padding: 0; overflow: hidden; border: 4px solid #06162B; border-radius: 10px; box-shadow: 0 5px 0 #06162B; background: #7FC0F0; }
+.comic-panel:nth-child(2) { background: #FFF0B8; }
+.comic-panel:nth-child(3) { background: #F9C2C3; }
+.comic-panel:nth-child(4) { background: #BFE0FB; }
+.comic-panel::before { content: ''; position: absolute; inset: 0; background: radial-gradient(#ffffff80 1.4px, transparent 1.6px) 0 0 / 10px 10px; pointer-events: none; }
+.comic-panel-top { position: absolute; z-index: 2; top: 6px; left: 6px; right: 6px; padding: 0; background: none !important; align-items: flex-start; pointer-events: none; }
+.comic-panel-top span:first-child { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #1A63C8; color: #fff; border: 3px solid #06162B; font-size: 14px; font-weight: 900; }
+.comic-panel-top span:last-child { background: #fff; color: #06162B; border: 3px solid #06162B; border-radius: 8px; padding: 0 7px; font-weight: 900; font-size: 15px; line-height: 1.3; transform: rotate(3deg); }
+.comic-drawing { margin: 0; aspect-ratio: 320 / 238; transform: scale(1.18); transform-origin: 50% 62%; position: relative; z-index: 1; }
+.comic-drawing path { stroke-width: 2.6px; stroke-linecap: round; stroke-linejoin: round; }
+.comic-panel figcaption { position: relative; z-index: 2; margin: -6px 8px 8px; padding: 8px 10px; min-height: 64px; display: flex; align-items: center; background: #fff; color: #06162B; border: 3px solid #06162B; border-radius: 12px; font-size: 17px; font-weight: 900; line-height: 1.45; box-shadow: 0 3px 0 #06162B; }
+.comic-colophon { padding: 12px 0 0; border: 0; }
+.comic-colophon p { font-size: 13px; font-weight: 800; line-height: 1.5; }
+.comic-colophon p:last-child { display: none; }
+.comic-page .studio-policy { margin-top: 12px; padding: 10px 14px; background: #fff; border: 3px solid #06162B; border-radius: 14px; }
+.comic-page-footer { border-top: 0; margin-top: 12px; padding-top: 0; color: #06162B; font-weight: 800; font-size: 13px; justify-content: center; }
+.comic-page-footer span:last-child { display: none; }
+.comic-panels { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+.comic-panel figcaption { margin-top: -10px; min-height: 0; font-size: 18px; }
+.comic-drawing { transform: scale(1.08); transform-origin: 50% 58%; margin-top: 4px; }
+.comic-panel-top span:first-child { width: 34px; height: 34px; font-size: 16px; }
+.comic-page-heading h2 { font-size: clamp(26px, 8vw, 36px); }

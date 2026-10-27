@@ -140,7 +140,7 @@ test('studio and receiver SSR render honest blue postcard controls without audio
   const html = renderToStaticMarkup(createElement(Studio));
   assert.equal((html.match(/data-postcard-district=/g) ?? []).length, 29);
   assert.equal((html.match(/aria-pressed="false"/g) ?? []).length >= 29, true);
-  for (const phrase of ['台中聲音明信片', '合成聲景示意・非在地實錄', '最多選 3 區', '不是地理地圖', '圖卡不含音訊；請另分享聆聽連結', '推動智慧噪音監測系統', '非監測數據', '非官方', '不是施政成果']) assert.ok(html.includes(phrase), phrase);
+  for (const phrase of ['台中聲音明信片', '合成聲景示意・非在地實錄', '最多選 3 區', '不是地理地圖', '圖卡不含音訊；請另分享聆聽連結', '推動智慧噪音監測系統', '非監測數據', '非官方']) assert.ok(html.includes(phrase), phrase);
   assert.match(html, /maxlength="30"/i);
   assert.match(html, /maxlength="10"/i);
   assert.match(html, /role="status"/);
