@@ -22,7 +22,7 @@ for app,title,description in [('hub','日常遊樂場','從市場的早安，到
  else:
   draw.polygon([(800,405),(900,240),(1020,405)],fill='#1A63C8');draw.polygon([(900,425),(1030,275),(1140,425)],fill='#134E9E')
   draw.rectangle((825,390,1030,475),fill='#1A63C8');draw.polygon([(800,388),(840,340),(1010,340),(1050,388)],fill='#112A4D')
- draw.text((70,66),'台中味  /  SoWork 獨立預覽',font=font(28),fill='#112A4D')
+ draw.text((70,66),'台中味  /  獨立預覽',font=font(28),fill='#112A4D')
  draw.line((70,128,710,128),fill='#BDD8FA',width=2)
  draw.text((65,200),title,font=font(80),fill='#112A4D')
  draw.text((70,332),description,font=font(31),fill='#134E9E')

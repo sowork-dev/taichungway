@@ -301,8 +301,8 @@ if (require.main === module) {
     process.stderr.write('Invalid PORT\n'); process.exitCode = 1;
   } else {
     const { createChatHandler } = require('./chat-api.cjs');
-    // /api/chat answers 503 until ANTHROPIC_API_KEY is set; the key stays in the server environment only.
-    const chat = createChatHandler({ apiKey: process.env.ANTHROPIC_API_KEY, model: process.env.CHAT_MODEL || undefined });
+    // /api/chat answers 503 until ANTHROPIC_API_KEY or OPENAI_API_KEY is set; the key stays in the server environment only.
+    const chat = createChatHandler({ apiKey: process.env.ANTHROPIC_API_KEY, openaiApiKey: process.env.OPENAI_API_KEY, model: process.env.CHAT_MODEL || undefined });
     const server = createPlayServer({ hostOrigin: process.env.HOST_ORIGIN || undefined, trustProxy: process.env.TRUST_PROXY === 'true', chat });
     server.listen(port, host, () => process.stdout.write(`Realtime play API listening on port ${server.address().port}\n`));
     server.on('error', () => { process.stderr.write('Play API could not listen\n'); server.closePlay().then(() => { process.exitCode = 1; }); });

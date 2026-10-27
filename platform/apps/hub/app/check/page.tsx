@@ -141,7 +141,7 @@ export default function CheckPage() {
         <details className="check-info check-info-preview">
           <summary>說明</summary>
           <p className="check-empty-caption">先寫願望，再對開閱讀。不替你改寫，也不替任何人承諾。</p>
-          <p className="check-preview-note">「支票」是願望與公共討論的概念，不是金錢或成果保證。候選人政見非已兌現。</p>
+          <p className="check-preview-note">「支票」只是願望與公共討論的概念，不是金錢。</p>
         </details>
       </section>
     </div>

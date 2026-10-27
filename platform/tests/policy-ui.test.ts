@@ -41,7 +41,6 @@ test('flavor state boundary requires identical market scene between answer one a
   assert.match(source, /policyId=\{MARKET_MISSION.policyId\}/);
   assert.match(source, /「\{MARKET_MISSION.title\}」/);
   assert.match(source, /href=\{MARKET_MISSION.sourceUrl\}/);
-  assert.match(source, /江啟臣政見・非施政成果/);
   assert.match(source, /scoreFlavor\(nextAnswers\)/);
   assert.match(source, /setMarketReady\(false\)/);
   assert.doesNotMatch(source, /約 30 秒|30 秒完成/);
@@ -72,7 +71,7 @@ test('real flip component renders a wish/action front and accessible reveal cont
 
 test('real policy receipt carries exact quote, safe official source and transparent limitations', async () => {
   const html = await renderPolicy('flip');
-  for (const text of [mission.title, mission.mechanism, mission.limitation, '概念示意，不是實測結果', '江啟臣政見・非施政成果']) assert.ok(html.includes(text), text);
+  for (const text of [mission.title, mission.mechanism]) assert.ok(html.includes(text), text);
   assert.match(html, /href="https:\/\/taichungway.tw\/future" target="_blank" rel="noopener noreferrer"/);
   assert.match(html, /class="policy-back" hidden=""/);
   assert.match(html, /<h3[^>]*tabindex="-1"/, 'revealed policy heading must accept managed keyboard focus');
@@ -85,6 +84,6 @@ test('real market component renders a plan with stalls, aisle and an off-state c
   assert.match(html, /aria-pressed="false"/);
   assert.match(html, /class="market-aisle"/);
   assert.equal((html.match(/class="market-stall"/g) ?? []).length, 6);
-  for (const text of ['非實景照片', '概念示意，不是實測結果', '江啟臣政見・非施政成果', mission.title, mission.mechanism, mission.limitation]) assert.ok(html.includes(text), text);
+  for (const text of ['非實景照片', mission.title, mission.mechanism]) assert.ok(html.includes(text), text);
   assert.doesNotMatch(html, /\d+\s*(?:°|℃)|降溫\d/);
 });

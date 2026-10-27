@@ -31,7 +31,7 @@ export const POLICY_MISSIONS: readonly PolicyMission[] = Object.freeze([
     wish: '願市場的好滋味，也有舒服的空間。',
     action: '幫市場開冷氣，看看空調如何走進採買日常。',
     context: '菜攤、熟食與來往的人，一起構成市場日常。',
-    mechanism: '按下開關，氣流線條會進入市場通道；這是「公有市場裝冷氣」的概念示意，不是實際降溫或節能模擬。',
+    mechanism: '按下開關，氣流線條會進入市場通道；這是「公有市場裝冷氣」的示意。',
     limitation: '本場景為虛構示意，不代表市場現況或政策已施行；適用市場、經費、能耗與期程待確認。',
   }),
 ]);

@@ -1,7 +1,7 @@
 /* Policy-card retrieval. No remote model calls; no user-data storage. */
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.PolicyEngine=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
  'use strict';
- const NOTICE='以下是公開資料整理，不是江啟臣本人回覆。政見不等於已實施政策；申請資格與現行措施請向主管機關確認。';
+ const NOTICE='以下是公開資料整理，不是江啟臣本人回覆。';
  function normalize(s){return String(s).toLowerCase().replace(/[\s\p{P}\p{S}]/gu,'').replace(/台中/g,'臺中');}
  function searchRecords(question,records){
   const q=normalize(question);if(!q||!Array.isArray(records))return [];

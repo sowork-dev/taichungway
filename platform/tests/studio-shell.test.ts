@@ -18,7 +18,7 @@ test('studio canonical policy lookup fails closed and preserves exact source wor
 test('new studio shell labels current route and source/disclosure remains inside exported content', async () => {
   const { StudioShell, PolicySource, safeStudioShareUrl } = await import('../packages/ui/src/studio');
   const source = renderToStaticMarkup(createElement(PolicySource, {policyId:'IND-19'}));
-  for (const text of ['公有市場裝冷氣，打造特色市場', '非施政成果', '非官方', 'https://taichungway.tw/future']) assert.ok(source.includes(text), text);
+  for (const text of ['公有市場裝冷氣，打造特色市場', 'https://taichungway.tw/future']) assert.ok(source.includes(text), text);
   const html = renderToStaticMarkup(createElement(StudioShell, {id:'comic', kicker:'COMIC', title:'巷口四格漫畫', description:'自己的日常'}, createElement('p', null, '測試內容')));
   assert.match(html, /aria-current="page"/);
   assert.match(html, /href="\/check\/"/);

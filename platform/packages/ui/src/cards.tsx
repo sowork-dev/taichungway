@@ -28,7 +28,7 @@ export function CardBack({ card }: { card: ObjectCard }) {
     <div className="coin" aria-hidden="true">福</div>
     <div className="fact"><h4>{card.name}</h4>{card.fact}</div>
     <div className="pol"><b>對應政策：</b>{card.policyTitle}<br /><b>來源：</b>使用者提供的「{card.doc}」文件<br /><b>數值：</b>{setStats.join('、')}為設定值{card.statBasis.includes('doc') ? '，規模依公開席位換算' : ''}</div>
-    <div className="sm">遊戲數值，不是政策評價；提案不等於已實施。<br />非官方互動；未取得競選團隊授權或背書。</div>
+    <div className="sm">非官方互動</div>
   </div>;
 }
 
@@ -60,8 +60,7 @@ export async function shareCardImage(el: HTMLElement, opts: { headline: string; 
   const scale = Math.min(780 / shot.width, 1000 / shot.height), w = shot.width * scale, h = shot.height * scale;
   c.save(); c.translate(W / 2, 190 + h / 2); c.rotate(-0.035); c.drawImage(shot, -w / 2, -h / 2, w, h); c.restore();
   c.fillStyle = '#06162B'; c.font = '700 26px "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif';
-  c.fillText('遊戲數值，不是政策評價；提案不等於已實施', W / 2, 1268);
-  c.fillText('非官方互動；未取得競選團隊授權或背書', W / 2, 1306);
+  c.fillText('非官方互動', W / 2, 1296);
   const blob = await new Promise<Blob>((resolve, reject) => canvas.toBlob(b => b ? resolve(b) : reject(new Error('Image unavailable')), 'image/png'));
   const file = new File([blob], `${opts.fileName.replace(/[^a-z0-9_-]/gi, '') || 'taichung-card'}.png`, { type: 'image/png' });
   try {
@@ -81,7 +80,7 @@ export function AchievementCard({ owned, foil }: { owned: Record<number, { n: nu
       const e = owned[card.no];
       return <div key={card.no} className={`ach-cell t-${card.type}`}><span>{TYPE_INFO[card.type].glyph}</span><b>{card.name}</b><small>{RARITY_INFO[card.rarity].symbol}{e && e.foil > 0 ? ' 閃' : ''}</small></div>;
     })}</div>
-    <div className="ach-note">遊戲數值，不是政策評價；提案不等於已實施<br />非官方互動；未取得競選團隊授權或背書</div>
+    <div className="ach-note">非官方互動</div>
   </div>;
 }
 

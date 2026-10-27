@@ -17,7 +17,7 @@
 .notice{margin-top:5px;font-size:11px;color:#3d5f8f;line-height:1.5}
 .typing .bubble{display:flex;gap:5px;padding:16px}.typing i{width:8px;height:8px;border-radius:50%;background:var(--brand);animation:dot 1s infinite ease-in-out}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
 @keyframes dot{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-4px)}}
-.chips{display:flex;flex-wrap:wrap;gap:8px;padding-top:2px}.chips button{border:2px solid var(--brand);background:#fff;color:var(--deep);border-radius:999px;padding:9px 14px;font-size:14px;font-weight:700;cursor:pointer;min-height:44px;box-shadow:0 3px 0 #bdd8fa}
+.chips.next{padding:0 0 4px}.chips{display:flex;flex-wrap:wrap;gap:8px;padding-top:2px}.chips button{border:2px solid var(--brand);background:#fff;color:var(--deep);border-radius:999px;padding:9px 14px;font-size:14px;font-weight:700;cursor:pointer;min-height:44px;box-shadow:0 3px 0 #bdd8fa}
 .chat-form{display:flex;gap:10px;padding:10px 14px 8px;background:var(--paper);flex-shrink:0}
 .chat-form input{flex:1;min-width:0;min-height:52px;border:2px solid var(--brand);border-radius:16px;padding:0 16px;font-size:16px;background:#fff;color:var(--ink)}
 .chat-form button{min-width:76px;min-height:52px;border:2px solid var(--deep);border-radius:16px;background:var(--brand);color:#fff;font-size:16px;font-weight:800;box-shadow:0 4px 0 var(--deep);cursor:pointer}

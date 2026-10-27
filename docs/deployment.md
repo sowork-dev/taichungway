@@ -43,7 +43,8 @@ HOST=127.0.0.1 PORT=8790 HOST_ORIGIN=https://taichungway.sowork.ai TRUST_PROXY=t
 ANTHROPIC_API_KEY=（只放在伺服器環境變數，不放進 repo） node server/play-server.cjs
 ```
 
-- 沒設 `ANTHROPIC_API_KEY` 時，`POST /api/chat` 回 503，聊天頁顯示「尚未開放」。
+- 也可改設 `OPENAI_API_KEY`（兩者都設時優先用 Anthropic）；OpenAI 預設模型 `gpt-4o-mini`，用 `CHAT_MODEL` 覆寫。
+- 兩把金鑰都沒設時，`POST /api/chat` 回 503，聊天頁顯示「尚未開放」。
 - 可選 `CHAT_MODEL`（預設 `claude-sonnet-5-5`）。
 - 後端只綁 loopback。
 

@@ -191,10 +191,10 @@ export function AppShell({ children, title = '台中味', eyebrow = '把日常�
         const href = siteHref(site);
         return href ? <a key={site.id} href={href}>{site.title}<span aria-hidden="true"> ↗</span></a> : <span key={site.id} aria-disabled="true">{site.title}<span className="soon-note">・即將上線</span></span>;
       })}</nav>
-      <p className="preview-disclosure">SoWork 獨立互動預覽，非官方網站；尚未取得競選團隊授權或背書。</p>
+      <p className="preview-disclosure">獨立互動預覽，非官方網站；尚未取得競選團隊授權或背書。</p>
       <nav className="legal-links" aria-label="網站資訊"><a href="https://taichungway.tw/" target="_blank" rel="noopener noreferrer">臺中味官網 ↗</a><a href="/privacy/">隱私權聲明</a></nav>
       <p>本階段不使用 AI、不設 Cookie、不追蹤。<br />所有作答與暱稱只留在此頁，重新整理即清除。</p>
-      <p className="footer-sign">原創插畫與文字 · SoWork 互動預覽</p>
+      <p className="footer-sign">原創插畫與文字 · 互動預覽</p>
     </footer>
   </div></SitesContext.Provider>;
 }

@@ -189,7 +189,7 @@ export default function Page() {
         <h1 ref={heading} tabIndex={-1} className="sr-only">比較兩張卡</h1>
         <p className="fc-hint">{owned < 2 ? '至少收集 2 張卡才能比較' : '點兩張卡來比較'}</p>
         <div className="fc-pick">{CARDS.filter(c => has(col, c.no)).map(card => <button key={card.no} type="button" className={`fc-slot t-${card.type} fin-${card.rarity}`} aria-pressed={picked.includes(card.no)} onClick={() => togglePick(card.no)}><span className="fc-slot-ty">{TYPE_INFO[card.type].glyph}</span><b>{card.name}</b><small>{RARITY_INFO[card.rarity].symbol} CP {cardCp(card)}</small></button>)}</div>
-        {a && b && cmp ? <div className="fc-cmp-sum"><div>CP {cardCp(a)} 對 {cardCp(b)}：{cmp.stronger === 'tie' ? '平手' : `${(cmp.stronger === 'a' ? a : b).name} 較高`}</div><div>{a.name} 打 {b.name}：{cmp.aToB}　｜　{b.name} 打 {a.name}：{cmp.bToA}</div><div>遊戲數值，不代表任何政策或地區的優劣</div></div> : null}
+        {a && b && cmp ? <div className="fc-cmp-sum"><div>CP {cardCp(a)} 對 {cardCp(b)}：{cmp.stronger === 'tie' ? '平手' : `${(cmp.stronger === 'a' ? a : b).name} 較高`}</div><div>{a.name} 打 {b.name}：{cmp.aToB}　｜　{b.name} 打 {a.name}：{cmp.bToA}</div></div> : null}
         {a && b ? <div ref={shot} className="fc-offscreen fc-offscreen--cmp" aria-hidden="true"><CompareSheet a={a} b={b} aFoil={holdFoil(a.no)} bFoil={holdFoil(b.no)} /></div> : null}
         <p className="fc-hint" role="status">{note}</p>
         <button type="button" className="gk-btn gk-btn--wide fc-primary" data-primary="true" disabled={!(a && b) || busy} onClick={() => a && b && shareImage(shot.current, '卡牌比較', `${a.name} CP ${cardCp(a)} 對 ${b.name} CP ${cardCp(b)}`, 'taichung-compare')}>分享比較</button>
@@ -203,11 +203,11 @@ export default function Page() {
       <ul>{(['N', 'R', 'SR', 'SSR'] as const).map(r => <li key={r}>{RARITY_INFO[r].symbol} {RARITY_INFO[r].name}：{Math.round(RARITY_INFO[r].odds * 100)}%（{CARDS.filter(c => c.rarity === r).length} 張）</li>)}</ul>
       <p>任何一張都有 {Math.round(FOIL_ODDS * 100)}% 機會是「閃卡」版本，閃卡另外計算。稀有度只代表抽到的機會，和政策重要性、卡牌強弱無關。</p>
       <h3>戰鬥力 CP</h3>
-      <p>CP＝人氣＋底蘊＋規模。招式傷害＝人氣；規模有公開席位時，1 點＝500 席，其他數值是設定值。屬性環狀相剋：{TYPES.map(t => TYPE_INFO[t].name).join('›')}›{TYPE_INFO[TYPES[0]!].name}（弱點 ×2、抗性 −30）。這只是遊戲規則，不代表地區或政策優劣。</p>
+      <p>CP＝人氣＋底蘊＋規模。招式傷害＝人氣；規模有公開席位時，1 點＝500 席，其他數值是設定值。屬性環狀相剋：{TYPES.map(t => TYPE_INFO[t].name).join('›')}›{TYPE_INFO[TYPES[0]!].name}（弱點 ×2、抗性 −30）。</p>
       <h3>送給朋友</h3>
       <p>多出來的普通卡可以用連結送給朋友。沒有伺服器，所以這是「送禮」：同一條連結可能被多人打開，各自收到一張；連結只含卡號，無法變出更稀有的卡，閃卡也不能送。送出後這張會從你的福氣冊扣掉。請勿買賣或標價。</p>
       <h3>隱私與聲明</h3>
-      <p>福氣冊只存在這台裝置，不上傳、不排行；分享圖片不含暱稱與位置。卡片內容來自提供的政策文件，提案不等於已實施；本互動非官方，未取得競選團隊授權或背書。</p>
+      <p>福氣冊只存在這台裝置，不上傳、不排行；分享圖片不含暱稱與位置。本互動非官方，未取得競選團隊授權或背書。</p>
       <div className="fc-help-actions"><button type="button" className="fc-link" onClick={clearAll}>清除我的福氣冊</button><button type="button" className="gk-btn gk-btn--small" onClick={() => help.current?.close()}>知道了</button></div>
     </dialog>
   </AppShell>;

@@ -37,3 +37,10 @@ test('missing key, upstream failure and per-IP limit fail closed with generic er
  const lim=await boot({chat:{perIpPerMinute:2}});t.after(lim.close);
  const codes=[];for(let i=0;i<3;i++)codes.push((await lim.post({messages:[{role:'user',content:'公車'}]})).status);assert.deepEqual(codes,[200,200,429]);
 });
+test('with only OPENAI_API_KEY the chat calls OpenAI with bearer auth and system grounding',async t=>{
+ const s=await boot({chat:{apiKey:undefined,openaiApiKey:'sk-openai'},upstream:()=>({ok:true,json:async()=>({choices:[{message:{content:'市民公車是競選提案。'}}]})})});t.after(s.close);
+ const r=await s.post({messages:[{role:'user',content:'公車有什麼主張？'}]});assert.equal(r.status,200);
+ assert.equal((await r.json()).reply,'市民公車是競選提案。');
+ const c=s.calls[0];assert.match(c.url,/api\.openai\.com/);assert.equal(c.init.headers.authorization,'Bearer sk-openai');
+ assert.equal(c.body.messages[0].role,'system');assert.match(c.body.messages[0].content,/公車路網/);assert.equal(c.body.model,'gpt-4o-mini');
+});
