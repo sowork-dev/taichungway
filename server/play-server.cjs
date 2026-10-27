@@ -11,7 +11,7 @@ const PUBLIC_ASSETS = new Set([
   'index.html', 'app.js', 'engine.js', 'knowledge.json', 'policy-catalog.json',
   'taichung-elements.js', 'style.css', 'world.css', 'icon.svg', 'robots.txt',
   'pk.js', 'pk.css', 'quest.js', 'quest.css', 'quest-core.js',
-  'arena-core.js', 'bubble-core.js', 'play.js', 'play.css', 'policies.html', 'bubble.html', 'adventure.html', 'chat.css', 'chat.js'
+  'arena-core.js', 'bubble-core.js', 'play.js', 'play.css', 'policies.html', 'bubble.html', 'adventure.html', 'chat.css', 'chat.js', 'gamekit.css'
 ]);
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.txt': 'text/plain' };
 

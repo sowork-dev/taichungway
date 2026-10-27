@@ -50,3 +50,15 @@
 .chat-disclosure{padding:6px 16px;font-size:13px}
 .chips button{font-size:17px}
 .sources a{font-size:13px}
+
+/* Pop header */
+.chat-header{background-color:#FFE6A0;background-image:radial-gradient(110% 120% at 0% 0%,#6EC6F0 0 34%,transparent 34.4%),radial-gradient(90% 140% at 100% 100%,#F4797B 0 24%,transparent 24.4%);border-bottom:5px solid #06162B;color:#06162B;padding:12px 16px 14px}
+.chat-title h1{font-size:inherit;line-height:1;margin:0}
+.chat-title .gk-3d{--s:30px;--r:-3deg}
+.chat-title p{color:#0F4AA0;font-weight:800;margin-top:10px}
+.chat-icon{border-color:#06162B;color:#06162B;background:#fff;box-shadow:0 3px 0 #06162B}
+.chat-mark{border-color:#06162B;box-shadow:0 3px 0 #06162B}
+.chat-disclosure{background:#06162B}
+.stage{background:linear-gradient(#FFF3D0,#F3F8FF)}
+.chat-links{background:#06162B}
+.chat-header{padding-top:26px;padding-bottom:16px}.chat-title .gk-3d{--s:28px}.chat-mark{margin-top:6px}.chat-icon{margin-top:6px}
