@@ -30,16 +30,6 @@
     "status": "live"
   },
   {
-    "id": "thanks",
-    "title": "替他說一句",
-    "tagline": "替那些平常的照顧，說一聲謝謝",
-    "url": "https://taichungway.sowork.ai/thanks/",
-    "durationSec": 30,
-    "usesAI": true,
-    "accent": "#1A63C8",
-    "status": "soon"
-  },
-  {
     "id": "postcard",
     "title": "台中聲音明信片",
     "tagline": "混一段聲景，寄給想念的人",
@@ -58,15 +48,5 @@
     "usesAI": false,
     "accent": "#1A63C8",
     "status": "live"
-  },
-  {
-    "id": "machine",
-    "title": "台中機器",
-    "tagline": "拉一個把手，看城市零件連動",
-    "url": "https://taichungway.sowork.ai/machine/",
-    "durationSec": 40,
-    "usesAI": false,
-    "accent": "#1A63C8",
-    "status": "soon"
   }
 ]

@@ -1,7 +1,7 @@
 'use client';
 import { AppShell, cssVars, siteHref, useSites, type SiteId } from '@taichung/ui';
 
-const order: SiteId[] = ['comic','check','postcard','fortune','flavor','thanks','machine'];
+const order: SiteId[] = ['comic','check','postcard','fortune','flavor'];
 const captions:Partial<Record<SiteId,string>> = { comic:'選一件小事，畫進四格裡',check:'開一張給自己的四年支票',postcard:'把想念的聲音，混成一張卡',fortune:'長按、翻卡，收一張城市祝福',flavor:'從三個選擇，遇見台中日常' };
 function Icon({id}: {id:SiteId}) {
  return <svg viewBox="0 0 120 100" className="clean-card-icon" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8">
