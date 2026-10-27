@@ -88,3 +88,18 @@
 .game-header .gk-3d + .gk-3d { margin-left: 30px; }
 .game-header .hero-description { color: #06162B; font-weight: 800; margin-top: 8px; }
 .game-header::after { content: ''; position: absolute; right: 22px; top: 18px; width: 30px; height: 30px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none' stroke='%2306162B' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M20 4v10M20 26v10M4 20h10M26 20h10M9 9l7 7M24 24l7 7M31 9l-7 7M16 24l-7 7'/%3E%3C/svg%3E") center / contain no-repeat; }
+/* Full pop stage for fortune / flavor. */
+.app-shell { background-color: #FFE6A0; background-image: radial-gradient(90% 38% at 0% 62%, #6EC6F033 0 60%, transparent 60.4%), radial-gradient(120% 40% at 100% 100%, #F4797B 0 30%, transparent 30.4%); background-size: auto; color: #06162B; }
+body:has(.app-shell.gk-root) { background: #FFE6A0; }
+.question-progress, .hold-help, .game-details, .game-details .intro-note, .question-navigation, .market-interlude-note, .result-heading p, .intro-note { color: #06162B; }
+.question-title, .market-interlude-title, .result-heading h1 { color: #06162B; text-shadow: none; }
+.question-navigation .text-button, .fortune-alternative .text-button, .result-replay .text-button, .game-details summary { color: #0F4AA0; }
+.question-progress .gk-progress { background: #FFFFFF; }
+.intro-steps { color: #FFFFFF; }
+.fortune-footnote { color: #06162B; }
+.app-shell .site-footer { background: #FFFFFF; color: #06162B; border-top: 5px solid #06162B; }
+.app-shell .site-footer a, .app-shell .site-footer p { color: #0F4AA0; }
+.result-stars .gk-star:nth-child(odd) { filter: drop-shadow(0 2px 0 #06162B); }
+.result-heading h1 { background: #FFFFFF; border: 4px solid #06162B; border-radius: 18px; box-shadow: 0 5px 0 #06162B; padding: 8px 12px; display: block; }
+.hold-button { box-shadow: 0 0 0 6px #06162B, 0 10px 0 6px #06162B; background: conic-gradient(#1A63C8 calc(var(--hold, 0) * 360deg), #FFFFFF 0); }
+.fortune-stage .hold-caption { z-index: 5; }

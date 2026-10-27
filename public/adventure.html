@@ -5,10 +5,10 @@
 <meta name="theme-color" content="#faf8f2"><meta name="robots" content="noindex,nofollow">
 <meta name="description" content="江啟臣數位分身互動原型。以公開政策資料提供查詢；非本人即時回覆，不代表本人或團隊授權。">
 <title>啟程，城市冒險｜啟臣政策任務</title>
-<link rel="icon" href="/icon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/quest.css"><link rel="stylesheet" href="/world.css"><link rel="stylesheet" href="/pk.css">
+<link rel="icon" href="/icon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/quest.css"><link rel="stylesheet" href="/world.css"><link rel="stylesheet" href="/pk.css"><link rel="stylesheet" href="/gamekit.css"><link rel="stylesheet" href="/pop.css">
 <script src="/engine.js" defer></script><script src="/quest-core.js" defer></script><script src="/app.js" defer></script><script src="/taichung-elements.js" defer></script><script src="/quest.js" defer></script><script src="/pk.js" defer></script>
 <style>.bottom-nav [data-view="home"],#navPk{display:none!important}.bottom-nav{grid-template-columns:repeat(4,minmax(0,1fr))!important}</style></head>
-<body class="game-home">
+<body class="game-home gk-root">
 <svg class="svg-defs" aria-hidden="true"><defs>
 <symbol id="i-chat" viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-8 8H5l-4 3 1.7-6A8 8 0 1 1 20 11.5Z"/></symbol>
 <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
@@ -30,7 +30,7 @@
 <div class="disclosure"><span class="ai-dot"></span><strong>AI 分身原型</strong><span>非江啟臣本人即時回覆</span></div>
 <main id="main">
 <section id="homeView" class="view quest-home" aria-labelledby="heroTitle">
-<div class="quest-hud"><div><p>POLICY QUEST</p><h1 id="heroTitle">啟程，城市冒險。</h1></div><div class="quest-count"><span>已理解議題</span><strong id="questProgress">0 / 15</strong></div><button id="helloButton" class="quest-free" aria-label="自由詢問政策"><svg><use href="#i-chat"/></svg>自由提問</button></div>
+<div class="quest-hud"><div><p>POLICY QUEST</p><h1 id="heroTitle" aria-label="啟程，城市冒險"><b class="gk-3d" data-text="城市冒險" aria-hidden="true"><span>城市冒險</span></b></h1></div><div class="quest-count"><span>已理解議題</span><strong id="questProgress">0 / 15</strong></div><button id="helloButton" class="quest-free" aria-label="自由詢問政策"><svg><use href="#i-chat"/></svg>自由提問</button></div>
 <div class="city-toolbar"><div id="districtTabs" class="district-tabs" role="group" aria-label="五個城市街區"></div><button id="openCityMap" class="atlas-button" aria-label="開啟完整城市任務地圖">全圖 ↗</button></div><div class="city-playline"><span id="cityDistrict">生活照顧</span><span>15 主題 · 自由走訪</span><button id="openPk" class="pk-entry-trigger">雙人 PK <b>↗</b></button></div><div class="quest-stage" id="questStage"><canvas id="questCanvas" role="img" aria-label="可操作的臺中政策情境城市：用搖桿移動江啟臣分身，或點選任務地標。"></canvas><div class="quest-scene-label"><span></span> 臺中地景意象 · 情境示意／非實測成效</div><div id="questGuide" class="quest-guide">從臺中驛出發，讀懂整座城市。</div><canvas id="questMinimap" width="100" height="60" aria-label="五個街區的城市總覽"></canvas><div class="quest-scene-tools"><button id="questReset" aria-label="角色返回城市入口">↺</button><button id="questPause" aria-label="暫停角色移動" aria-pressed="false">Ⅱ</button></div><div class="quest-controls"><div id="questJoystick" class="quest-joystick" role="group" aria-label="拖曳搖桿移動角色"><span class="stick-up">↑</span><span class="stick-left">←</span><span class="stick-right">→</span><span class="stick-down">↓</span><span id="questStick" class="quest-stick"></span></div><div class="quest-control-copy"><strong>江啟臣 <i>AI 分身</i></strong><span id="questNearby">點地標開始，或拖曳搖桿走近</span></div><div class="quest-actions"><button id="questDash" aria-label="讓角色快走" class="quest-dash">快走<small>SPACE</small></button><button id="avatarButton" aria-label="與附近的政策任務互動" class="quest-interact">問<small>互動 · J</small></button></div></div><div class="quest-paused" id="questPaused" hidden><span>暫停中</span><button id="questResume">繼續走訪 →</button></div></div>
 <div class="quest-bottom"><p>這一區的生活任務 <span>逛城市 · 收集理解 · 找朋友 PK</span></p><div id="homeTopics" class="home-topics quest-shortcuts"></div><small>非比例臺中意象地圖 · 點「全圖」快速前往 · J 互動</small></div>
 </section>

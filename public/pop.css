@@ -1,0 +1,54 @@
+/* Pop skin for the adventure chrome. The map canvas keeps its own look. Loaded after quest.css / world.css / pk.css. */
+body.game-home { background: #FFE6A0; color: #06162B; }
+body.game-home .app { background-color: #FFE6A0; background-image: radial-gradient(110% 30% at 0% 0%, #6EC6F0 0 34%, transparent 34.4%), radial-gradient(120% 34% at 100% 100%, #F4797B55 0 30%, transparent 30.4%); outline-color: #06162B; }
+body.game-home .header { padding: 12px 16px 6px; }
+body.game-home .wordmark { color: #06162B; font-weight: 900; }
+body.game-home .wordmark small { color: #0F4AA0; }
+body.game-home .mark { display: grid; place-items: center; width: 42px; height: 42px; border: 4px solid #06162B; border-radius: 14px; background: linear-gradient(#4C9BF2, #1A63C8); color: #FFFFFF; font-family: inherit; font-weight: 900; font-size: 22px; box-shadow: inset 0 3px 0 #FFFFFF55, 0 4px 0 #06162B; }
+body.game-home .mark > span { display: none; }
+body.game-home .round { border: 3px solid #06162B; background: #FFFFFF; color: #06162B; box-shadow: 0 3px 0 #06162B; }
+body.game-home .disclosure { background: #FFFFFF; border: 3px solid #06162B; color: #06162B; box-shadow: 0 3px 0 #06162B; border-radius: 999px; }
+body.game-home .disclosure strong { color: #1A63C8; }
+body.game-home .quest-hud { background: transparent; padding: 10px 16px 6px; }
+body.game-home .quest-hud p { color: #0F4AA0; }
+body.game-home .quest-hud h1 { margin: 0; }
+body.game-home .quest-hud .gk-3d { --s: 26px; --r: -3deg; }
+body.game-home .quest-count { border: 3px solid #06162B; border-radius: 16px; background: #FFFFFF; padding: 4px 12px; box-shadow: 0 3px 0 #06162B; }
+body.game-home .quest-count > span { color: #0F4AA0; }
+body.game-home .quest-count strong { color: #06162B; }
+body.game-home .quest-free { border: 3px solid #06162B; border-radius: 999px; background: linear-gradient(#4C9BF2, #1A63C8); color: #FFFFFF; font-weight: 900; box-shadow: inset 0 3px 0 #FFFFFF55, 0 4px 0 #06162B; }
+body.game-home .quest-free svg { stroke: #FFFFFF; }
+body.game-home .city-toolbar, body.game-home .city-playline { background: transparent; border: 0; }
+body.game-home .district-tabs button { border: 3px solid #06162B; border-radius: 999px; background: #FFFFFF; color: #0F4AA0; font-weight: 800; box-shadow: 0 3px 0 #06162B; }
+body.game-home .district-tabs button.active, body.game-home .district-tabs button[aria-pressed='true'] { background: linear-gradient(#4C9BF2, #1A63C8); color: #FFFFFF; }
+body.game-home .atlas-button { border: 3px solid #06162B; border-radius: 999px; background: #FFFFFF; color: #0F4AA0; font-weight: 800; box-shadow: 0 3px 0 #06162B; }
+body.game-home .city-playline { color: #06162B; font-weight: 700; }
+body.game-home .city-playline #cityDistrict { color: #0F4AA0; font-weight: 900; }
+body.game-home .pk-entry-trigger { border: 3px solid #06162B; border-radius: 999px; background: #F4797B; color: #06162B; font-weight: 900; padding: 3px 12px; box-shadow: 0 3px 0 #06162B; }
+body.game-home .quest-stage { margin: 4px 12px 0; border: 4px solid #06162B; border-radius: 24px; box-shadow: 0 6px 0 #06162B; }
+body.game-home .quest-bottom { background: transparent; padding: 14px 14px 6px; color: #06162B; }
+body.game-home .quest-bottom > p { color: #06162B; font-weight: 900; }
+body.game-home .quest-bottom > p span, body.game-home .quest-bottom small { color: #5A4A1E; }
+body.game-home .quest-shortcuts .topic-tile { border: 3px solid #06162B; border-radius: 16px; background: #FFFFFF; color: #0F4AA0; font-weight: 800; box-shadow: 0 3px 0 #06162B; padding: 11px 4px; }
+body.game-home .quest-shortcuts .topic-tile svg { stroke: #1A63C8; }
+body.game-home .quest-shortcuts .topic-tile.completed { background: #6EC6F0; color: #06162B; }
+body.game-home .bottom-shell { background: #FFFFFF; border-top: 4px solid #06162B; }
+body.game-home .bottom-nav button, body.game-home a.nav-bubble { color: #0F4AA0; font-weight: 800; }
+body.game-home .bottom-nav button.active { background: #1A63C8; color: #FFFFFF; }
+body.game-home .bottom-nav svg { stroke: currentColor; }
+body.game-home .quest-hud .gk-3d { --s: 32px; }
+body.game-home .quest-count strong { white-space: nowrap; font-size: 16px; letter-spacing: 0; }
+body.game-home .quest-free { white-space: nowrap; padding: 8px 12px; font-size: 13px; gap: 4px; }
+body.game-home .quest-hud { gap: 8px; }
+body.game-home .quest-count { padding: 3px 10px; }
+
+/* Bubble PK chrome */
+.play-header { background-color: #FFE6A0 !important; background-image: radial-gradient(90% 160% at 0% 0%, #6EC6F0 0 38%, transparent 38.4%), radial-gradient(60% 200% at 100% 100%, #F4797B 0 28%, transparent 28.4%); border-bottom: 4px solid #06162B; color: #06162B !important; min-height: 64px; }
+.play-header .play-brand { color: #06162B; }
+.play-header .play-brand .gk-3d { --s: 26px; --r: -3deg; display: inline-block; }
+.play-header .play-brand small { color: #0F4AA0; font-weight: 800; }
+.play-header #avatarDisclosure { color: #06162B; font-weight: 800; }
+.play-header .icon-button { background: #FFFFFF; color: #06162B; border: 3px solid #06162B; box-shadow: 0 3px 0 #06162B; }
+.play-footer { background: #FFFFFF; border-top: 4px solid #06162B; color: #06162B; }
+.play-footer a { color: #0F4AA0; font-weight: 800; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; white-space: nowrap; }

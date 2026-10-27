@@ -60,3 +60,11 @@ body:has(.studio-shell.gk-root) { background: #0D2039; }
 .studio-shell.gk-root .studio-intro::before { right: 22px; top: 22px; }
 .studio-shell.gk-root .studio-intro::after { right: 64px; bottom: 16px; width: 22px; height: 22px; }
 .studio-shell.gk-root .skip-link:not(:focus) { top: -120px; }
+/* Full pop stage: sunny page with wave colour blocks; dark chips/bars stay as accents. */
+body:has(.studio-shell.gk-root) { background: #FFE6A0; }
+.studio-shell.gk-root.gk-stage { background-color: #FFE6A0; background-image: radial-gradient(90% 38% at 0% 62%, #6EC6F033 0 60%, transparent 60.4%), radial-gradient(120% 40% at 100% 100%, #F4797B 0 30%, transparent 30.4%); background-attachment: fixed; color: #06162B; }
+.studio-shell.gk-root.gk-stage::before { display: none; }
+.studio-shell.gk-root .studio-footer { background: #FFFFFF; border-top: 5px solid #06162B; }
+.studio-shell.gk-root .studio-footer * { color: #06162B; border-color: #BDD8FA; }
+.studio-shell.gk-root .studio-footer a { color: #0F4AA0; }
+.studio-shell.gk-root .comic-more > summary, .studio-shell.gk-root .comic-guide .comic-more, .studio-shell.gk-root .comic-help > summary { color: #0F4AA0; background: #FFFFFF; }
