@@ -6,35 +6,34 @@ const order: SiteId[] = ['comic', 'check', 'postcard', 'fortune', 'flavor'];
 const icons: Record<SiteId, GameIconName> = { comic: 'comic', check: 'check', postcard: 'postcard', fortune: 'fortune', flavor: 'flavor' };
 const colors: Record<SiteId, string> = { comic: 'sun', check: 'white', postcard: 'cyan', fortune: 'coral', flavor: 'blue' };
 const tags: Record<SiteId, string> = { comic: '畫四格', check: '寫願望', postcard: '混聲音', fortune: '長按', flavor: '3 題' };
-// Games served by the main site (public/): adventure, AI chat and bubble PvP.
+// Games served by the main site (public/): adventure, bubble PvP and AI chat.
 const MAIN = 'https://taichungway.sowork.ai';
 const games = [
-  { id: 'adventure', title: '城市冒險', tag: '探索 · 解任務', href: `${MAIN}/adventure.html`, icon: 'city' as GameIconName, featured: true, color: 'blue', wip: true },
-  { id: 'chat', title: '啟臣，聊一下', tag: 'AI 聊天', href: `${MAIN}/chat.html`, icon: 'chat' as GameIconName, color: 'cyan', wip: true },
-  { id: 'bubble', title: '泡泡 PK', tag: '雙人對戰', href: `${MAIN}/bubble.html`, icon: 'bubble' as GameIconName, color: 'coral', wip: true },
+  { id: 'adventure', title: '城市冒險', tag: '探索 · 解任務', href: `${MAIN}/adventure.html`, icon: 'city' as GameIconName, featured: true, color: 'blue' },
+  { id: 'bubble', title: '泡泡 PK', tag: '雙人對戰', href: `${MAIN}/bubble.html`, icon: 'bubble' as GameIconName, color: 'coral' },
+  { id: 'chat', title: '啟臣，聊一下', tag: 'AI 聊天', href: `${MAIN}/chat.html`, icon: 'chat' as GameIconName, color: 'cyan' },
 ];
+const HIGHLIGHT: SiteId = 'fortune';
 
 function Directory() {
   const { sites, loading, error } = useSites();
   const sorted = [...sites].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+  const card = (site: (typeof sites)[number]) => {
+    const wip = WIP_SITES.includes(site.id);
+    const href = wip ? undefined : siteHref(site);
+    const content = <><GameIcon name={icons[site.id]} /><span className="gk-tile-title">{site.title}</span><span className="gk-tile-tag">{href ? `${tags[site.id]} · ${site.durationSec} 秒${site.usesAI ? ' · AI' : ''}` : wip ? '趕工中' : '即將上線'}</span></>;
+    return href ? <a className={`experience-card live-card gk-tile gk-tile--${colors[site.id]} ${site.id}`} key={site.id} href={href} style={cssVars({ '--accent': site.accent })} data-site-id={site.id}>{content}</a>
+      : <article className={`experience-card soon-card${wip ? ' wip-card' : ''}`} key={site.id} aria-disabled="true" data-site-id={site.id}>{content}</article>;
+  };
+  const gameTile = (game: (typeof games)[number]) => <a key={game.id} className={`hub-tile gk-tile gk-tile--${game.color}${game.featured ? ' is-featured gk-shine' : ''}`} href={game.href} data-game-id={game.id}>
+    <GameIcon name={game.icon} /><span className="gk-tile-title">{game.title}</span><span className="gk-tile-tag">{game.tag}</span>
+  </a>;
   return <section id="experiences" className="directory clean-directory hub-game" aria-labelledby="directory-title">
     <h2 id="directory-title" className="sr-only">互動體驗</h2>
-    <div className="hub-grid hub-grid-main">{games.map(game => game.wip
-      ? <article key={game.id} className={`hub-tile gk-tile gk-tile--${game.color} wip-card`} aria-disabled="true" data-game-id={game.id}>
-        <GameIcon name={game.icon} /><span className="gk-tile-title">{game.title}</span><span className="gk-tile-tag">趕工中</span>
-      </article>
-      : <a key={game.id} className={`hub-tile gk-tile gk-tile--${game.color}${game.featured ? ' is-featured gk-shine' : ''}`} href={game.href} data-game-id={game.id}>
-      <GameIcon name={game.icon} /><span className="gk-tile-title">{game.title}</span><span className="gk-tile-tag">{game.tag}</span>
-    </a>)}</div>
-    <p className="hub-divider"><span>小小創作室</span></p>
+    <div className="hub-grid hub-grid-main">{gameTile(games[0]!)}{gameTile(games[1]!)}{sorted.filter(site => site.id === HIGHLIGHT).map(card)}</div>
+    <p className="hub-divider"><span>更多好玩的</span></p>
     <p className="directory-notice" role="status">{loading ? '正在確認各站開放狀態…' : error ? '暫時讀不到開放狀態，請稍後重試。' : '不用登入，你的文字只留在你的裝置。'}</p>
-    <div className="experience-list hub-grid">{sorted.map(site => {
-      const wip = WIP_SITES.includes(site.id);
-      const href = wip ? undefined : siteHref(site);
-      const content = <><GameIcon name={icons[site.id]} /><span className="gk-tile-title">{site.title}</span><span className="gk-tile-tag">{href ? `${tags[site.id]} · ${site.durationSec} 秒${site.usesAI ? ' · AI' : ''}` : wip ? '趕工中' : '即將上線'}</span></>;
-      return href ? <a className={`experience-card live-card gk-tile gk-tile--${colors[site.id]} ${site.id}`} key={site.id} href={href} style={cssVars({ '--accent': site.accent })} data-site-id={site.id}>{content}</a>
-        : <article className={`experience-card soon-card${wip ? ' wip-card' : ''}`} key={site.id} aria-disabled="true" data-site-id={site.id}>{content}</article>;
-    })}</div>
+    <div className="experience-list hub-grid">{gameTile(games[2]!)}{sorted.filter(site => site.id !== HIGHLIGHT).map(card)}</div>
   </section>;
 }
 export default function Page() {
