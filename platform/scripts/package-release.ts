@@ -16,6 +16,16 @@ export async function packageRelease({root,dest,origin,revision}:{root:string;de
   await mkdir(target,{recursive:true});
   for(const item of await readdir(input))await cp(join(input,item),join(target,item),{recursive:true,errorOnExist:true,force:false});
  }
+ // Static client files of the main-site games (AI chat, city adventure, bubble PK) live in the repository's public/ folder.
+ // The chat page is published as /chat.html because / is the hub. Existing hub files always win a name clash.
+ const gamePublic=join(base,'..','public');
+ if(await stat(gamePublic).then(info=>info.isDirectory(),()=>false)){
+  for(const item of await readdir(gamePublic,{withFileTypes:true})){
+   if(!item.isFile()||item.isSymbolicLink())continue;
+   const name=item.name==='index.html'?'chat.html':item.name;
+   await cp(join(gamePublic,item.name),join(output,name),{errorOnExist:false,force:false});
+  }
+ }
  const sites=JSON.parse(await readFile(join(base,'data/sites.json'),'utf8'))as Array<{url:string}>;
  for(const row of sites)row.url=new URL(new URL(row.url).pathname,site.origin).href;
  await writeFile(join(output,'sites.json'),JSON.stringify(sites,null,2)+'\n');
