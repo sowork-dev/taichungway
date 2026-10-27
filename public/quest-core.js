@@ -37,7 +37,7 @@
 
   function createState() {
     return { x: 300, y: 520, phase: 'explore', missionId: null,
-      selectedPolicyId: null, completed: [], paused: false, path: [],
+      selectedPolicyId: null, completed: [], stars: {}, paused: false, path: [],
       destinationMissionId: null, dashRemaining: 0 };
   }
 
@@ -87,10 +87,12 @@
     clearNavigation(state);
   }
 
-  function completeMission(state) {
+  function completeMission(state, evidence) {
     if (state.phase !== 'review' || !missionById(state.missionId)) return false;
+    const id = state.missionId;
     // This is a local understood marker, not agreement or policy approval.
-    if (!state.completed.includes(state.missionId)) state.completed.push(state.missionId);
+    if (!state.completed.includes(id)) state.completed.push(id);
+    awardStars(state, id, evidence);
     clearMission(state);
     return true;
   }
@@ -341,6 +343,95 @@
     return true;
   }
 
+
+  // ---- Passport: stars, zone badges, soft zone unlock, local persistence. Stars record understanding only. ----
+  const UNLOCK_NEEDED = 2;
+  const MISSION_QUIZ = Object.freeze({
+    question: '這項內容目前是？',
+    options: Object.freeze([
+      Object.freeze({ id: 'proposal', label: '公開提案／資料' }),
+      Object.freeze({ id: 'enacted', label: '已經實施' })
+    ]),
+    answer: 'proposal',
+    retry: '這裡只是公開主張，還沒確認施行。再想想看。'
+  });
+  function checkQuiz(choiceId) { return choiceId === MISSION_QUIZ.answer; }
+
+  function starsFor(evidence) {
+    const e = evidence || {};
+    return 1 + (e.sourceViewed ? 1 : 0) + (e.quizPassed ? 1 : 0);
+  }
+  function awardStars(state, id, evidence) {
+    if (!missionById(id) || !state.completed.includes(id)) return 0;
+    if (!state.stars) state.stars = {};
+    const next = Math.min(3, starsFor(evidence));
+    // Replays keep the best result.
+    state.stars[id] = Math.max(state.stars[id] || 0, next);
+    return state.stars[id];
+  }
+  function totalStars(state) {
+    return Object.keys(state.stars || {}).reduce(function (sum, id) {
+      return sum + (state.completed.includes(id) ? state.stars[id] : 0);
+    }, 0);
+  }
+  function zoneStatus(state, zoneId) {
+    const members = MISSIONS.filter(function (m) { return m.zoneId === zoneId; });
+    const done = members.filter(function (m) { return state.completed.includes(m.id); }).length;
+    return { zoneId, total: members.length, done, remaining: members.length - done,
+      complete: members.length > 0 && done === members.length, unlocked: isZoneUnlocked(state, zoneId) };
+  }
+  function isZoneUnlocked(state, zoneId) {
+    const index = ZONES.findIndex(function (z) { return z.id === zoneId; });
+    if (index < 0) return false;
+    if (index === 0) return true;
+    const previous = ZONES[index - 1].id;
+    const members = MISSIONS.filter(function (m) { return m.zoneId === previous; });
+    const done = members.filter(function (m) { return state.completed.includes(m.id); }).length;
+    return done >= Math.min(UNLOCK_NEEDED, members.length) && isZoneUnlocked(state, previous);
+  }
+  function missionUnlocked(state, missionId) {
+    const m = missionById(missionId);
+    return !!m && isZoneUnlocked(state, m.zoneId);
+  }
+  function badges(state) {
+    return ZONES.filter(function (z) { return zoneStatus(state, z.id).complete; }).map(function (z) { return z.id; });
+  }
+  function passportComplete(state) { return MISSIONS.every(function (m) { return state.completed.includes(m.id); }); }
+  /** The unlocked, already-started zone that is closest to its badge, for the "one more" nudge. */
+  function nextBadgeHint(state) {
+    let best = null;
+    ZONES.forEach(function (z) {
+      const s = zoneStatus(state, z.id);
+      if (!s.unlocked || s.complete || s.done === 0) return;
+      if (!best || s.remaining < best.remaining) best = s;
+    });
+    return best;
+  }
+  const STORAGE_VERSION = 1;
+  function serialize(state) {
+    return JSON.stringify({ v: STORAGE_VERSION, completed: state.completed.slice(), stars: Object.assign({}, state.stars) });
+  }
+  /** Fails closed: unknown ids, bad stars or malformed JSON leave the state untouched. */
+  function restore(state, raw) {
+    let data;
+    try { data = JSON.parse(raw); } catch (e) { return false; }
+    if (!data || data.v !== STORAGE_VERSION || !Array.isArray(data.completed) ||
+        !data.stars || typeof data.stars !== 'object' || Array.isArray(data.stars)) return false;
+    const ids = new Set(MISSIONS.map(function (m) { return m.id; }));
+    if (!data.completed.every(function (id) { return typeof id === 'string' && ids.has(id); })) return false;
+    const stars = {};
+    for (const id of Object.keys(data.stars)) {
+      const n = data.stars[id];
+      if (!ids.has(id) || !data.completed.includes(id) || !Number.isInteger(n) || n < 1 || n > 3) return false;
+      stars[id] = n;
+    }
+    state.completed = Array.from(new Set(data.completed));
+    state.completed.forEach(function (id) { if (!stars[id]) stars[id] = 1; });
+    state.stars = stars;
+    return true;
+  }
+  function resetProgress(state) { state.completed = []; state.stars = {}; clearMission(state); return true; }
+
   function resetPosition(state) {
     state.x = 300;
     state.y = 520;
@@ -352,5 +443,7 @@
   return { MISSIONS, ZONES, getZone, OBSTACLES, WORLD_WIDTH, WORLD_HEIGHT, GRID_SIZE, createState,
     selectMission, choosePolicy, activatePolicy, showReview, completeMission,
     closeMission, normalizeVector, canStand, nearestMission, step, goToMission,
-    setDestination, travelToMission, resetPosition };
+    setDestination, travelToMission, resetPosition,
+    MISSION_QUIZ, checkQuiz, awardStars, totalStars, zoneStatus, isZoneUnlocked, missionUnlocked,
+    badges, passportComplete, nextBadgeHint, serialize, restore, resetProgress };
 }));
