@@ -1,0 +1,28 @@
+{
+  "note": "原型：5 個政策、15 張物件卡。物件名稱與數字只取自使用者提供的政策文件；戰鬥力為遊戲數值，不是政策評價。全部需人工核對後才可上線。",
+  "statRule": "戰鬥力＝人氣＋底蘊＋規模（0–99）。『規模』在有公開席位數時以 1 點＝500 席換算（來源：文化政策文件）；其餘數值為設計設定值（basis=set），不代表任何事實或評價。",
+  "policies": [
+    {"id":"EDU-21","title":"臺中車站出發，啟動「臺中文化門戶計畫」","doc":"文化政策"},
+    {"id":"IND-18","title":"推動星光計畫，點亮活化舊城區","doc":"文化政策"},
+    {"id":"CUL-07","title":"打造臺中成為流行音樂與表演藝術之都","doc":"文化政策","officialId":null},
+    {"id":"CUL-08","title":"文化產業國際化，打造臺中文化品牌","doc":"文化政策","officialId":null},
+    {"id":"EDU-27","title":"升級「東勢客家文化園區」，再現山城客家之美","doc":"客家政策"}
+  ],
+  "cards": [
+    {"no":1,"policy":"EDU-21","name":"臺中驛","type":"old","status":"文件列為文化門戶計畫範圍","rarity":"R","stats":[70,90,50],"basis":["set","set","set"],"skill":"百年鐘聲","fact":"文件將臺中驛列為文化門戶計畫涵蓋的古蹟與建物。"},
+    {"no":2,"policy":"EDU-21","name":"第二市場","type":"old","status":"文件列為文化門戶計畫範圍","rarity":"N","stats":[80,75,40],"basis":["set","set","set"],"skill":"早安吆喝","fact":"文件將第二市場列為文化門戶計畫涵蓋的建物。"},
+    {"no":3,"policy":"EDU-21","name":"宮原眼科","type":"old","status":"文件列為文化門戶計畫範圍","rarity":"N","stats":[75,70,25],"basis":["set","set","set"],"skill":"拱廊慢逛","fact":"文件將宮原眼科列為文化門戶計畫涵蓋的建物。"},
+    {"no":4,"policy":"IND-18","name":"新民街倉庫群","type":"venue","status":"文件提出：設立 Live House","rarity":"N","stats":[50,55,45],"basis":["set","set","set"],"skill":"暖場開唱","fact":"文件提出在新民街倉庫群設立 Live House。"},
+    {"no":5,"policy":"IND-18","name":"流行影音中心","type":"venue","status":"文件稱：2027 年開幕","rarity":"SR","stats":[85,20,70],"basis":["set","set","set"],"skill":"沉浸聲光","fact":"文件提到：總投資近 24 億，含國際級影城、沉浸式體驗與 Live House 空間。"},
+    {"no":6,"policy":"IND-18","name":"鐵支路開唱","type":"sound","status":"文件提出：創辦","rarity":"R","stats":[65,45,20],"basis":["set","set","set"],"skill":"鐵道合唱","fact":"文件提出創辦「鐵支路開唱」，讓臺中成為在地樂團與本土音樂人才的聖地。"},
+    {"no":7,"policy":"CUL-07","name":"臺中巨蛋","type":"venue","status":"文件稱：2030 年完工","rarity":"R","stats":[90,10,30],"basis":["set","set","doc"],"skill":"萬人尖叫","fact":"文件提到：主場館 1.5 萬席。（規模 30＝15,000÷500）"},
+    {"no":8,"policy":"CUL-07","name":"臺中超巨蛋","type":"venue","status":"文件稱：2030 年完工","rarity":"SSR","stats":[95,10,90],"basis":["set","set","doc"],"skill":"全壘打風暴","fact":"文件提到：多功能棒球場 4.5 萬席。（規模 90＝45,000÷500）"},
+    {"no":9,"policy":"CUL-07","name":"巨蛋副場館","type":"venue","status":"文件稱：2030 年完工","rarity":"N","stats":[60,10,10],"basis":["set","set","doc"],"skill":"近距離演出","fact":"文件提到：副場館 5 千席。（規模 10＝5,000÷500）"},
+    {"no":10,"policy":"CUL-08","name":"后里薩克斯風","type":"sound","status":"文件列為在地音樂產業","rarity":"N","stats":[45,60,15],"basis":["set","set","set"],"skill":"金色旋律","fact":"文件提到：結合在地音樂產業，包括后里的薩克斯風。"},
+    {"no":11,"policy":"CUL-08","name":"潭子爵士鼓","type":"sound","status":"文件列為在地音樂產業","rarity":"R","stats":[55,45,15],"basis":["set","set","set"],"skill":"節奏連擊","fact":"文件提到：潭子的爵士鼓和 AI 鼓。"},
+    {"no":12,"policy":"CUL-08","name":"霧峰音樂鈴","type":"sound","status":"文件列為在地音樂產業","rarity":"N","stats":[40,65,10],"basis":["set","set","set"],"skill":"叮叮清響","fact":"文件提到：霧峰的音樂鈴機芯。"},
+    {"no":13,"policy":"EDU-27","name":"東勢客家園區","type":"hill","status":"文件提出：升級","rarity":"SR","stats":[60,80,55],"basis":["set","set","set"],"skill":"老站新生","fact":"文件提出升級東勢客家文化園區（舊車站改建），加入科技互動與親子體驗。"},
+    {"no":14,"policy":"EDU-27","name":"新丁粄","type":"hill","status":"文件列為客家慶典","rarity":"N","stats":[70,85,10],"basis":["set","set","set"],"skill":"分享喜氣","fact":"文件提到：正月中的東勢新丁粄節，鬪粄並致贈親友分享好運。"},
+    {"no":15,"policy":"EDU-27","name":"巧聖仙師祭","type":"hill","status":"文件列為客家慶典","rarity":"SR","stats":[55,90,30],"basis":["set","set","set"],"skill":"匠心不輸","fact":"文件提到：五、六月的巧聖仙師文化祭，象徵客家人精益求精的匠人精神。"}
+  ]
+}
