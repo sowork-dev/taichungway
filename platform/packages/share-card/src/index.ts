@@ -47,11 +47,10 @@ function policyTree(input:CardInput,policy:PolicyMission,bg:string,ink:string,ac
   box({fontSize:Array.from(input.body).length>60?28:34,lineHeight:1.5,textAlign:'center',justifyContent:'center',marginTop:22,padding:'0 16px'},input.body),
   box({fontSize:28,justifyContent:'center',marginTop:18},input.nickname?`給 ${input.nickname}`:'一點生活心願，一份城市提案。'),
   box({flexDirection:'column',marginTop:24,padding:'24px',background:'#FFFFFF',color:'#112A4D',borderLeft:'6px solid #1A63C8',flexShrink:0},
-   h('span',{style:{fontSize:24,color:'#134E9E'}},'江啟臣政見・非施政成果'),
-   h('span',{style:{fontSize:38,lineHeight:1.35,marginTop:12}},policy.title),
-   h('span',{style:{fontSize:23,lineHeight:1.5,marginTop:12}},policy.limitation)),
+   h('span',{style:{fontSize:24,color:'#134E9E'}},'江啟臣政見'),
+   h('span',{style:{fontSize:38,lineHeight:1.35,marginTop:12}},policy.title)),
   box({marginTop:'auto',paddingTop:22,borderTop:`2px solid ${accent}`,flexDirection:'column',fontSize:22,lineHeight:1.6,flexShrink:0},
-   h('span',{},'政策原文來源：taichungway.tw/future'),h('span',{},'概念示意，不是實測結果。'),h('span',{},'SoWork 獨立預覽，非官方網站；尚未取得競選團隊授權或背書。')));
+   h('span',{},'政策原文來源：taichungway.tw/future'),h('span',{},'SoWork 獨立預覽・非官方互動')));
 }
 const escapeXml=(text:string)=>text.replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[char]!));
 export async function renderCardSvg(raw:CardInput,font:ArrayBuffer):Promise<string> {
@@ -68,9 +67,9 @@ export async function renderCardSvg(raw:CardInput,font:ArrayBuffer):Promise<stri
   box({fontSize:48,lineHeight:1.65,textAlign:'center',justifyContent:'center',marginTop:38,padding:'0 24px'},input.body),
   box({fontSize:30,justifyContent:'center',marginTop:32},input.nickname?`給 ${input.nickname}`:'把喜歡，留給今天的自己。'),
   box({marginTop:'auto',paddingTop:28,borderTop:`2px solid ${accent}`,flexDirection:'column',fontSize:24,lineHeight:1.7},
-   h('span',{},'原創互動預覽・本卡未使用 AI'),h('span',{},'官網參考：taichungway.tw'),h('span',{},'SoWork 獨立預覽，非官方網站；尚未取得競選團隊授權或背書。')));
+   h('span',{},'原創互動預覽・本卡未使用 AI'),h('span',{},'官網參考：taichungway.tw'),h('span',{},'SoWork 獨立預覽・非官方互動')));
  const svg=await satori(tree,{width:1080,height:1350,fonts:[{name:'LocalSansTC',data:font,weight:400,style:'normal'}]});
- return policy?svg.replace(/(<svg[^>]*>)/,`$1<title>${escapeXml(`${policy.title}；江啟臣政見・非施政成果；來源：${policy.sourceUrl}`)}</title>`):svg;
+ return policy?svg.replace(/(<svg[^>]*>)/,`$1<title>${escapeXml(`${policy.title}；江啟臣政見；來源：${policy.sourceUrl}`)}</title>`):svg;
 }
 let fontPromise:Promise<ArrayBuffer>|undefined;
 export async function downloadCard(raw:CardInput):Promise<void> {

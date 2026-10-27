@@ -76,9 +76,8 @@ export default function Page() {
         <section className="policy-result-quote" aria-label="每位玩家共同體驗的市場政見">
           <p className="policy-kicker">剛才一起試過的城市提案 / {MARKET_MISSION.policyId}</p>
           <h3 className="policy-title">「{MARKET_MISSION.title}」</h3>
-          <dl className="policy-notes"><div><dt>政策怎麼連到日常</dt><dd>{MARKET_MISSION.mechanism}</dd></div><div><dt>示意的界線</dt><dd>{MARKET_MISSION.limitation}</dd></div></dl>
+          <dl className="policy-notes"><div><dt>政策怎麼連到日常</dt><dd>{MARKET_MISSION.mechanism}</dd></div></dl>
           <a className="policy-source" href={MARKET_MISSION.sourceUrl} target="_blank" rel="noopener noreferrer">查看官網政見原文 ↗</a>
-          <div className="policy-disclosure"><p>江啟臣政見・非施政成果</p><p>概念示意，不是實測結果</p></div>
         </section>
         <div className="card-sign"><span>有你喜歡的，就是好滋味。</span><span>日常有味</span></div>
       </article>

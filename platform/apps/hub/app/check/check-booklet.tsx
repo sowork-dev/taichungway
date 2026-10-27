@@ -50,7 +50,7 @@ export function CheckBooklet({ result }: { result: CheckResult }) {
         ['對開支票本', '把生活願望，寫給下一個四年。', '翻開，是你的日常與公開政見的並排閱讀。'],
         ['01 / 我的生活願望', `「${cleanText(result.wish, 60)}」`, `願望署名：${cleanText(result.nickname, 10) || '一位台中生活者'}`],
         ['02 / 公開政見對照', policy?.title ?? NO_LOCAL_MATCH, policy ? `${policy.category} · ${policy.id}\n出處：${policy.sourceUrl}` : '查閱完整政見：taichungway.tw/future'],
-        ['我們的四年', '把想要的日常，留給未來持續關心。', `${LOCAL_MATCH_LABEL}。候選人政見非已兌現；非官方互動，非有價證券，無金額與兌付效力。署名不是候選人簽名。`],
+        ['我們的四年', '把想要的日常，留給未來持續關心。', `${LOCAL_MATCH_LABEL}。非官方互動，非有價證券，無金額與兌付效力。`],
       ].map(([heading, body, note], index) => {
         const sheet = document.createElement('div'); sheet.className = `check-book-page${index === 0 || index === 3 ? ' is-cover' : ''}`;
         if (index === 0 || index === 3) sheet.dataset.density = 'hard';

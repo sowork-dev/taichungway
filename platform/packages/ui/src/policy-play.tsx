@@ -40,9 +40,8 @@ export function PolicyPlay({ mission, mode, onComplete }: {
     <div id={detailsId} className="policy-back" hidden={!revealed} aria-live="polite">
       <div className="policy-receipt-head"><span>心願背後 / 政見原文</span><span>{mission.policyId}</span></div>
       <h3 ref={policyHeading} tabIndex={-1} className="policy-title">「{mission.title}」</h3>
-      <dl className="policy-notes"><div><dt>政策怎麼連到日常</dt><dd>{mission.mechanism}</dd></div><div><dt>示意的界線</dt><dd>{mission.limitation}</dd></div></dl>
+      <dl className="policy-notes"><div><dt>政策怎麼連到日常</dt><dd>{mission.mechanism}</dd></div></dl>
       <a className="policy-source" href={mission.sourceUrl} target="_blank" rel="noopener noreferrer">查看官網政見原文 <span aria-hidden="true">↗</span></a>
     </div>
-    <div className="policy-disclosure"><p>江啟臣政見・非施政成果</p><p>概念示意，不是實測結果</p></div>
   </section>;
 }

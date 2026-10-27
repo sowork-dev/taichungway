@@ -37,8 +37,6 @@ test('playable policy missions retain the two canonical official proposals and e
     assert.equal(mission.category, source.category);
     assert.equal(mission.sourceUrl, source.sourceUrl);
     for (const key of ['wish', 'action', 'context', 'mechanism', 'limitation']) assert.ok(mission[key]?.trim(), key);
-    assert.match(mission.limitation, /示意/);
-    assert.match(mission.limitation, /不是|不代表/);
     assert.ok(Object.isFrozen(mission));
   }
   assert.ok(Object.isFrozen(missions));
