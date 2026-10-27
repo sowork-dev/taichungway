@@ -7,7 +7,11 @@
     ".": "./src/index.tsx",
     "./styles.css": "./src/styles.css",
     "./studio": "./src/studio.tsx",
-    "./studio.css": "./src/studio.css"
+    "./studio.css": "./src/studio.css",
+    "./gamekit": "./src/gamekit.tsx",
+    "./gamekit.css": "./src/gamekit.css",
+    "./studio-game.css": "./src/studio-game.css",
+    "./play-game.css": "./src/play-game.css"
   },
   "dependencies": {
     "react": "19.3.1",

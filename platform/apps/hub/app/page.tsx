@@ -1,21 +1,46 @@
 'use client';
 import { AppShell, cssVars, siteHref, useSites, type SiteId } from '@taichung/ui';
+import { Coin, GameDefs, GameIcon, type GameIconName } from '@taichung/ui/gamekit';
 
-const order: SiteId[] = ['comic','check','postcard','fortune','flavor','thanks','machine'];
-const captions:Partial<Record<SiteId,string>> = { comic:'選一件小事，畫進四格裡',check:'開一張給自己的四年支票',postcard:'把想念的聲音，混成一張卡',fortune:'長按、翻卡，收一張城市祝福',flavor:'從三個選擇，遇見台中日常' };
-function Icon({id}: {id:SiteId}) {
- return <svg viewBox="0 0 120 100" className="clean-card-icon" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8">
-  {id==='comic'?<><rect x="18" y="12" width="84" height="76"/><path d="M60 12v76M18 50h84"/><circle cx="37" cy="29" r="6"/><path d="M29 43q8-10 16 0M73 24h17v14H73zM30 64h16v13H30zM75 67l7 8 10-16"/></>:id==='check'?<><rect x="12" y="19" width="96" height="62"/><path d="M39 19v62" strokeDasharray="3 4"/><path d="M50 34h44M50 46h26M50 68h31"/><circle cx="91" cy="65" r="10"/><path d="m85 66 4 4 8-10"/></>:id==='postcard'?<><rect x="12" y="16" width="96" height="68"/><path d="M71 25v50M82 59h17M82 68h17M27 46v8m7-17v25m7-36v45m7-34v24m7-17v9"/><rect x="84" y="25" width="15" height="19" strokeDasharray="2 2"/></>:id==='fortune'?<><path d="M34 14h52v72H34zM45 28h30M45 70h30"/><circle cx="60" cy="49" r="13"/><path d="M60 40v18m-8-9h16"/></>:id==='flavor'?<><circle cx="60" cy="48" r="32"/><path d="M37 46q23-24 46 0M42 65q18-20 36 0M48 33h24M59 15v66"/></>:<><circle cx="60" cy="49" r="28"/><path d="M43 49h34M60 32v34"/></>}
- </svg>;
-}
+const order: SiteId[] = ['comic', 'check', 'postcard', 'fortune', 'flavor'];
+const icons: Record<SiteId, GameIconName> = { comic: 'comic', check: 'check', postcard: 'postcard', fortune: 'fortune', flavor: 'flavor' };
+const colors: Record<SiteId, string> = { comic: 'sun', check: 'white', postcard: 'cyan', fortune: 'coral', flavor: 'blue' };
+const tags: Record<SiteId, string> = { comic: '畫四格', check: '寫願望', postcard: '混聲音', fortune: '長按', flavor: '3 題' };
+// Games served by the main site (public/): adventure, AI chat and bubble PvP.
+const MAIN = 'https://taichungway.sowork.ai';
+const games = [
+  { id: 'adventure', title: '城市冒險', tag: '探索 · 解任務', href: `${MAIN}/adventure.html`, icon: 'city' as GameIconName, featured: true, color: 'blue' },
+  { id: 'chat', title: '啟臣，聊一下', tag: 'AI 聊天', href: `${MAIN}/chat.html`, icon: 'chat' as GameIconName, color: 'cyan' },
+  { id: 'bubble', title: '泡泡 PK', tag: '雙人對戰', href: `${MAIN}/bubble.html`, icon: 'bubble' as GameIconName, color: 'coral' },
+];
+
 function Directory() {
- const {sites,loading,error}=useSites();
- const sorted=[...sites].sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));
- return <section id="experiences" className="directory clean-directory" aria-labelledby="directory-title"><div className="clean-section-heading"><p>互動體驗 / EXPERIENCES</p><h2 id="directory-title">從你喜歡的方式，開始。</h2></div><p className="directory-notice" role="status">{loading?'正在確認各站開放狀態…':error?'暫時讀不到開放狀態，請稍後重試。':'不用登入，沒有標準答案。你的文字，只留在你的裝置。'}</p><div className="experience-list">{sorted.map((site,index)=>{
- const href=siteHref(site);const content=<><div className="experience-top"><span className="experience-number">{String(index+1).padStart(2,'0')}</span><span className={`status-badge ${href?'is-live':''}`}>{href?'現在可以玩':'即將上線'}</span></div><Icon id={site.id}/><div className="experience-copy"><h3>{site.title}</h3><p>{site.tagline}</p></div><div className="experience-meta"><span>{site.durationSec} 秒</span><span className={site.usesAI?'ai-badge':'offline-badge'}>{site.usesAI?'AI':'無 AI'}</span></div><div className="experience-bottom"><span>{href?captions[site.id]:'好玩的，正在準備'}</span><span className="card-arrow" aria-hidden="true">{href?'↗':'—'}</span></div></>;
- return href?<a className={`experience-card live-card ${site.id}`} key={site.id} href={href} style={cssVars({'--accent':site.accent})} data-site-id={site.id}>{content}</a>:<article className="experience-card soon-card" key={site.id} aria-disabled="true" data-site-id={site.id}>{content}</article>;
- })}</div></section>;
+  const { sites, loading, error } = useSites();
+  const sorted = [...sites].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+  return <section id="experiences" className="directory clean-directory hub-game" aria-labelledby="directory-title">
+    <h2 id="directory-title" className="sr-only">互動體驗</h2>
+    <div className="hub-grid hub-grid-main">{games.map(game => <a key={game.id} className={`hub-tile gk-tile gk-tile--${game.color}${game.featured ? ' is-featured gk-shine' : ''}`} href={game.href} data-game-id={game.id}>
+      <GameIcon name={game.icon} /><span className="gk-tile-title">{game.title}</span><span className="gk-tile-tag">{game.tag}</span>
+    </a>)}</div>
+    <p className="hub-divider"><span>小小創作室</span></p>
+    <p className="directory-notice" role="status">{loading ? '正在確認各站開放狀態…' : error ? '暫時讀不到開放狀態，請稍後重試。' : '不用登入，你的文字只留在你的裝置。'}</p>
+    <div className="experience-list hub-grid">{sorted.map(site => {
+      const href = siteHref(site);
+      const content = <><GameIcon name={icons[site.id]} /><span className="gk-tile-title">{site.title}</span><span className="gk-tile-tag">{href ? `${tags[site.id]} · ${site.durationSec} 秒${site.usesAI ? ' · AI' : ''}` : '即將上線'}</span></>;
+      return href ? <a className={`experience-card live-card gk-tile gk-tile--${colors[site.id]} ${site.id}`} key={site.id} href={href} style={cssVars({ '--accent': site.accent })} data-site-id={site.id}>{content}</a>
+        : <article className="experience-card soon-card" key={site.id} aria-disabled="true" data-site-id={site.id}>{content}</article>;
+    })}</div>
+  </section>;
 }
 export default function Page() {
- return <AppShell title="台中味" eyebrow="TAICHUNG WAY / 城市日常提案"><section className="hub-hero clean-hero"><p className="clean-hero-index">日常，是認識城市的開始。</p><h1>一件小事，<br/>一座城市的<span>想像。</span></h1><div className="clean-hero-bottom"><p>畫四格、開支票、寄一段聲音。<br/>用一點好奇，看看生活背後的城市提案。</p><a href="#experiences" className="clean-explore">開始體驗 <span aria-hidden="true">↓</span></a></div><p className="clean-hero-disclosure">江啟臣官網政見 × 原創生活互動 · 非官方製作</p></section><Directory/></AppShell>;
+  return <AppShell title="台中味" eyebrow="">
+    <section className="hub-hero clean-hero hub-game-hero" aria-labelledby="hub-title">
+      <GameDefs />
+      <div className="hub-hero-top"><Coin>8 關</Coin></div>
+      <h1 id="hub-title" className="gk-title-stack" aria-label="台中味，開玩！"><b className="gk-3d" data-text="台中味" style={cssVars({ '--s': '78px' })} aria-hidden="true"><span>台中味</span></b><b className="gk-3d gk-3d--coral" data-text="開玩！" style={cssVars({ '--s': '78px', '--r': '-3deg' })} aria-hidden="true"><span>開玩！</span></b></h1><i className="gk-sparkle hub-spark-1" aria-hidden="true" /><i className="gk-sparkle hub-spark-2" aria-hidden="true" />
+      <div className="hub-host"><svg className="hub-host-fig gk-float" viewBox="0 0 120 150" aria-hidden="true" focusable="false"><ellipse cx="60" cy="144" rx="30" ry="6" fill="#0d203a55" /><rect x="40" y="108" width="14" height="30" rx="4" fill="#0d2039" /><rect x="66" y="108" width="14" height="30" rx="4" fill="#0d2039" /><rect x="34" y="132" width="22" height="9" rx="4" fill="#06162b" /><rect x="64" y="132" width="22" height="9" rx="4" fill="#06162b" /><rect x="30" y="68" width="60" height="50" rx="14" fill="#1a63c8" stroke="#06162b" strokeWidth="4" /><path d="M50 68h20l-10 30z" fill="#fff" /><path d="M57 76h6l3 22-6 6-6-6z" fill="#004c9f" /><rect x="18" y="72" width="14" height="38" rx="7" fill="#1a63c8" stroke="#06162b" strokeWidth="3" /><rect x="88" y="72" width="14" height="38" rx="7" fill="#1a63c8" stroke="#06162b" strokeWidth="3" /><circle cx="25" cy="112" r="7" fill="#efd0a9" /><circle cx="95" cy="112" r="7" fill="#efd0a9" /><rect x="36" y="14" width="48" height="56" rx="22" fill="#efd0a9" stroke="#06162b" strokeWidth="3" /><path d="M34 40c-2-26 10-34 28-33 18-1 26 9 24 33-3-8-6-14-12-17-8 6-20 6-30 0-6 3-9 9-10 17z" fill="#1c2a44" /><g fill="none" stroke="#0d2039" strokeWidth="2.6"><rect x="40" y="38" width="17" height="14" rx="5" /><rect x="63" y="38" width="17" height="14" rx="5" /><path d="M57 44h6" /></g><circle cx="48.5" cy="45" r="2.6" fill="#0d2039" /><circle cx="71.5" cy="45" r="2.6" fill="#0d2039" /><path d="M52 59q8 7 16 0" fill="none" stroke="#a65c4a" strokeWidth="2.6" strokeLinecap="round" /></svg><p className="gk-speech hub-speech">今天想玩哪一個？</p></div>
+      <p className="clean-hero-disclosure">江啟臣官網政見 × 原創生活互動 · 非官方製作</p>
+    </section>
+    <Directory />
+  </AppShell>;
 }

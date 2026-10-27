@@ -1,4 +1,4 @@
-@layer reset, base, components, accessibility;
+@layer reset, base, components, brand, accessibility;
 
 @layer reset {
   *, *::before, *::after { box-sizing: border-box; }
@@ -267,6 +267,49 @@
     .policy-back, .market-air i { animation: none; }
     .market-air, .market-aisle, .market-switch > span { transition: none; }
   }
+}
+
+/* Bold brand layer: solid candidate-blue blocks, heavy sans headlines, tactile buttons. Shared with the 啟臣，聊一下 quest look. */
+@layer brand {
+  :root { --serif: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif; --navy: #0D2039; --brand-deep: #004C9F; --sky: #7FC0F0; --mist: #E3EFFF; }
+  body { background: var(--navy); }
+  h1, h2, h3 { font-weight: 900; letter-spacing: 0; }
+  .app-shell { background: #F3F8FF; box-shadow: 0 0 70px #0D203980; }
+  .app-shell:not(:has(.clean-directory)) .site-header { background: var(--navy); color: #FFFFFF; border-bottom: 0; padding-block: 18px 16px; }
+  .app-shell:not(:has(.clean-directory)) .brand-mark { border: 2px solid #FFFFFF; box-shadow: 0 3px 0 var(--brand-deep); }
+  .app-shell:not(:has(.clean-directory)) .brand-sub { color: var(--sky); font-weight: 600; }
+  .app-shell:not(:has(.clean-directory)) .type-toggle { border: 2px solid var(--sky); color: #E3EFFF; font-weight: 700; }
+  .app-shell:not(:has(.clean-directory)) .type-toggle[aria-pressed='true'] { background: var(--sky); color: var(--navy); }
+  .app-shell:not(:has(.clean-directory)) main { padding-top: 0; }
+  .app-shell:not(:has(.clean-directory)) .page-eyebrow { display: none; }
+  .result-heading h1 { font-weight: 900; }
+  .game-header { margin: 0 -22px 8px; padding: 28px 22px 26px; background: var(--brand); color: #FFFFFF; border-radius: 0 0 32px 32px; }
+  .game-header .hero-description { color: var(--mist); }
+  .game-kicker { color: var(--mist); font-weight: 800; letter-spacing: .1em; font-size: .9em; }
+  .game-kicker::before, .game-kicker::after { background: var(--sky); }
+  .game-header h1 { font-size: 2.3em; }
+  .game-privacy { color: var(--brand-deep); font-weight: 700; }
+  .button { border: 2px solid var(--brand-deep); border-radius: 16px; font-weight: 800; min-height: 56px; box-shadow: 0 5px 0 var(--brand-deep); transition: transform .1s, box-shadow .1s; }
+  .button.primary { border-color: var(--brand-deep); }
+  .button.secondary { background: #FFFFFF; color: var(--brand-deep); }
+  .button:active, .policy-button:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--brand-deep); }
+  .editorial-note .note-mark { background: var(--brand); color: #FFFFFF; border: 0; border-radius: 8px; }
+  .app-shell:not(:has(.clean-directory)) .site-footer { background: var(--navy); color: #BDD8FA; border-top: 0; }
+  .app-shell:not(:has(.clean-directory)) .site-footer a { color: #FFFFFF; }
+  .preview-disclosure { border-left-color: var(--sky); color: #BDD8FA; }
+  .more-link { font-weight: 900; }
+  .answer-button { border: 2px solid var(--brand); border-radius: 16px; box-shadow: 0 4px 0 #BDD8FA; font-weight: 700; }
+  .answer-letter { background: var(--brand); color: #FFFFFF; border: 0; font-family: inherit; font-weight: 800; }
+  .progress-dots span { height: 8px; border-radius: 6px; }
+  .progress-dots span.is-active { background: var(--brand); }
+  .question-scene { border: 2px solid var(--brand); border-radius: 18px; }
+  .result-card { border: 2px solid var(--brand); border-radius: 22px; box-shadow: 0 6px 0 var(--brand-deep); }
+  .policy-play { border: 2px solid var(--brand); border-top-width: 8px; border-radius: 6px 6px 18px 18px; }
+  .policy-button { border: 2px solid var(--brand-deep); border-radius: 14px; box-shadow: 0 5px 0 var(--brand-deep); font-weight: 800; }
+  .hold-caption { background: var(--brand); color: #FFFFFF; border-color: var(--brand-deep); font-weight: 800; box-shadow: 0 4px 0 var(--brand-deep); }
+  .market-stall { border-radius: 8px; }
+  @media (max-width: 360px) { .game-header { margin-inline: -16px; padding-inline: 16px; } }
+  @media (hover: hover) { .button.primary:hover { background: var(--brand-dk); } }
 }
 
 @layer accessibility {

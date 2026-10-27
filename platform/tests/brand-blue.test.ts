@@ -17,7 +17,7 @@ test('all shipped UI, scene artwork, card renderer, OG generator and directory c
 });
 test('candidate blue is the main CTA and every site/result accent, not just a small decorative stripe',()=>{
  const css=read('packages/ui/src/styles.css');assert.match(css,/--brand:\s*#1A63C8/);assert.match(css,/\.button\.primary\s*\{[^}]*background:\s*var\(--brand\)/);
- const sites=JSON.parse(read('data/sites.json'))as Array<{accent:string}>;assert.equal(sites.length,7);for(const site of sites)assert.equal(site.accent,BRAND);
+ const sites=JSON.parse(read('data/sites.json'))as Array<{accent:string}>;assert.equal(sites.length,5);for(const site of sites)assert.equal(site.accent,BRAND);
  for(const flavor of FLAVORS)assert.equal(flavor.accent,BRAND);
 });
 test('twelve blue fortune palettes remain distinct, readable, and honestly named',()=>{

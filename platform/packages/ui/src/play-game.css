@@ -1,0 +1,105 @@
+/* Game skin for the fortune / flavor sites (loaded after styles.css + gamekit.css). */
+.app-shell { --gk-ink: #06162B; --gk-navy: #0D2039; --gk-navy-2: #132F57; --gk-brand: #1A63C8; --gk-hi: #4C9BF2; --gk-lo: #0F4AA0; --gk-sky: #7FC0F0; --gk-ice: #E3EFFF; --gk-font: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif; background-color: #0D2039; background-image: radial-gradient(ellipse at 50% -10%, #2B5BA0 0, transparent 55%), linear-gradient(#FFFFFF0A 1px, transparent 1px), linear-gradient(90deg, #FFFFFF0A 1px, transparent 1px); background-size: auto, 34px 34px, 34px 34px; color: #FFFFFF; font-family: var(--gk-font); }
+.app-shell main { padding: 0 16px 30px; }
+.game-header { background: transparent; margin: 0 -16px; padding: 8px 16px 10px; border-radius: 0; color: #FFFFFF; }
+.game-header h1 { display: inline-flex; flex-direction: column; align-items: center; margin: 4px 22px 10px; padding: 10px 30px; font-size: 30px; line-height: 1.2; letter-spacing: .08em; color: #FFFFFF; text-shadow: 0 2px 0 #06162B, 0 0 8px #06162B; background: linear-gradient(#4C9BF2, #1A63C8); border: 4px solid #06162B; box-shadow: inset 0 4px 0 #FFFFFF55, 0 5px 0 #06162B; position: relative; z-index: 0; }
+.game-header h1::before, .game-header h1::after { content: ''; position: absolute; top: 12px; width: 34px; height: 100%; background: #0F4AA0; border: 4px solid #06162B; z-index: -1; }
+.game-header h1::before { left: -26px; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 34% 50%); }
+.game-header h1::after { right: -26px; clip-path: polygon(0 0, 100% 0, 66% 50%, 100% 100%, 0 100%); }
+.game-header { text-align: center; }
+.game-header .hero-description { margin-top: 4px; color: #CFE4FB; font-size: 16px; line-height: 1.6; }
+.game-privacy { gap: 8px; margin-top: 14px; }
+.game-privacy > span { display: inline-flex; align-items: center; min-height: 32px; padding: 2px 12px; border: 3px solid #06162B; border-radius: 999px; background: #E3EFFF; color: #0F4AA0; font-weight: 800; font-size: 13px; box-shadow: 0 3px 0 #06162B; }
+.game-privacy > span::before { content: '✓'; padding-right: 5px; }
+/* Fortune: a gold-less blue coin you charge up by holding. */
+.fortune-stage { padding-top: 6px; }
+.hold-button { display: grid; place-items: center; width: min(78vw, 300px); aspect-ratio: 1; min-height: 0; margin: 12px auto 4px; padding: 0; border-radius: 50%; background: conic-gradient(#7FC0F0 calc(var(--hold, 0) * 360deg), #1E3A63 0); border: 0; position: relative; box-shadow: 0 0 0 6px #06162B, 0 10px 0 6px #06162B, 0 0 40px #4C9BF244; transition: transform .1s; }
+.hold-button::before { content: ''; position: absolute; inset: 14px; border-radius: 50%; background: radial-gradient(circle at 35% 28%, #FFFFFF, #CFE4FB 45%, #7FC0F0); border: 5px solid #06162B; box-shadow: inset 0 -10px 0 #4C9BF2; }
+.hold-button.is-holding { transform: scale(.96); animation: coin-shake .12s linear infinite; }
+.hold-button.is-holding::before { background: radial-gradient(circle at 35% 28%, #FFFFFF, #A9D4FA 45%, #4C9BF2); }
+.coin-face { position: relative; display: grid; place-items: center; width: 62%; aspect-ratio: 1; border-radius: 50%; border: 5px solid #06162B; background: radial-gradient(circle at 40% 30%, #FFFFFF, #E3EFFF); }
+.coin-face b { font: 900 clamp(70px, 24vw, 110px)/1 var(--gk-font); color: #1A63C8; text-shadow: 0 4px 0 #9CC4F0; }
+.hold-caption { position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: linear-gradient(#4C9BF2, #1A63C8); color: #FFFFFF; border: 4px solid #06162B; text-shadow: 0 2px 0 #06162B; box-shadow: inset 0 3px 0 #FFFFFF55, 0 4px 0 #06162B; font-weight: 900; z-index: 3; }
+.fortune-particles { z-index: 4; border-radius: 50%; overflow: visible; }
+.fortune-particle { background: #FFFFFF; box-shadow: 0 0 8px #7FC0F0; }
+.hold-meter { display: none; }
+.hold-help { margin-top: 34px; color: #CFE4FB; font-weight: 700; min-height: 2.6em; }
+.fortune-alternative .text-button { color: #8FB4E3; }
+.fortune-footnote { background: #132F57; border: 3px solid #06162B; border-radius: 18px; color: #CFE4FB; }
+.fortune-footnote h2, .fortune-footnote p, .fortune-footnote > span { color: #CFE4FB; }
+.fortune-footnote h2 { font-size: 1em; }
+@keyframes coin-shake { 0% { rotate: -1.5deg; } 50% { rotate: 1.5deg; } 100% { rotate: -1.5deg; } }
+/* Flavor */
+.flavor-intro-art { background: radial-gradient(ellipse at 50% 64%, #E3EFFF 0, #E3EFFF 49%, transparent 50%); margin-inline: 0; }
+.intro-sticker { background: #E3EFFF; border: 3px solid #06162B; color: #0F4AA0; font-weight: 900; box-shadow: 0 3px 0 #06162B; }
+.intro-steps { color: #FFFFFF; gap: 8px; }
+.intro-steps span { display: inline-flex; padding: 3px 12px; border-radius: 999px; background: #132F57; border: 3px solid #06162B; font-weight: 800; font-size: 13px; }
+.intro-steps span + span::before { display: none; }
+.game-details { margin-top: 12px; color: #CFE4FB; text-align: center; }
+.game-details summary { min-height: 44px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #8FB4E3; cursor: pointer; }
+.game-details .intro-note { color: #CFE4FB; }
+.question-progress { color: #CFE4FB; font-weight: 800; flex-wrap: wrap; }
+.question-progress .gk-progress { flex: 1; min-width: 120px; }
+.question-progress .progress-dots { display: none; }
+.question-title { color: #FFFFFF; font-weight: 900; text-shadow: 0 2px 0 #06162B; font-size: 26px; text-align: center; margin: 6px 0 12px; }
+.question-scene { border: 4px solid #06162B; border-radius: 22px; box-shadow: 0 5px 0 #06162B; background: #E3EFFF; }
+.scene-label { display: none; }
+.answer-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.answer-button { flex-direction: column; align-items: center; justify-content: flex-start; text-align: center; min-height: 128px; padding: 14px 10px; border: 4px solid #06162B; border-radius: 22px; background: linear-gradient(#FFFFFF, #DDEBFC); box-shadow: inset 0 4px 0 #FFFFFF, 0 5px 0 #06162B; position: relative; }
+.answer-button:active { transform: translateY(4px); box-shadow: inset 0 4px 0 #FFFFFF, 0 1px 0 #06162B; }
+.answer-letter { width: 40px; height: 40px; flex-basis: 40px; background: linear-gradient(#4C9BF2, #1A63C8); border: 3px solid #06162B; color: #FFFFFF; font-size: 20px; }
+.answer-copy { text-align: center; }
+.answer-copy strong { font-size: 1.1em; }
+.answer-copy > span { font-size: 13px; color: #3D5F8F; }
+.answer-arrow { display: none; }
+.question-navigation { color: #8FB4E3; }
+.question-navigation .text-button { color: #CFE4FB; }
+.market-interlude-title, .result-heading h1 { color: #FFFFFF; text-shadow: 0 2px 0 #06162B; text-align: center; }
+.market-interlude-note, .result-heading p { color: #CFE4FB; }
+.result-heading { position: relative; padding-top: 8px; }
+.result-stars { display: flex; justify-content: center; margin-bottom: 6px; animation: gk-pop .5s cubic-bezier(.2, 1.6, .4, 1) both; }
+.result-burst { position: absolute; left: 50%; top: 30px; width: 0; height: 0; pointer-events: none; }
+.result-burst i { position: absolute; width: 10px; height: 10px; border-radius: 2px; background: #7FC0F0; animation: burst 1.1s ease-out both; animation-delay: calc(var(--i) * 18ms); rotate: calc(var(--i) * 25deg); }
+.result-burst i:nth-child(3n) { background: #FFFFFF; }
+.result-burst i:nth-child(3n + 1) { background: #4C9BF2; }
+@keyframes burst { 0% { transform: translate(0, 0) scale(.4); opacity: 1; } 100% { transform: translate(calc(cos(var(--i) * 25.7deg) * 150px), calc(sin(var(--i) * 25.7deg) * 110px + 40px)) scale(1); opacity: 0; } }
+.result-card { border: 4px solid #06162B; box-shadow: 0 6px 0 #06162B; }
+.result-replay .text-button { color: #CFE4FB; }
+.app-shell .site-footer { background: #091526; color: #8FB4E3; }
+@media (prefers-reduced-motion: reduce) { .hold-button.is-holding, .result-burst i, .result-stars { animation: none; } .result-burst { display: none; } }
+/* Less copy on the play screens: hints stay in the DOM for screen readers. */
+.hold-help { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+.hold-caption { bottom: -22px; }
+.fortune-alternative { margin-top: 30px; }
+.fortune-footnote { display: none; }
+.answer-copy > span { display: none; }
+.question-navigation > p { display: none; }
+.question-navigation { justify-content: center; }
+
+/* Pop header for fortune / flavor: sunny wave block + 3D title; play area stays on the navy stage. */
+.app-shell .site-header { background: #FFE6A0; border: 0; }
+.app-shell .brand, .app-shell .brand-sub { color: #06162B; }
+.app-shell .brand-sub { color: #0F4AA0; }
+.app-shell .type-toggle { background: #FFFFFF; color: #0F4AA0; border: 3px solid #06162B; box-shadow: 0 3px 0 #06162B; }
+.app-shell .type-toggle[aria-pressed='true'] { background: #1A63C8; color: #FFFFFF; }
+.game-header { position: relative; margin: 0 -16px 18px; padding: 6px 20px 34px; text-align: left; background-color: #FFE6A0; background-image: radial-gradient(110% 70% at 0% 0%, #6EC6F0 0 36%, transparent 36.4%), radial-gradient(120% 80% at 100% 100%, #F4797B 0 30%, transparent 30.4%); border-bottom: 5px solid #06162B; border-radius: 0 0 40px 40px; overflow: hidden; }
+.game-header h1 { display: flex; margin: 8px 0 6px; padding: 0; background: none; border: 0; box-shadow: none; text-shadow: none; position: static; }
+.game-header h1::before, .game-header h1::after { display: none; }
+.game-header .gk-3d + .gk-3d { margin-left: 30px; }
+.game-header .hero-description { color: #06162B; font-weight: 800; margin-top: 8px; }
+.game-header::after { content: ''; position: absolute; right: 22px; top: 18px; width: 30px; height: 30px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none' stroke='%2306162B' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M20 4v10M20 26v10M4 20h10M26 20h10M9 9l7 7M24 24l7 7M31 9l-7 7M16 24l-7 7'/%3E%3C/svg%3E") center / contain no-repeat; }
+/* Full pop stage for fortune / flavor. */
+.app-shell { background-color: #FFE6A0; background-image: radial-gradient(90% 38% at 0% 62%, #6EC6F033 0 60%, transparent 60.4%), radial-gradient(120% 40% at 100% 100%, #F4797B 0 30%, transparent 30.4%); background-size: auto; color: #06162B; }
+body:has(.app-shell.gk-root) { background: #FFE6A0; }
+.question-progress, .hold-help, .game-details, .game-details .intro-note, .question-navigation, .market-interlude-note, .result-heading p, .intro-note { color: #06162B; }
+.question-title, .market-interlude-title, .result-heading h1 { color: #06162B; text-shadow: none; }
+.question-navigation .text-button, .fortune-alternative .text-button, .result-replay .text-button, .game-details summary { color: #0F4AA0; }
+.question-progress .gk-progress { background: #FFFFFF; }
+.intro-steps { color: #FFFFFF; }
+.fortune-footnote { color: #06162B; }
+.app-shell .site-footer { background: #FFFFFF; color: #06162B; border-top: 5px solid #06162B; }
+.app-shell .site-footer a, .app-shell .site-footer p { color: #0F4AA0; }
+.result-stars .gk-star:nth-child(odd) { filter: drop-shadow(0 2px 0 #06162B); }
+.result-heading h1 { background: #FFFFFF; border: 4px solid #06162B; border-radius: 18px; box-shadow: 0 5px 0 #06162B; padding: 8px 12px; display: block; }
+.hold-button { box-shadow: 0 0 0 6px #06162B, 0 10px 0 6px #06162B; background: conic-gradient(#1A63C8 calc(var(--hold, 0) * 360deg), #FFFFFF 0); }
+.fortune-stage .hold-caption { z-index: 5; }

@@ -122,10 +122,15 @@ async def main():
         assert await page.locator('[data-postcard-district]').count()==29
         assert not await page.evaluate('window.__audioStarts.length')
         # Every district selector is exercised; this is not a geographic/acoustic authenticity test.
+        async def pick(button):
+            # Districts live in four group tabs (山/海/屯/城); show the right tab before tapping.
+            await page.locator(f'[data-postcard-tab="{await button.get_attribute("data-postcard-group")}"]').click()
+            await button.click()
         for button in await page.locator('[data-postcard-district]').all():
-            await button.click();assert await button.get_attribute('aria-pressed')=='true'
-            await button.click();assert await button.get_attribute('aria-pressed')=='false'
-        for id in ['d01','d12','d28']: await page.locator(f'[data-postcard-district="{id}"]').click()
+            await pick(button);assert await button.get_attribute('aria-pressed')=='true'
+            await pick(button);assert await button.get_attribute('aria-pressed')=='false'
+        for id in ['d01','d12','d28']: await pick(page.locator(f'[data-postcard-district="{id}"]'))
+        await page.locator('[data-postcard-tab="城"]').click()
         assert await page.locator('[data-postcard-district="d02"]').get_attribute('aria-disabled')=='true'
         await page.locator('[data-postcard-district="d02"]').click(force=True)
         assert await page.locator('[data-postcard-district][aria-pressed="true"]').count()==3
