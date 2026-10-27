@@ -119,7 +119,7 @@ test('actual initial React markup includes five disabled-until-validated cards a
   assert.doesNotMatch(hubHtml, /href="(?:\/fortune\/|\/flavor\/)"/, 'initial state cannot assert stale availability');
   for (const Page of [fortune, flavor]) {
     const html = renderToStaticMarkup(createElement(Page));
-    assert.match(html, /SoWork 獨立互動預覽，非官方網站；尚未取得競選團隊授權或背書。/);
+    assert.match(html, /獨立互動預覽，非官方網站；尚未取得競選團隊授權或背書。/);
     assert.match(html, /aria-pressed="false"/);
     assert.doesNotMatch(html, /id="result-card"/);
   }
@@ -134,7 +134,7 @@ test('all three independent apps use the shared shell, styles, language and indi
   assert.match(shell, /export function AppShell/);
   assert.match(shell, /大字模式/);
   assert.match(shell, /aria-pressed/);
-  assert.match(shell, /SoWork 獨立互動預覽，非官方網站；尚未取得競選團隊授權或背書。/);
+  assert.match(shell, /獨立互動預覽，非官方網站；尚未取得競選團隊授權或背書。/);
   assert.match(shell, /https:\/\/taichungway.tw\//);
   assert.match(shell, /href="\/privacy\/"/);
   assert.match(shell, /href="\/"/);

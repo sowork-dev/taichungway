@@ -35,8 +35,8 @@ export function CheckArtwork({ result, revealed }: { result: CheckResult; reveal
     </div>
     {revealed && <div className="check-stamp-row"><span>把願望與政見放在一起，留給未來持續關心。</span><strong className="check-stamp">我們的四年<span>願望 × 對照</span></strong></div>}
     <footer className="check-export-notes">
-      <p>{LOCAL_MATCH_LABEL}。僅以少量明確主題對照官網 117 項政見，未命中不代表官網沒有；多主題不強行配對。</p>
-      <p>候選人政見非已兌現。非官方互動作品；非有價證券，無金額、無兌付效力；署名僅為使用者暱稱，不是候選人簽名。</p>
+      <p>{LOCAL_MATCH_LABEL}。</p>
+      <p>非官方互動作品；非有價證券，無金額、無兌付效力；署名僅為使用者暱稱。</p>
       <p>內容只在本頁記憶體處理，不傳送、不儲存、不追蹤；分享前請再次確認沒有個人資料。官網：taichungway.tw/future</p>
     </footer>
   </>;

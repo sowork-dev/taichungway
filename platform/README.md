@@ -2,7 +2,7 @@
 
 本目錄是 pnpm monorepo，與上層保留的水球遊戲分開。三個 Next.js 靜態 app：hub、fortune、flavor；本輪新增 comic/check/postcard 為 hub 中的獨立路由，共用同源資源與版型，不另開 repo。五個體驗可玩，thanks/machine 仍為 soon。
 
-正式公開網址：`https://taichungway.sowork.ai`。使用 SoWork 網域不表示官方授權；所有頁面保留非官方、未獲授權／背書與政見非成果聲明。
+正式公開網址：`https://taichungway.sowork.ai`。使用此網域不表示官方授權；所有頁面保留非官方、未獲授權／背書與政見非成果聲明。
 
 ## 安裝、驗證、啟動
 

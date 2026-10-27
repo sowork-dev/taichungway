@@ -19,4 +19,4 @@ No candidate likeness, signature or voice is generated. No third-party comic art
 - The cheque matcher uses conservative local keyword rules, **not AI semantic classification**. A null result means the local rules did not find a safe match, not that the official 117-policy catalog contains no relevant proposal.
 - The postcard's six ten-second loops are original **synthetic demo soundscapes**, not recordings from Taichung. The 29 districts are a selection interface, not a claimed geographic acoustic survey. Field recordings require separately licensed/authorized source material.
 - PNG cards do not contain playable sound. The listening link carries only public district IDs and integer volumes. Notes and nicknames remain out of URLs.
-- Publication on the requested SoWork domain does not make this an official or authorized campaign website.
+- Publication on the requested domain does not make this an official or authorized campaign website.

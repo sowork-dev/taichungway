@@ -18,6 +18,6 @@ export function ComicArtwork({ story, sample = false }: { story: ComicStory; sam
     </figure>)}</div>
     <div className="comic-colophon"><p>預製故事版・不使用 AI</p><p>原創虛構人物與情節；原文不會變成角色對白。</p></div>
     <PolicySource policyId={story.policyId} />
-    <footer className="comic-page-footer"><span>台中味 / SoWork 獨立製作</span><span>每一天，都有值得記住的一格。</span></footer>
+    <footer className="comic-page-footer"><span>台中味 / 獨立製作</span><span>每一天，都有值得記住的一格。</span></footer>
   </article>;
 }

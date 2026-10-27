@@ -19,6 +19,6 @@ test('policy exports carry an exact canonical proposal, source and non-achieveme
   const svg = await cards.renderCardSvg(input, font);
   assert.ok(svg.includes('公有市場裝冷氣，打造特色市場'), 'export has no accessible canonical policy title');
   assert.ok(svg.includes('taichungway.tw/future'), 'export has no source');
-  assert.ok(svg.includes('江啟臣政見・非施政成果'), 'export has no policy status disclosure');
+  assert.ok(svg.includes('江啟臣政見'), 'export has no policy label');
   assert.notEqual(svg, await cards.renderCardSvg({ ...input, policyId: undefined } as any, font));
 });

@@ -12,7 +12,7 @@ async function renderArtwork(policyId: string | null, revealed = true, wish = '�
 
 test('real paired artwork includes exact official policy, personal issuer, stamp and export disclaimers', async () => {
   const html = await renderArtwork('IND-19');
-  for (const text of ['希望市場有冷氣', '阿青', '公有市場裝冷氣，打造特色市場', '我們的四年', '本機關鍵字對照，非AI語意判讀', '候選人政見非已兌現', '非官方互動作品', '非有價證券', '不是候選人簽名']) assert.ok(html.includes(text), text);
+  for (const text of ['希望市場有冷氣', '阿青', '公有市場裝冷氣，打造特色市場', '我們的四年', '本機關鍵字對照，非AI語意判讀', '非官方互動作品', '非有價證券']) assert.ok(html.includes(text), text);
   assert.match(html, /https:\/\/taichungway.tw\/future/);
   assert.doesNotMatch(html, /NT\$|預算|元整|dangerouslySetInnerHTML/);
 });

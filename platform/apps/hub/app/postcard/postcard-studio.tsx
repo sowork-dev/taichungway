@@ -194,7 +194,7 @@ export default function PostcardStudio({ receiver = false }: { receiver?: boolea
             <PolicySource policyId="RES-08" />
           </div>
           <div className="postcard-art-link"><strong>圖卡不含音訊；請另分享聆聽連結</strong>{shareUrl ? <span>{shareUrl}</span> : <span>選好聲景後，這裡會附上只含配方的聆聽網址。</span>}</div>
-          <p className="postcard-art-footer">SoWork 獨立互動預覽・非官方・未獲授權或背書</p>
+          <p className="postcard-art-footer">獨立互動預覽・非官方・未獲授權或背書</p>
         </div>
         <StudioActions targetRef={artwork} fileName="taichung-sound-postcard" title="台中聲音明信片｜合成聲景示意・非在地實錄" shareUrl={shareUrl} />
         <details className="postcard-credits postcard-help"><summary>說明</summary><p className="studio-muted">PNG 是靜態圖卡，無法播放聲音。分享聆聽連結只包含行政區與音量，不含留言或暱稱。</p><p>6 段原創合成 WAV 循環，無 AI、無人聲，未使用任何在地實錄。選區是編輯配樂，不是聲音地圖。所有人看見相同目錄，不推論政治傾向。無麥克風權限；互動本身不需外部音訊服務。</p><p>播放引擎：Howler.js 2.2.4（MIT，Goldfire Studios）。靜態音檔從本站載入。隱藏分頁或離開頁面會停止並釋放音訊。</p></details>

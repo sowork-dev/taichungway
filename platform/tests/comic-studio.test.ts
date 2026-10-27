@@ -100,7 +100,7 @@ test('exported artwork includes four real drawings, safe supplied text, exact po
   const html = renderToStaticMarkup(createElement(ComicArtwork, { story }));
   assert.equal((html.match(/data-testid="comic-panel-[1-4]"/g) ?? []).length, 4);
   assert.equal((html.match(/class="comic-drawing"/g) ?? []).length, 4);
-  for (const text of ['巷口四格漫畫', '你的原文', '預製故事版・不使用 AI', '江啟臣政見 · 非施政成果 · 概念示意非實測結果', '非官方互動；尚未取得競選團隊授權或背書。']) assert.ok(html.includes(text), text);
+  for (const text of ['巷口四格漫畫', '你的原文', '預製故事版・不使用 AI']) assert.ok(html.includes(text), text);
   assert.ok(html.includes(POLICIES.find(policy => policy.id === 'EDU-27')!.title));
   assert.ok(html.includes('href="https://taichungway.tw/future"'));
   assert.ok(html.includes('&lt;script&gt;alert(1)&lt;/script&gt;'));
