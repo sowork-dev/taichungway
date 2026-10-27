@@ -79,7 +79,7 @@ export default function Page() {
 
   return <AppShell title="沾福氣" eyebrow=""><GameDefs />
     {!result ? <>
-      <section className="game-header" aria-labelledby="fortune-title"><h1 id="fortune-title"><span className="game-title-1">長按，</span><span className="game-title-2">沾一點福氣。</span></h1><p className="hero-description">按住金幣 1.5 秒，收下今天的祝福。</p></section>
+      <section className="game-header" aria-labelledby="fortune-title"><h1 id="fortune-title" className="gk-title-stack" aria-label="長按，沾一點福氣。"><b className="gk-3d" data-text="長按，" style={cssVars({ '--s': '58px' })} aria-hidden="true"><span>長按，</span></b><b className="gk-3d gk-3d--coral" data-text="沾一點福氣" style={cssVars({ '--s': '58px', '--r': '-3deg' })} aria-hidden="true"><span>沾一點福氣</span></b></h1><p className="hero-description">按住金幣 1.5 秒，收下今天的祝福。</p></section>
       <section className={`fortune-stage${reduced ? ' reduced-motion' : ''}`} aria-label="領取今日福氣">
         <button ref={holdButton} id="hold-button" data-testid="hold-button" type="button" className={`hold-button${holding ? ' is-holding' : ''}`} style={cssVars({ '--hold': feedback.progress })} aria-label="長按一點五秒，沾一點福氣；也可按 Enter 或空白鍵" aria-describedby="hold-help" onPointerDown={begin} onPointerUp={release} onPointerCancel={cancel} onLostPointerCapture={cancel} onContextMenu={event => event.preventDefault()} onKeyDown={event => {
           if ((event.key === 'Enter' || event.key === ' ') && !event.repeat) { event.preventDefault(); reveal(); }

@@ -75,3 +75,16 @@
 .answer-copy > span { display: none; }
 .question-navigation > p { display: none; }
 .question-navigation { justify-content: center; }
+
+/* Pop header for fortune / flavor: sunny wave block + 3D title; play area stays on the navy stage. */
+.app-shell .site-header { background: #FFE6A0; border: 0; }
+.app-shell .brand, .app-shell .brand-sub { color: #06162B; }
+.app-shell .brand-sub { color: #0F4AA0; }
+.app-shell .type-toggle { background: #FFFFFF; color: #0F4AA0; border: 3px solid #06162B; box-shadow: 0 3px 0 #06162B; }
+.app-shell .type-toggle[aria-pressed='true'] { background: #1A63C8; color: #FFFFFF; }
+.game-header { position: relative; margin: 0 -16px 18px; padding: 6px 20px 34px; text-align: left; background-color: #FFE6A0; background-image: radial-gradient(110% 70% at 0% 0%, #6EC6F0 0 36%, transparent 36.4%), radial-gradient(120% 80% at 100% 100%, #F4797B 0 30%, transparent 30.4%); border-bottom: 5px solid #06162B; border-radius: 0 0 40px 40px; overflow: hidden; }
+.game-header h1 { display: flex; margin: 8px 0 6px; padding: 0; background: none; border: 0; box-shadow: none; text-shadow: none; position: static; }
+.game-header h1::before, .game-header h1::after { display: none; }
+.game-header .gk-3d + .gk-3d { margin-left: 30px; }
+.game-header .hero-description { color: #06162B; font-weight: 800; margin-top: 8px; }
+.game-header::after { content: ''; position: absolute; right: 22px; top: 18px; width: 30px; height: 30px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none' stroke='%2306162B' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M20 4v10M20 26v10M4 20h10M26 20h10M9 9l7 7M24 24l7 7M31 9l-7 7M16 24l-7 7'/%3E%3C/svg%3E") center / contain no-repeat; }

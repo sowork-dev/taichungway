@@ -41,3 +41,22 @@ body:has(.studio-shell.gk-root) { background: #0D2039; }
 .studio-shell.gk-root .studio-footer-top { flex-wrap: wrap; }
 .studio-shell.gk-root :focus-visible { outline: 4px solid var(--gk-sky); outline-offset: 3px; }
 .studio-shell.gk-root .studio-choice[aria-pressed='true'] *, .studio-shell.gk-root .studio-choice.is-active * { color: #FFFFFF; }
+/* Pop header: sunny wave block with a tilted 3D halftone title; the work area stays on the navy stage. */
+.studio-shell.gk-root .studio-header { max-width: none; width: 100%; background: #FFE6A0; padding: 14px max(16px, calc((100% - 1068px) / 2)) 4px; }
+.studio-shell.gk-root .studio-brand { color: #06162B; }
+.studio-shell.gk-root .studio-brand-caption { color: #0F4AA0; }
+.studio-shell.gk-root .studio-header { margin: 0; }
+.studio-shell.gk-root .studio-main { max-width: none; padding: 0 0 72px; }
+.studio-shell.gk-root .studio-main > :not(.studio-intro) { margin-inline: auto; max-width: 1068px; padding-inline: 16px; }
+.studio-shell.gk-root .studio-main > .studio-workspace, .studio-shell.gk-root .studio-main > section { box-sizing: border-box; width: 100%; }
+.studio-shell.gk-root .studio-intro { position: relative; margin: 0 0 24px; padding: 8px 16px 38px; border: 0; border-bottom: 5px solid #06162B; border-radius: 0 0 40px 40px; background-color: #FFE6A0; background-image: radial-gradient(110% 70% at 0% 0%, #6EC6F0 0 36%, transparent 36.4%), radial-gradient(120% 80% at 100% 100%, #F4797B 0 30%, transparent 30.4%); overflow: hidden; text-align: left; }
+.studio-shell.gk-root .studio-intro > * { position: relative; max-width: 1068px; margin-inline: auto; }
+.studio-shell.gk-root .studio-intro h1 { display: block; margin: 6px auto 8px; padding: 0 0 6px; background: none; border: 0; box-shadow: none; text-shadow: none; }
+.studio-shell.gk-root .studio-intro h1::before, .studio-shell.gk-root .studio-intro h1::after { display: none; }
+.studio-shell.gk-root .studio-kicker { color: #0F4AA0; }
+.studio-shell.gk-root .studio-description { color: #06162B; font-weight: 700; margin: 8px auto 0; max-width: 1068px; }
+.studio-shell.gk-root .studio-independent { color: #5A4A1E; }
+.studio-shell.gk-root .studio-intro::before, .studio-shell.gk-root .studio-intro::after { content: ''; position: absolute; width: 30px; height: 30px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none' stroke='%2306162B' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M20 4v10M20 26v10M4 20h10M26 20h10M9 9l7 7M24 24l7 7M31 9l-7 7M16 24l-7 7'/%3E%3C/svg%3E") center / contain no-repeat; }
+.studio-shell.gk-root .studio-intro::before { right: 22px; top: 22px; }
+.studio-shell.gk-root .studio-intro::after { right: 64px; bottom: 16px; width: 22px; height: 22px; }
+.studio-shell.gk-root .skip-link:not(:focus) { top: -120px; }

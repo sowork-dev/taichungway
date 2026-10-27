@@ -44,7 +44,7 @@ export default function Page() {
 
   return <AppShell title="你是哪一味" eyebrow=""><GameDefs />
     {stage === 'intro' && <>
-      <section className="game-header" aria-labelledby="flavor-title"><h1 id="flavor-title"><span className="game-title-1">你是哪一種</span><span className="game-title-2">台中味？</span></h1><p className="hero-description">3 個選擇，找到你的日常滋味。</p></section>
+      <section className="game-header" aria-labelledby="flavor-title"><h1 id="flavor-title" className="gk-title-stack" aria-label="你是哪一種台中味？"><b className="gk-3d" data-text="你是哪一種" style={cssVars({ '--s': '54px' })} aria-hidden="true"><span>你是哪一種</span></b><b className="gk-3d gk-3d--coral" data-text="台中味？" style={cssVars({ '--s': '62px', '--r': '-3deg' })} aria-hidden="true"><span>台中味？</span></b></h1><p className="hero-description">3 個選擇，找到你的日常滋味。</p></section>
       <div className="flavor-intro-art"><LocalArt kind="market" /><span className="intro-sticker" aria-hidden="true">八種味，各有喜歡。</span></div>
       <div className="intro-steps" aria-label="遊戲方式"><span>3 個小選擇</span><span>1 次市場實驗</span><span>8 種原創結果</span></div>
       <button ref={startButton} id="start-flavor" type="button" className="button primary wide" onClick={() => setStage('questions')}>開始測驗 <span aria-hidden="true">→</span></button>
