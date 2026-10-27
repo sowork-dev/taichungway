@@ -4,7 +4,7 @@ import { resolve, extname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 
-const MIME:Record<string,string>={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.ttf':'font/ttf','.txt':'text/plain; charset=utf-8','.woff2':'font/woff2','.ico':'image/x-icon'};
+const MIME:Record<string,string>={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.ttf':'font/ttf','.txt':'text/plain; charset=utf-8','.woff2':'font/woff2','.ico':'image/x-icon','.wav':'audio/wav'};
 function publicOrigin(host:string|undefined,port:number,override?:string):string {
  if(override)return new URL(override).origin;
  if(host&&/^[a-z0-9-]+\.trycloudflare\.com$/i.test(host))return `https://${host}`;
@@ -39,7 +39,7 @@ export function createPreviewServer({root=resolve(import.meta.dirname,'..'),orig
    const data=await readFile(filename),ext=extname(filename);
    if(ext==='.html'){
     const text=data.toString('utf8');const hashes=[...text.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map(match=>match[1]).filter(Boolean).map(script=>`'sha256-${createHash('sha256').update(script).digest('base64')}'`);
-    res.setHeader('Content-Security-Policy',`default-src 'self'; script-src 'self' 'wasm-unsafe-eval' ${hashes.join(' ')}; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'`);
+    res.setHeader('Content-Security-Policy',`default-src 'self'; script-src 'self' 'wasm-unsafe-eval' ${hashes.join(' ')}; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; font-src 'self'; media-src 'self' blob: data:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'`);
    }
    if(pathname.includes('/_next/'))res.setHeader('Cache-Control','public, max-age=31536000, immutable');
    res.setHeader('Content-Type',MIME[ext]??'application/octet-stream');res.end(req.method==='HEAD'?undefined:data);

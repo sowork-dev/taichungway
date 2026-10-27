@@ -1,15 +1,25 @@
 # 台中味互動網站群 · Taichung Way
 
-**目前要接手重新設計的程式在 [`platform/`](platform/README.md)，不是根目錄的舊版泡泡 PK。**
+**開發入口是 [`platform/`](platform/README.md)，不是根目錄保留的舊版泡泡 PK。**
 
-這是供外部設計／前端協作的公開交接版本。現有視覺尚未獲得使用者認可，請閱讀 [設計與開發交接](docs/design-handoff.md)；功能測試通過不代表美術設計已通過。
+公開體驗：**https://taichungway.sowork.ai**。這是 SoWork 獨立製作，非官方網站，未取得競選團隊授權或背書。新版視覺採乾淨留白與江啟臣藍色識別，美術與真人可用性仍待使用者驗收。
+
+## 五個可玩體驗
+
+- `/comic/` 巷口四格漫畫：六場景、三種藍色筆觸、四格可編輯旁白、政策故事與 PNG。**預製故事版，不使用 AI**；私人原文單獨標示，不宣稱讀懂或改編。
+- `/check/` 對開支票本：填生活願望 → 產生自己的支票 → 對開公開政見 → 保存。**保守本機關鍵字對照，不是 AI 語意分類**；找不到不硬配。
+- `/postcard/` 台中聲音明信片：29 區選單、最多三軌混音、獨立音量、留言圖卡、可重現混音的聆聽網址。**原創合成聲景，非在地實錄**。
+- `/fortune/` 沾福氣：長按、翻卡揭曉政策、本機圖卡。
+- `/flavor/` 你是哪一味：三題配對，途中替市場開冷氣，保留八種結果。
+
+尚未開放：替他說一句、台中機器。所有來源與非官方／非成果聲明都須保留。
 
 ## 啟動目前版本
 
-需要 Node.js 22.22.2 與 pnpm 10.30.3。
+需要 Node.js 22.22.2 與 pnpm 10.30.3，不需 API Key、帳號或資料庫。
 
 ```sh
-git clone https://github.com/sowork-dev/taichungway.git
+git clone https://github.com/SOWORK-DEV/taichungway.git
 cd taichungway/platform
 corepack enable
 corepack prepare pnpm@10.30.3 --activate
@@ -20,21 +30,21 @@ pnpm build
 pnpm serve
 ```
 
-開啟 `http://127.0.0.1:4189`：入口 `/`、沾福氣 `/fortune/`、你是哪一味 `/flavor/`。不需 API Key、帳號或資料庫。`pnpm serve` 使用編譯輸出；修改後需再次 `pnpm build` 才會反映在此預覽。
+開啟 `http://127.0.0.1:4189`。`pnpm serve` 使用編譯輸出，修改後須再次建置。開發三個新體驗可在 `platform/apps/hub` 執行 `pnpm exec next dev --hostname 127.0.0.1 --port 4194`，不要與正式建置同時改寫同一個 `.next` 目錄。
 
 ## 主要修改入口
 
-- `platform/apps/hub/app/page.tsx`：入口網站。
-- `platform/apps/fortune/app/page.tsx`：長按抽福氣、翻卡揭曉政策。
-- `platform/apps/flavor/app/page.tsx`：三題配對及市場冷氣互動。
-- `platform/packages/ui/src/styles.css`：共用樣式。
-- `platform/packages/ui/src/policy-play.tsx`：政策翻卡／市場情境。
-- `platform/packages/share-card/src/index.ts`：下載圖卡。
-- `platform/packages/experience/src/policy.ts`：政策與情境文案對應。
+- `platform/apps/hub/app/{comic,check,postcard}/`：本輪三個完整體驗；各自資料、互動與 CSS。
+- `platform/apps/hub/app/page.tsx`：新版乾淨入口卡片。
+- `platform/packages/ui/src/studio.{tsx,css}`：新版共用頁首、白色留白版型、來源聲明、圖卡／分享。
+- `platform/apps/{fortune,flavor}/app/page.tsx`：原本兩個互動。
+- `platform/packages/policy-data/src/policies.json`：117 項官網原文，不能自行創造政見。
+- `platform/scripts/studio-browser-qa.py`：三體驗的實際瀏覽器操作、聲音解碼、下載與響應式驗收。
+- `platform/scripts/package-release.ts`：只打包建置輸出，保留來源版本、逐檔雜湊與 CSP script hashes。
 
-歡迎 Fork 後提交 Pull Request；public repo 不代表任何人都可直接 push。請保留來源與非官方聲明，不上傳憑證、內部環境或私人資料。執行環境紀錄與本機驗收 artifacts 未隨本次公開交接上傳，可依腳本自行重建。
+已實際整合現成開源 GitHub 元件：Rough.js、StPageFlip、Howler.js、html-to-image；版本、用途及 MIT 授權見 [開源元件說明](docs/open-source-components.md)。不是只列推薦名單，也未複製參考網站的圖片或品牌素材。
 
-原創程式碼依原有 [MIT License](LICENSE)；人物、第三方內容及字型權利另依 [NOTICE.md](NOTICE.md) 與隨附字型授權。
+協作請 Fork → 分支 → 修改 → 測試與手機截圖 → PR。public repo 不代表任何人都能直接 push。更多限制見 [設計交接](docs/design-handoff.md) 與 [platform 說明](platform/README.md)。程式 MIT；第三方內容、人物及字型權利另依 [NOTICE.md](NOTICE.md)。
 
 <details>
 <summary>舊版泡泡 PK 說明（歷史版本，非本次設計交接入口）</summary>

@@ -1,0 +1,70 @@
+.postcard-workspace { align-items: start; }
+.postcard-workspace > .studio-controls { display: flex; flex-direction: column; }
+.postcard-preview .studio-policy-kicker, .postcard-preview .studio-policy-disclosure, .postcard-preview .studio-policy a, .postcard-preview .studio-actions > p { font-size: 1rem; }
+.postcard-preview .studio-policy a { min-height: 44px; display: inline-flex; align-items: center; }
+.postcard-private-warning { color: #8d3322; font-size: 1rem; line-height: 1.8; }
+.postcard-private-warning:empty { display: none; }
+.postcard-workspace > *, .postcard-preview, .postcard-artwork { min-width: 0; }
+.postcard-disclosure { margin-bottom: 2rem; }
+.postcard-disclosure p { margin: .5rem 0 0; line-height: 1.8; }
+.postcard-districts { border: 0; padding: 0; margin: 0; min-width: 0; }
+.postcard-step { display: flex; align-items: center; gap: .75rem; margin: 0 0 1rem; font-size: 1.25rem; font-weight: 750; letter-spacing: .03em; }
+.postcard-step > span { font-size: 1rem; border: 1px solid #bad1ef; border-radius: 50%; width: 2.75rem; height: 2.75rem; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: #1261b0; background: #f3f8ff; }
+.postcard-district-group { margin-top: 1.5rem; }
+.postcard-district-group h3 { font-size: 1.125rem; display: flex; align-items: center; gap: .6rem; margin: 0 0 .75rem; color: #144b87; }
+.postcard-district-group h3 > span { font-size: 1rem; color: #526985; font-weight: 400; }
+.postcard-district-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .5rem; }
+.postcard-district-grid .studio-choice { min-height: 48px; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: .25rem; padding: .6rem .65rem; font-size: 1rem; }
+.postcard-district-grid .studio-choice span { font-size: 1.125rem; }
+.postcard-district-grid [aria-disabled="true"] { opacity: .62; cursor: not-allowed; }
+.postcard-mixer, .postcard-writing { border-top: 1px solid #d8e6f6; margin-top: 2rem; padding-top: 2rem; }
+.postcard-empty { padding: 1.25rem; border: 1px dashed #a7c6eb; background: #f8fbff; color: #526985; border-radius: 12px; line-height: 1.8; }
+.postcard-track { padding: 1.25rem; border: 1px solid #cbdff4; border-radius: 14px; margin: 1rem 0; background: #f8fbff; }
+.postcard-track.has-error { border-color: #a4513e; }
+.postcard-track-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: .5rem; }
+.postcard-track-heading h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem; margin: .5rem 0; font-size: 1.125rem; }
+.postcard-track-heading h3 span { font-size: 1rem; color: #526985; font-weight: 400; }
+.postcard-remove { min-height: 44px; padding: .4rem .8rem; font-size: 1rem; flex-shrink: 0; }
+.postcard-gain-label { display: flex; justify-content: space-between; gap: 1rem; margin: .75rem 0 0; }
+.postcard-gain-label output { font-variant-numeric: tabular-nums; color: #1261b0; }
+.postcard-gain { display: block; width: 100%; min-height: 44px; margin: 0; accent-color: #1261b0; cursor: pointer; }
+.postcard-track-status { font-size: 1rem; color: #144b87; line-height: 1.75; margin: .25rem 0 .5rem; }
+.postcard-track-status[role="alert"] { color: #8d3322; font-weight: 650; }
+.postcard-small-notice { color: #526985; font-size: 1rem; line-height: 1.7; }
+.postcard-play-controls { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.25rem; }
+.postcard-play-controls .studio-button { flex: 1 1 130px; min-height: 48px; font-size: 1rem; }
+.postcard-announcement { color: #144b87; background: #edf5ff; border-left: 3px solid #4487d0; padding: .8rem 1rem; line-height: 1.8; margin: 1rem 0 0; font-size: 1rem; }
+.postcard-writing .studio-field { margin-top: 1rem; }
+.postcard-writing .studio-label span { color: #526985; font-weight: 400; margin-left: .5rem; }
+.postcard-writing input, .postcard-writing textarea { font-size: 1rem; min-height: 44px; width: 100%; }
+.postcard-preview-label { color: #526985; display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; font-size: 1rem; margin-bottom: 1rem; letter-spacing: .06em; }
+.postcard-artwork { color: #123f78; background: #fff; border: 1px solid #bdd4ef; border-radius: 2px; padding: clamp(1.25rem, 4vw, 2.5rem); box-shadow: 0 12px 40px #0a387312; overflow-wrap: anywhere; }
+.postcard-paper-top { display: flex; justify-content: space-between; gap: 1rem; align-items: center; border-bottom: 1px solid #d8e6f6; padding-bottom: 1.25rem; }
+.postcard-paper-top > span { font-size: 1rem; line-height: 1.5; font-weight: 650; letter-spacing: .1em; }
+.postcard-stamp { border: 2px dashed #1261b0; width: 82px; height: 82px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column; transform: rotate(9deg); font-size: 1rem; line-height: 1.45; flex-shrink: 0; letter-spacing: .15em; }
+.postcard-stamp strong { font-size: 1.25rem; }
+.postcard-art-kicker { font-size: 1rem; letter-spacing: .12em; margin: 2rem 0 .75rem; }
+.postcard-artwork h2 { font-size: clamp(1.7rem, 3.2vw, 2.5rem); line-height: 1.5; font-weight: 750; letter-spacing: .025em; margin: 0; text-wrap: balance; }
+.postcard-wave { color: #1767ba; margin: .5rem -1rem 0; }
+.postcard-wave svg { display: block; width: 100%; height: auto; }
+.postcard-art-letter { min-height: 118px; border-bottom: 1px solid #d8e6f6; padding-bottom: 1.5rem; }
+.postcard-art-letter p { font-size: 1.25rem; line-height: 1.8; white-space: pre-wrap; margin: .5rem 0 1rem; }
+.postcard-art-letter > span { display: block; text-align: right; color: #526985; font-size: 1rem; }
+.postcard-art-recipe { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.25rem 0; }
+.postcard-art-recipe span { padding: .4rem .7rem; background: #edf5ff; border: 1px solid #d8e6f6; font-size: 1rem; border-radius: 4px; }
+.postcard-art-disclosure { line-height: 1.8; color: #526985; font-size: 1rem; }
+.postcard-art-disclosure strong { color: #144b87; }
+.postcard-art-source { padding-top: 1rem; border-top: 1px solid #d8e6f6; margin-top: 1rem; font-size: 1rem; line-height: 1.8; }
+.postcard-art-source p { margin: .5rem 0; }
+.postcard-source-eyebrow { color: #526985; letter-spacing: .03em; }
+.postcard-art-link { border-top: 1px solid #d8e6f6; padding-top: 1rem; margin-top: 1rem; font-size: 1rem; line-height: 1.8; }
+.postcard-art-link > span { display: block; overflow-wrap: anywhere; color: #526985; margin-top: .5rem; }
+.postcard-art-footer { font-size: 1rem; color: #526985; margin: 1rem 0 0; line-height: 1.8; }
+.postcard-credits { margin-top: 1.5rem; font-size: 1rem; color: #526985; line-height: 1.8; }
+.postcard-credits summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; text-decoration: underline; text-underline-offset: 4px; color: #144b87; }
+.postcard-receiver-info h2 { margin-top: 0; font-size: 1.25rem; }
+.postcard-receiver-info p { line-height: 1.8; }
+.postcard-workspace button:focus-visible, .postcard-workspace input:focus-visible, .postcard-workspace textarea:focus-visible, .postcard-workspace summary:focus-visible { outline: 3px solid #1261b0; outline-offset: 3px; }
+@media (min-width: 1000px) { .postcard-preview { position: sticky; top: 1.5rem; } }
+@media (max-width: 400px) { .postcard-track { padding: 1rem; } .postcard-district-grid .studio-choice { padding: .6rem .45rem; } .postcard-paper-top > span { letter-spacing: .04em; } .postcard-stamp { width: 70px; height: 70px; } }
+@media (prefers-reduced-motion: reduce) { .postcard-workspace *, .postcard-workspace *::before, .postcard-workspace *::after { animation: none !important; transition: none !important; } }
