@@ -37,8 +37,8 @@ export function validateSites(input: unknown, origin: string): SiteRecord[] | nu
   return records;
 }
 
-// Experiences still being finished: shown as 趕工中 and not linked from the hub or footer.
-export const WIP_SITES: SiteId[] = ['comic', 'check', 'postcard', 'flavor'];
+// Studio experiences still being finished: shown as 趕工中 and not linked from the hub or footer.
+export const WIP_SITES: SiteId[] = [];
 export function siteHref(site: SiteRecord): string | undefined {
   if (site.status !== 'live') return undefined;
   const url = new URL(site.url);

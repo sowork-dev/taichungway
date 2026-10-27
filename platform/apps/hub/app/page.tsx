@@ -9,9 +9,9 @@ const tags: Record<SiteId, string> = { comic: '畫四格', check: '寫願望', p
 // Games served by the main site (public/): adventure, AI chat and bubble PvP.
 const MAIN = 'https://taichungway.sowork.ai';
 const games = [
-  { id: 'adventure', title: '城市冒險', tag: '探索 · 解任務', href: `${MAIN}/adventure.html`, icon: 'city' as GameIconName, featured: true, color: 'blue' },
-  { id: 'chat', title: '啟臣，聊一下', tag: 'AI 聊天', href: `${MAIN}/chat.html`, icon: 'chat' as GameIconName, color: 'cyan' },
-  { id: 'bubble', title: '泡泡 PK', tag: '雙人對戰', href: `${MAIN}/bubble.html`, icon: 'bubble' as GameIconName, color: 'coral' },
+  { id: 'adventure', title: '城市冒險', tag: '探索 · 解任務', href: `${MAIN}/adventure.html`, icon: 'city' as GameIconName, featured: true, color: 'blue', wip: true },
+  { id: 'chat', title: '啟臣，聊一下', tag: 'AI 聊天', href: `${MAIN}/chat.html`, icon: 'chat' as GameIconName, color: 'cyan', wip: true },
+  { id: 'bubble', title: '泡泡 PK', tag: '雙人對戰', href: `${MAIN}/bubble.html`, icon: 'bubble' as GameIconName, color: 'coral', wip: true },
 ];
 
 function Directory() {
@@ -19,7 +19,11 @@ function Directory() {
   const sorted = [...sites].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
   return <section id="experiences" className="directory clean-directory hub-game" aria-labelledby="directory-title">
     <h2 id="directory-title" className="sr-only">互動體驗</h2>
-    <div className="hub-grid hub-grid-main">{games.map(game => <a key={game.id} className={`hub-tile gk-tile gk-tile--${game.color}${game.featured ? ' is-featured gk-shine' : ''}`} href={game.href} data-game-id={game.id}>
+    <div className="hub-grid hub-grid-main">{games.map(game => game.wip
+      ? <article key={game.id} className={`hub-tile gk-tile gk-tile--${game.color} wip-card`} aria-disabled="true" data-game-id={game.id}>
+        <GameIcon name={game.icon} /><span className="gk-tile-title">{game.title}</span><span className="gk-tile-tag">趕工中</span>
+      </article>
+      : <a key={game.id} className={`hub-tile gk-tile gk-tile--${game.color}${game.featured ? ' is-featured gk-shine' : ''}`} href={game.href} data-game-id={game.id}>
       <GameIcon name={game.icon} /><span className="gk-tile-title">{game.title}</span><span className="gk-tile-tag">{game.tag}</span>
     </a>)}</div>
     <p className="hub-divider"><span>小小創作室</span></p>
