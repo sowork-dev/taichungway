@@ -1,0 +1,53 @@
+/* Taichung food English: Duolingo-style flow in the blue Pop look. */
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{background:#FFE6A0;font-family:var(--gk-font,'Noto Sans TC','PingFang TC',system-ui,sans-serif);color:#06162B;-webkit-tap-highlight-color:transparent}
+.eng-app{max-width:520px;margin:0 auto;height:100dvh;display:flex;flex-direction:column;position:relative;background:#FFE6A0 radial-gradient(#F4B94A55 1.5px,transparent 1.6px) 0 0/14px 14px}
+button{font:inherit;color:inherit;cursor:pointer}
+.eng-btn{display:block;width:100%;min-height:54px;border:3px solid #06162B;border-radius:16px;background:#1A63C8;color:#fff;font-weight:900;font-size:19px;box-shadow:0 5px 0 #06162B;transition:transform .08s,box-shadow .08s}
+.eng-btn:active{transform:translateY(4px);box-shadow:0 1px 0 #06162B}.eng-btn:disabled{background:#cfd8e4;color:#7a8799;box-shadow:0 5px 0 #8c98a8;border-color:#8c98a8;cursor:default}
+.eng-btn.ok{background:#2E9E5B}.eng-btn.bad{background:#E4423F}
+.eng-link{background:none;border:0;text-decoration:underline;font-weight:800;color:#0F4AA0;min-height:40px}
+/* home */
+.home{flex:1;display:flex;flex-direction:column;padding:16px;gap:14px;overflow:auto}
+.top{display:flex;justify-content:space-between;align-items:center;font-weight:900}
+.chip{display:inline-flex;gap:6px;align-items:center;background:#fff;border:3px solid #06162B;border-radius:999px;padding:3px 12px;box-shadow:0 3px 0 #06162B}
+.hero{background:#1A63C8;border:4px solid #06162B;border-radius:18px;box-shadow:0 6px 0 #06162B;padding:18px 16px;text-align:center;color:#fff}
+.hero h1{margin:0;font-size:34px;font-weight:900;text-shadow:3px 3px 0 #06162B,-1px -1px 0 #06162B,1px -1px 0 #06162B,-1px 1px 0 #06162B}
+.hero .big{font-size:76px;line-height:1.1;margin:6px 0}.hero p{margin:4px 0 0;font-weight:800;color:#E3EFFF}
+.book{background:#fff;border:3px solid #06162B;border-radius:16px;padding:10px 12px}
+.book b{display:flex;justify-content:space-between}.words{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.words span{font-size:22px;width:38px;height:38px;display:grid;place-items:center;border:2.5px solid #06162B;border-radius:10px;background:#E3EFFF;filter:grayscale(1) opacity(.35)}
+.words span.on{filter:none;background:#BFE0FB}
+.spacer{flex:1}
+/* lesson */
+.lesson{flex:1;display:flex;flex-direction:column;min-height:0}
+.bar{display:flex;align-items:center;gap:10px;padding:14px 14px 6px}
+.x{width:36px;height:36px;border-radius:50%;border:3px solid #06162B;background:#fff;font-weight:900}
+.track{flex:1;height:16px;border:3px solid #06162B;border-radius:99px;background:#fff;overflow:hidden}.track i{display:block;height:100%;background:#2E9E5B;border-radius:99px;transition:width .35s}
+.hearts{font-weight:900;font-size:18px;min-width:48px;text-align:right}.hearts.hit{animation:hit .4s}
+@keyframes hit{30%{transform:scale(1.5) rotate(-10deg)}}
+.body{flex:1;overflow:auto;padding:10px 16px;display:flex;flex-direction:column;gap:14px}
+.prompt{font-size:22px;font-weight:900;text-align:center;margin:8px 0 0}
+.pic{font-size:96px;text-align:center;line-height:1.1}
+.say{align-self:center}.say button{border:3px solid #06162B;border-radius:12px;background:#fff;padding:2px 12px;font-weight:900}
+.word{font-size:34px;font-weight:900;text-align:center;text-shadow:2px 2px 0 #fff}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}.opts.one{grid-template-columns:1fr}
+.opt{min-height:64px;padding:8px 10px;border:3px solid #06162B;border-radius:16px;background:#fff;box-shadow:0 4px 0 #06162B;font-weight:900;font-size:18px}
+.opt.sel{background:#BFE0FB;transform:translateY(2px);box-shadow:0 2px 0 #06162B}
+.opt.right{background:#BFF0CF}.opt.wrong{background:#F9C2C3}
+.opt:disabled{cursor:default}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:10px}.match .col{display:flex;flex-direction:column;gap:10px}
+.opt.done{background:#BFF0CF;opacity:.55}.opt.shake{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.foot{padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:4px solid #06162B;background:#fff}
+.foot.ok{background:#BFF0CF}.foot.bad{background:#F9C2C3}
+.foot h3{margin:0 0 2px;font-size:22px}.foot p{margin:0 0 10px;font-weight:800}
+/* result */
+.result{flex:1;display:flex;flex-direction:column;align-items:center;gap:12px;padding:20px 16px;overflow:auto;text-align:center}
+.result h2{margin:0;font-size:30px;font-weight:900}.rstars{display:flex;gap:8px;font-size:56px}.rstars span{color:#cfd8e4;text-shadow:0 3px 0 #06162B}.rstars span.on{color:#F2B01E;animation:pop .5s both}
+@keyframes pop{0%{transform:scale(0) rotate(-40deg)}70%{transform:scale(1.35)}100%{transform:scale(1)}}
+.stats{display:flex;gap:10px}.stat{background:#fff;border:3px solid #06162B;border-radius:14px;padding:8px 14px;font-weight:900;box-shadow:0 3px 0 #06162B}
+.learned{width:100%;display:grid;gap:6px;text-align:left}.learned div{display:flex;align-items:center;gap:10px;background:#fff;border:3px solid #06162B;border-radius:12px;padding:4px 10px;font-weight:800}.learned em{font-style:normal;font-size:26px}.learned small{margin-left:auto;color:#0F4AA0;font-weight:900;font-size:15px}
+.learned button{margin-left:auto;border:0;background:none;font-size:18px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.foot:empty{display:none}
