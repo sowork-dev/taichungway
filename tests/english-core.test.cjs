@@ -5,11 +5,17 @@ const fs = require('node:fs');
 const path = require('node:path');
 const E = require('../public/english-core.js');
 
-test('word list has unique ids, unique emoji and non-empty text', () => {
-  const ids = new Set(), emoji = new Set();
-  for (const w of E.WORDS) { assert.ok(w.zh && w.en && w.emoji, w.id); ids.add(w.id); emoji.add(w.emoji); }
+test('word list has unique ids and text; picture words have a unique picture that no other word shares', () => {
+  const ids = new Set();
+  for (const w of E.WORDS) { assert.ok(w.zh && w.en && w.emoji, w.id); ids.add(w.id); }
   assert.equal(ids.size, E.WORDS.length);
-  assert.equal(emoji.size, E.WORDS.length, 'a picture question must have exactly one matching word');
+  const pics = E.WORDS.filter(w => w.pic).map(w => w.emoji);
+  assert.equal(new Set(pics).size, pics.length, 'a picture question must have exactly one matching word');
+  for (const w of E.WORDS.filter(w => !w.pic)) assert.equal(pics.includes(w.emoji), false, w.id + ' must not reuse a picture emoji');
+  assert.equal(E.WORDS.length, 50);
+});
+test('picture questions only use words that have their own picture', () => {
+  for (let seed = 1; seed <= 60; seed++) for (const q of E.makeLesson(seed)) if (q.type === 'pic2en') assert.ok(E.wordById(q.wordId).pic, q.wordId);
 });
 test('a lesson has 8 questions, each with 4 distinct options including the answer', () => {
   const lesson = E.makeLesson(7);
@@ -23,9 +29,9 @@ test('a lesson has 8 questions, each with 4 distinct options including the answe
 });
 test('same seed gives the same lesson; unseen words are preferred over well-known ones', () => {
   assert.deepEqual(E.makeLesson('2026-10-28'), E.makeLesson('2026-10-28'));
-  const known = Object.fromEntries(E.WORDS.slice(0, 16).map(w => [w.id, 5]));
+  const known = Object.fromEntries(E.WORDS.slice(0, 24).map(w => [w.id, 5]));
   const lesson = E.makeLesson(3, known);
-  const fresh = new Set(E.WORDS.slice(16).map(w => w.id));
+  const fresh = new Set(E.WORDS.slice(24).map(w => w.id));
   assert.equal(lesson.filter(q => fresh.has(q.wordId)).length, 8);
 });
 test('perfect run: 3 stars, 80 xp, done', () => {
@@ -74,7 +80,7 @@ test('restore fails closed on bad data and round-trips good data', () => {
 test('share text has no names or room codes', () => {
   const s = E.createSession(E.makeLesson(1)); while (E.current(s)) { const q = E.current(s); E.answer(s, q.type === 'match' ? true : q.wordId); }
   const text = E.shareText(s, E.applyLesson(E.emptyProgress(), s, '2026-10-28'), '2026-10-28');
-  assert.match(text, /味道英文 ★★★/); assert.match(text, /\+80 XP/);
+  assert.match(text, /一口好英文 ★★★/); assert.match(text, /\+80 XP/);
 });
 test('the core is pure: no DOM, network or storage in the module', () => {
   const source = fs.readFileSync(path.join(__dirname, '../public/english-core.js'), 'utf8');

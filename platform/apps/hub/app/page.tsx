@@ -12,7 +12,7 @@ const games = [
   { id: 'adventure', title: '城市冒險', tag: '探索 · 解任務', href: `${MAIN}/adventure.html`, icon: 'city' as GameIconName, featured: true, color: 'blue' },
   { id: 'chat', title: '啟臣，聊一下', tag: 'AI 聊天', href: `${MAIN}/chat.html`, icon: 'chat' as GameIconName, color: 'cyan' },
   { id: 'bubble', title: '泡泡 PK', tag: '雙人對戰', href: `${MAIN}/bubble.html`, icon: 'bubble' as GameIconName, color: 'coral' },
-  { id: 'english', title: '味道英文', tag: '每天一課', href: `${MAIN}/english.html`, icon: 'flavor' as GameIconName, color: 'sun' },
+  { id: 'english', title: '一口好英文', tag: '每天一課', href: `${MAIN}/english.html`, icon: 'flavor' as GameIconName, color: 'sun' },
 ];
 
 function Directory() {

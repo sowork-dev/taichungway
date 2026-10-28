@@ -30,7 +30,7 @@
     const top = el('div', 'top');
     top.append(el('span', 'chip', '🔥 ' + E.liveStreak(progress, today())), el('span', 'chip', '⚡ ' + progress.xp + ' XP'));
     const hero = el('div', 'hero');
-    hero.append(el('h1', '', '味道英文'), el('div', 'big', '🍜'), el('p', '', '台中小吃，每天學一課'));
+    hero.append(el('h1', '', '一口好英文'), el('div', 'big', '🍜'), el('p', '', '台中小吃，每天學一課'));
     const book = el('div', 'book');
     const head = el('b', '');
     head.append(el('span', '', '我的單字冊'), el('span', '', E.learnedCount(progress) + ' / ' + E.WORDS.length));
@@ -77,7 +77,7 @@
       check.remove();
     } else {
       if (q.type === 'pic2en') { body.append(el('p', 'prompt', '這個的英文是？'), el('div', 'pic', word.emoji)); }
-      else if (q.type === 'zh2en') { body.append(el('p', 'prompt', '「' + word.zh + '」的英文是？'), el('div', 'pic', word.emoji)); }
+      else if (q.type === 'zh2en') { body.append(el('p', 'prompt', '「' + word.zh + '」的英文是？'), el('div', 'pic', word.pic ? word.emoji : '')); }
       else {
         body.append(el('p', 'prompt', '這是什麼意思？'), el('div', 'word', word.en));
         if (canSpeak) { const row = el('div', 'say'); row.append(button('', '🔊 聽聽看', () => say(word.en))); body.append(row); }
@@ -182,7 +182,7 @@
     const more = button('eng-btn', '再來一課 ▶', startLesson);
     const share = button('eng-link', '分享成績', async () => {
       const text = E.shareText(s, progress, today()) + '\n' + location.origin + '/english.html';
-      try { if (navigator.share) { await navigator.share({ title: '味道英文', text }); return; } await navigator.clipboard.writeText(text); share.textContent = '已複製'; } catch (e) { if (e && e.name !== 'AbortError') share.textContent = '分享不了，請截圖'; }
+      try { if (navigator.share) { await navigator.share({ title: '一口好英文', text }); return; } await navigator.clipboard.writeText(text); share.textContent = '已複製'; } catch (e) { if (e && e.name !== 'AbortError') share.textContent = '分享不了，請截圖'; }
     });
     wrap.append(more, share, button('eng-link', '回首頁', home));
     mount(wrap);

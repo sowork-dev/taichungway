@@ -14,8 +14,20 @@
     ['dumpling', '🥟', '水餃', 'dumplings'], ['pineapple', '🍍', '鳳梨', 'pineapple'], ['oyster', '🦪', '蚵仔', 'oyster'],
     ['tofu', '🍮', '豆花', 'tofu pudding'], ['porkrice', '🍛', '滷肉飯', 'braised pork rice'], ['cake', '🥮', '太陽餅', 'sun cake'],
     ['fruit', '🍉', '水果', 'fruit'], ['bread', '🍞', '麵包', 'bread'], ['spicy', '🌶️', '辣', 'spicy'],
-    ['sweet', '🍬', '甜', 'sweet'], ['hot', '🔥', '燙', 'hot'], ['cold', '🧊', '冰', 'cold']
-  ].map(([id, emoji, zh, en]) => Object.freeze({ id, emoji, zh, en })));
+    ['sweet', '🍬', '甜', 'sweet'], ['hot', '🔥', '燙', 'hot'], ['cold', '🧊', '冰', 'cold'],
+    // Taichung specialties. A word without its own unmistakable emoji uses a generic plate and never appears as a picture question.
+    ['sausage', '🌭', '大腸包小腸', 'rice sausage roll'], ['shavedice', '🍧', '剉冰', 'shaved ice'], ['popchicken', '🍗', '鹹酥雞', 'popcorn chicken'],
+    ['peach', '🍑', '水蜜桃', 'peach'], ['shiitake', '🍄', '香菇', 'shiitake mushroom'],
+    ['bawan', '🍽️', '肉圓', 'ba-wan (meat dumpling)', false], ['bamboorice', '🍽️', '筒仔米糕', 'bamboo-tube sticky rice', false],
+    ['ribsoup', '🍽️', '排骨酥湯', 'fried pork rib soup', false], ['taropastry', '🍽️', '芋頭酥', 'taro pastry', false],
+    ['mochi', '🍽️', '麻糬', 'mochi', false], ['mountaintea', '⛰️', '高山茶', 'high-mountain tea', false],
+    ['persimmon', '🍽️', '甜柿', 'sweet persimmon', false], ['lychee', '🍽️', '荔枝', 'lychee', false],
+    ['nightmarket', '🌃', '夜市', 'night market', false], ['stall', '🏮', '攤位', 'food stall', false],
+    ['taro', '🍽️', '芋頭', 'taro', false], ['icecream', '🍦', '冰淇淋', 'ice cream'], ['apple', '🍎', '蘋果', 'apple'], ['pear', '🍐', '水梨', 'pear'],
+    ['tangerine', '🍊', '橘子', 'tangerine'], ['corn', '🌽', '烤玉米', 'grilled corn'], ['sweetpotato', '🍠', '烤地瓜', 'sweet potato'],
+    ['scallionpancake', '🥞', '蔥油餅', 'scallion pancake'], ['stinkytofu', '🍽️', '臭豆腐', 'stinky tofu', false],
+    ['oysteromelet', '🍽️', '蚵仔煎', 'oyster omelet', false], ['pineapplecake', '🍽️', '鳳梨酥', 'pineapple cake', false]
+  ].map(([id, emoji, zh, en, pic]) => Object.freeze({ id, emoji, zh, en, pic: pic !== false })));
   const wordById = id => WORDS.find(w => w.id === id) || null;
 
   // Small deterministic RNG so tests and daily lessons are reproducible.
@@ -39,7 +51,8 @@
     const types = ['pic2en', 'zh2en', 'en2zh', 'pic2en', 'zh2en', 'en2zh', 'pic2en', 'match'];
     const questions = [];
     picked.forEach((word, i) => {
-      const type = types[i % types.length];
+      let type = types[i % types.length];
+      if (type === 'pic2en' && !word.pic) type = 'zh2en';
       if (type === 'match') {
         const pairs = shuffle(picked.filter(w => w.id !== word.id), rand).slice(0, 3).concat(word);
         questions.push({ type, wordId: word.id, pairs: shuffle(pairs, rand).map(w => w.id) });
@@ -114,7 +127,7 @@
   }
   const dateKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   function shareText(s, p, dayKey) {
-    return `味道英文 ${'★'.repeat(stars(s))}${'☆'.repeat(3 - stars(s))}　+${s.xp} XP　🔥${liveStreak(p, dayKey)}　${learnedCount(p)}/${WORDS.length} 個單字`;
+    return `一口好英文 ${'★'.repeat(stars(s))}${'☆'.repeat(3 - stars(s))}　+${s.xp} XP　🔥${liveStreak(p, dayKey)}　${learnedCount(p)}/${WORDS.length} 個單字`;
   }
   return { WORDS, wordById, LESSON_SIZE, makeLesson, optionLabel, createSession, current, answer, progressOf, stars, STORAGE_KEY, emptyProgress, applyLesson, learnedCount, serialize, restore, liveStreak, dateKey, shareText };
 }));
