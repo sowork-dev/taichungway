@@ -29,6 +29,7 @@ export async function packageRelease({root,dest,origin,revision}:{root:string;de
  const sites=JSON.parse(await readFile(join(base,'data/sites.json'),'utf8'))as Array<{url:string}>;
  for(const row of sites)row.url=new URL(new URL(row.url).pathname,site.origin).href;
  await writeFile(join(output,'sites.json'),JSON.stringify(sites,null,2)+'\n');
+ const metricsReady=await stat(join(output,'anonymous-metrics.js')).then(info=>info.isFile(),()=>false);
  const files:Array<{path:string;sha256:string;bytes:number}>=[];const hashes=new Set<string>();
  async function scan(path:string):Promise<void>{
   for(const item of await readdir(path,{withFileTypes:true})){
@@ -36,7 +37,15 @@ export async function packageRelease({root,dest,origin,revision}:{root:string;de
    if(item.isSymbolicLink())throw new Error('Symlink in static output');
    if(item.isDirectory()){await scan(file);continue;}
    if(!item.isFile())throw new Error('Nonregular output');
-   const data=await readFile(file);files.push({path:relative(output,file).split(sep).join('/'),sha256:createHash('sha256').update(data).digest('hex'),bytes:data.length});
+   let data=await readFile(file);
+   if(metricsReady&&item.name.endsWith('.html')){
+    const html=data.toString('utf8');
+    if(!html.includes('src="/anonymous-metrics.js"')){
+     const instrumented=html.replace(/<\/head>/i,'<script defer src="/anonymous-metrics.js"></script></head>');
+     if(instrumented!==html){await writeFile(file,instrumented);data=Buffer.from(instrumented);}
+    }
+   }
+   files.push({path:relative(output,file).split(sep).join('/'),sha256:createHash('sha256').update(data).digest('hex'),bytes:data.length});
    if(item.name.endsWith('.html'))for(const match of data.toString('utf8').matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi))if(match[1])hashes.add(`'sha256-${createHash('sha256').update(match[1]).digest('base64')}'`);
   }
  }

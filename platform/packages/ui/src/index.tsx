@@ -37,6 +37,8 @@ export function validateSites(input: unknown, origin: string): SiteRecord[] | nu
   return records;
 }
 
+// Studio experiences still being finished: shown as 趕工中 and not linked from the hub or footer.
+export const WIP_SITES: SiteId[] = [];
 export function siteHref(site: SiteRecord): string | undefined {
   if (site.status !== 'live') return undefined;
   const url = new URL(site.url);
@@ -188,12 +190,12 @@ export function AppShell({ children, title = '台中味', eyebrow = '把日常�
     <footer className="site-footer">
       <a className="more-link" href="/">更多台中味 <span aria-hidden="true">↗</span></a>
       <nav className="other-sites" aria-label="其他互動體驗">{others.map(site => {
-        const href = siteHref(site);
-        return href ? <a key={site.id} href={href}>{site.title}<span aria-hidden="true"> ↗</span></a> : <span key={site.id} aria-disabled="true">{site.title}<span className="soon-note">・即將上線</span></span>;
+        const href = WIP_SITES.includes(site.id) ? undefined : siteHref(site);
+        return href ? <a key={site.id} href={href}>{site.title}<span aria-hidden="true"> ↗</span></a> : <span key={site.id} aria-disabled="true">{site.title}<span className="soon-note">・{WIP_SITES.includes(site.id) ? '趕工中' : '即將上線'}</span></span>;
       })}</nav>
       <p className="preview-disclosure">獨立互動預覽，非官方網站；尚未取得競選團隊授權或背書。</p>
       <nav className="legal-links" aria-label="網站資訊"><a href="https://taichungway.tw/" target="_blank" rel="noopener noreferrer">臺中味官網 ↗</a><a href="/privacy/">隱私權聲明</a></nav>
-      <p>不設 Cookie、不追蹤；作答只留在這個頁面。</p>
+      <p>不設 Cookie；僅匿名彙總瀏覽及功能使用次數，作答不納入統計。</p>
     </footer>
   </div></SitesContext.Provider>;
 }

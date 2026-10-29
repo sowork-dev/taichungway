@@ -115,7 +115,9 @@ test('actual initial React markup includes five disabled-until-validated cards a
   const flavor = (await import('../apps/flavor/app/page')).default;
   const hubHtml = renderToStaticMarkup(createElement(hub));
   assert.equal((hubHtml.match(/data-site-id=/g) ?? []).length, 5);
-  assert.equal((hubHtml.match(/class="experience-card soon-card"/g) ?? []).length, 5);
+  assert.equal((hubHtml.match(/class="experience-card soon-card(?: wip-card)?"/g) ?? []).length, 5);
+  assert.doesNotMatch(hubHtml, /wip-card/, 'every experience is open');
+  for (const id of ['adventure', 'bubble', 'chat']) assert.match(hubHtml, new RegExp(`href="[^"]*/${id}\\.html"`));
   assert.doesNotMatch(hubHtml, /href="(?:\/fortune\/|\/flavor\/)"/, 'initial state cannot assert stale availability');
   for (const Page of [fortune, flavor]) {
     const html = renderToStaticMarkup(createElement(Page));

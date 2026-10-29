@@ -28,6 +28,8 @@ body:has(.hub-game) { background: #0D2039; }
 .clean-directory .hub-tile, .hub-game .experience-card { font-family: var(--gk-font); }
 .hub-game .experience-card, .hub-game .experience-card.live-card { border: 4px solid #06162B; border-radius: 26px; padding: 14px 10px; background: linear-gradient(#FFFFFF, #E3EFFF); box-shadow: inset 0 4px 0 #FFFFFF, inset 0 -6px 0 #BDD8FA, 0 6px 0 #06162B; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; color: #06162B; text-decoration: none; }
 .hub-game .experience-card.soon-card { filter: saturate(.3) brightness(.92); }
+.hub-game .wip-card { filter: saturate(.3) brightness(.92); cursor: not-allowed; }
+.hub-game .wip-card .gk-tile-tag { background: #F5B800; color: #06162B; }
 .hub-game .experience-card .gk-tile-title { font: 900 19px/1.25 var(--gk-font); }
 .hub-game .gk-tile-tag { display: inline-flex; padding: 3px 10px; border-radius: 999px; background: #0D2039; color: #FFFFFF; font: 800 13px/1.4 var(--gk-font); border: 2px solid #06162B; }
 .hub-game .is-featured .gk-tile-title { color: #FFFFFF; text-shadow: 0 2px 0 #06162B; }
