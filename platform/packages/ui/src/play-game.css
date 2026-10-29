@@ -103,3 +103,25 @@ body:has(.app-shell.gk-root) { background: #FFE6A0; }
 .result-heading h1 { background: #FFFFFF; border: 4px solid #06162B; border-radius: 18px; box-shadow: 0 5px 0 #06162B; padding: 8px 12px; display: block; }
 .hold-button { box-shadow: 0 0 0 6px #06162B, 0 10px 0 6px #06162B; background: conic-gradient(#1A63C8 calc(var(--hold, 0) * 360deg), #FFFFFF 0); }
 .fortune-stage .hold-caption { z-index: 5; }
+
+/* ---- Flavor quiz: one question per screen, emoji answer cards (Duolingo-style flow in the blue Pop look) ---- */
+.q-flow { display: grid; gap: 14px; padding-top: 8px; }
+.q-top { display: flex; align-items: center; gap: 10px; }
+.q-back { width: 38px; height: 38px; flex: none; border: 3px solid #06162B; border-radius: 50%; background: #FFFFFF; font-weight: 900; cursor: pointer; }
+.q-bar { flex: 1; height: 16px; }
+.q-step { font-weight: 900; min-width: 34px; text-align: right; }
+.q-flow .question-title { text-align: center; font-size: clamp(22px, 6vw, 28px); line-height: 1.4; margin: 6px 0 2px; }
+.q-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.q-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 150px; padding: 12px 8px; border: 3px solid #06162B; border-radius: 18px; background: #FFFFFF; box-shadow: 0 5px 0 #06162B; text-align: center; cursor: pointer; transition: transform .08s, box-shadow .08s, background .12s; }
+.q-card:hover { background: #E3EFFF; }
+.q-card:active { transform: translateY(4px); box-shadow: 0 1px 0 #06162B; background: #BFE0FB; }
+.q-card .q-emoji { font-size: 52px; line-height: 1.1; }
+.q-card .answer-copy { display: grid; gap: 2px; }
+.q-card .answer-copy strong { font-size: 17px; font-weight: 900; color: #06162B; }
+.q-card .answer-copy span { font-size: 12px; font-weight: 700; color: #3a5373; line-height: 1.35; }
+@media (prefers-reduced-motion: reduce) { .q-card { transition: none; } }
+/* Flavor quiz market step: just the plan, one switch and one continue button. */
+.market-interlude .market-heading, .market-interlude .market-plan-heading, .market-interlude .market-plan-status, .market-interlude .market-stall-number, .market-interlude .policy-notes, .market-interlude .policy-receipt-head { display: none; }
+.market-interlude .market-interlude-title { text-align: center; font-size: clamp(24px, 7vw, 30px); margin: 8px 0 12px; }
+.market-interlude .market-plan { border: 3px solid #06162B; border-radius: 16px; background: #FFFFFF; box-shadow: 0 4px 0 #06162B; padding: 10px; }
+body:has(.q-flow) .site-footer, body:has(.market-interlude) .site-footer { display: none; }
