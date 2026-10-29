@@ -42,12 +42,25 @@
   }
   function seedFromString(text) { let h = 2166136261; for (const ch of String(text)) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; } return h; }
 
+  // Route: 6 themed units (each word belongs to exactly one). docs/english-units.md explains the plan.
+  const UNITS = Object.freeze([
+    ['breakfast', '早餐桌', '🥞', ['egg', 'soymilk', 'riceball', 'bread', 'scallionpancake', 'tea', 'coffee', 'hot', 'cold', 'mountaintea']],
+    ['market', '菜市場', '🧺', ['veg', 'fish', 'rice', 'basket', 'stall', 'taro', 'shiitake', 'tofu']],
+    ['nightmarket', '夜市小吃', '🌃', ['nightmarket', 'popchicken', 'stinkytofu', 'oysteromelet', 'bawan', 'sausage', 'corn', 'sweetpotato', 'bubbletea', 'oyster']],
+    ['bowls', '湯麵飯', '🍜', ['soup', 'noodles', 'porkrice', 'bamboorice', 'ribsoup', 'dumpling', 'spicy']],
+    ['sweets', '甜點', '🥮', ['cake', 'pineapplecake', 'taropastry', 'mochi', 'shavedice', 'icecream', 'sweet']],
+    ['fruit', '水果', '🍉', ['fruit', 'pineapple', 'peach', 'persimmon', 'lychee', 'apple', 'pear', 'tangerine']]
+  ].map(([id, title, emoji, words]) => Object.freeze({ id, title, emoji, words: Object.freeze(words) })));
+  const unitById = id => UNITS.find(u => u.id === id) || null;
+
   const LESSON_SIZE = 8;
-  /** Builds a lesson. `known` = { wordId: correctCount } so unseen/weak words are picked first. Returns frozen question list. */
-  function makeLesson(seed, known = {}) {
+  const MASTERY_MAX = 3;
+  /** Builds a lesson from one unit. `mastery` = { wordId: 0..3 }: the least-known words come first. Returns the frozen question list. */
+  function makeLesson(seed, unit, mastery = {}) {
     const rand = rng(typeof seed === 'string' ? seedFromString(seed) : seed);
-    const order = shuffle(WORDS, rand).sort((a, b) => (known[a.id] || 0) - (known[b.id] || 0));
-    const picked = order.slice(0, LESSON_SIZE);
+    const pool = (unit ? unit.words.map(wordById) : WORDS).filter(Boolean);
+    const order = shuffle(pool, rand).sort((a, b) => (mastery[a.id] || 0) - (mastery[b.id] || 0));
+    const picked = order.slice(0, Math.min(LESSON_SIZE, order.length));
     const types = ['pic2en', 'zh2en', 'en2zh', 'pic2en', 'zh2en', 'en2zh', 'pic2en', 'match'];
     const questions = [];
     picked.forEach((word, i) => {
@@ -58,8 +71,8 @@
         questions.push({ type, wordId: word.id, pairs: shuffle(pairs, rand).map(w => w.id) });
         return;
       }
-      const pool = WORDS.filter(w => w.id !== word.id);
-      const wrong = shuffle(pool, rand).slice(0, 3);
+      const others = WORDS.filter(w => w.id !== word.id);
+      const wrong = shuffle(others, rand).slice(0, 3);
       const options = shuffle([word, ...wrong], rand).map(w => w.id);
       questions.push({ type, wordId: word.id, options });
     });
@@ -91,37 +104,71 @@
 
   // ---- Local progress (this device only) ----
   const STORAGE_KEY = 'taichung-english-v1';
-  const emptyProgress = () => ({ v: 1, xp: 0, streak: 0, lastDay: null, lessons: 0, known: {} });
+  const DAY = /^\d{4}-\d{2}-\d{2}$/;
+  const emptyProgress = () => ({ v: 2, xp: 0, streak: 0, lastDay: null, lessons: 0, mastery: {}, today: null });
   const dayNumber = key => Math.floor(Date.parse(key + 'T00:00:00Z') / 86400000);
+  const masteryOf = (p, id) => p.mastery[id] || 0;
+  /** A finished lesson raises the mastery of every word answered right first time and lowers the ones missed. */
   function applyLesson(p, s, dayKey) {
-    const next = { v: 1, xp: p.xp, streak: p.streak, lastDay: p.lastDay, lessons: p.lessons, known: { ...p.known } };
+    const next = { v: 2, xp: p.xp, streak: p.streak, lastDay: p.lastDay, lessons: p.lessons, mastery: { ...p.mastery }, today: p.today };
     if (!s.done) return next;
     next.xp += s.xp; next.lessons++;
-    for (const q of s.questions) if (!s.missedIds.includes(q.wordId)) next.known[q.wordId] = Math.min(9, (next.known[q.wordId] || 0) + 1);
-    if (/^\d{4}-\d{2}-\d{2}$/.test(dayKey)) {
+    for (const q of s.questions) {
+      const now = masteryOf(next, q.wordId);
+      next.mastery[q.wordId] = s.missedIds.includes(q.wordId) ? Math.max(0, now - 1) : Math.min(MASTERY_MAX, now + 1);
+    }
+    if (DAY.test(dayKey)) {
       if (p.lastDay === dayKey) { /* same day: keep streak */ }
       else if (p.lastDay && dayNumber(dayKey) - dayNumber(p.lastDay) === 1) next.streak = p.streak + 1;
       else next.streak = 1;
       next.lastDay = dayKey;
+      next.today = { day: dayKey, n: (p.today && p.today.day === dayKey ? p.today.n : 0) + 1 };
     }
     return next;
   }
-  const learnedCount = p => Object.values(p.known).filter(n => n >= 1).length;
+  const learnedCount = p => WORDS.filter(w => masteryOf(p, w.id) >= 1).length;
+  const masteredCount = p => WORDS.filter(w => masteryOf(p, w.id) >= MASTERY_MAX).length;
+  const lessonsToday = (p, dayKey) => (p.today && p.today.day === dayKey ? p.today.n : 0);
+  /** Unit state: `cleared` (unlocks the next unit) needs 60% of its words at mastery 2+; stars: 1 cleared, 2 all words 2+, 3 all words mastered. */
+  function unitState(p, unit) {
+    const words = unit.words, total = words.length;
+    const at2 = words.filter(id => masteryOf(p, id) >= 2).length, at3 = words.filter(id => masteryOf(p, id) >= MASTERY_MAX).length;
+    const known = words.filter(id => masteryOf(p, id) >= 1).length;
+    const cleared = at2 >= Math.ceil(total * 0.6);
+    return { total, known, at2, at3, cleared, stars: at3 === total ? 3 : at2 === total ? 2 : cleared ? 1 : 0 };
+  }
+  const isUnlocked = (p, index) => index <= 0 || (index < UNITS.length && unitState(p, UNITS[index - 1]).cleared);
+  /** The unit the big "continue" button starts: the first unlocked unit not yet cleared, else the first below 3 stars, else the last. */
+  function nextUnit(p) {
+    for (let i = 0; i < UNITS.length; i++) if (isUnlocked(p, i) && !unitState(p, UNITS[i]).cleared) return UNITS[i];
+    for (let i = 0; i < UNITS.length; i++) if (isUnlocked(p, i) && unitState(p, UNITS[i]).stars < 3) return UNITS[i];
+    return UNITS[UNITS.length - 1];
+  }
   const serialize = p => JSON.stringify(p);
-  /** Fails closed: anything unexpected returns null so the caller starts from empty. */
+  /** Fails closed: anything unexpected returns null so the caller starts from empty. v1 saves (known counts) are converted. */
   function restore(raw) {
     if (!raw) return null;
     let d; try { d = JSON.parse(raw); } catch { return null; }
-    if (!d || d.v !== 1 || !Number.isInteger(d.xp) || d.xp < 0 || !Number.isInteger(d.streak) || d.streak < 0 || !Number.isInteger(d.lessons) || d.lessons < 0) return null;
-    if (d.lastDay !== null && !/^\d{4}-\d{2}-\d{2}$/.test(d.lastDay)) return null;
-    if (!d.known || typeof d.known !== 'object' || Array.isArray(d.known)) return null;
-    const known = {};
-    for (const [id, n] of Object.entries(d.known)) { if (!wordById(id) || !Number.isInteger(n) || n < 0 || n > 9) return null; known[id] = n; }
-    return { v: 1, xp: d.xp, streak: d.streak, lastDay: d.lastDay, lessons: d.lessons, known };
+    if (!d || (d.v !== 1 && d.v !== 2) || !Number.isInteger(d.xp) || d.xp < 0 || !Number.isInteger(d.streak) || d.streak < 0 || !Number.isInteger(d.lessons) || d.lessons < 0) return null;
+    if (d.lastDay !== null && !DAY.test(d.lastDay)) return null;
+    const mastery = {};
+    if (d.v === 1) {
+      if (!d.known || typeof d.known !== 'object' || Array.isArray(d.known)) return null;
+      for (const [id, n] of Object.entries(d.known)) { if (!wordById(id) || !Number.isInteger(n) || n < 0 || n > 9) return null; if (n >= 1) mastery[id] = 1; }
+      return { v: 2, xp: d.xp, streak: d.streak, lastDay: d.lastDay, lessons: d.lessons, mastery, today: null };
+    }
+    if (!d.mastery || typeof d.mastery !== 'object' || Array.isArray(d.mastery)) return null;
+    for (const [id, n] of Object.entries(d.mastery)) { if (!wordById(id) || !Number.isInteger(n) || n < 0 || n > MASTERY_MAX) return null; if (n > 0) mastery[id] = n; }
+    let today = null;
+    if (d.today !== null) {
+      if (!d.today || typeof d.today !== 'object' || !DAY.test(d.today.day) || !Number.isInteger(d.today.n) || d.today.n < 1 || d.today.n > 999) return null;
+      today = { day: d.today.day, n: d.today.n };
+    }
+    return { v: 2, xp: d.xp, streak: d.streak, lastDay: d.lastDay, lessons: d.lessons, mastery, today };
   }
   /** Streak shown today: a streak that was not continued yesterday or today is already broken. */
   function liveStreak(p, dayKey) {
-    if (!p.lastDay || !/^\d{4}-\d{2}-\d{2}$/.test(dayKey)) return 0;
+    if (!p.lastDay || !DAY.test(dayKey)) return 0;
     const gap = dayNumber(dayKey) - dayNumber(p.lastDay);
     return gap <= 1 ? p.streak : 0;
   }
@@ -129,5 +176,5 @@
   function shareText(s, p, dayKey) {
     return `一口好英文 ${'★'.repeat(stars(s))}${'☆'.repeat(3 - stars(s))}　+${s.xp} XP　🔥${liveStreak(p, dayKey)}　${learnedCount(p)}/${WORDS.length} 個單字`;
   }
-  return { WORDS, wordById, LESSON_SIZE, makeLesson, optionLabel, createSession, current, answer, progressOf, stars, STORAGE_KEY, emptyProgress, applyLesson, learnedCount, serialize, restore, liveStreak, dateKey, shareText };
+  return { WORDS, wordById, UNITS, unitById, LESSON_SIZE, MASTERY_MAX, makeLesson, masteryOf, masteredCount, lessonsToday, unitState, isUnlocked, nextUnit, optionLabel, createSession, current, answer, progressOf, stars, STORAGE_KEY, emptyProgress, applyLesson, learnedCount, serialize, restore, liveStreak, dateKey, shareText };
 }));

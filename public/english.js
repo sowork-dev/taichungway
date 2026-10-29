@@ -24,31 +24,49 @@
   const today = () => E.dateKey();
   let session = null, picked = null, checked = false;
 
-  // ---------- home ----------
+  // ---------- home: route of themed units ----------
+  let unit = E.UNITS[0];
+  const starText = n => '★'.repeat(n) + '☆'.repeat(3 - n);
   function home() {
     session = null;
+    const done = E.lessonsToday(progress, today());
     const top = el('div', 'top');
-    top.append(el('span', 'chip', '🔥 ' + E.liveStreak(progress, today())), el('span', 'chip', '⚡ ' + progress.xp + ' XP'));
-    const hero = el('div', 'hero');
-    hero.append(el('h1', '', '一口好英文'), el('div', 'big', '🍜'), el('p', '', '台中小吃，每天學一課'));
-    const book = el('div', 'book');
-    const head = el('b', '');
-    head.append(el('span', '', '我的單字冊'), el('span', '', E.learnedCount(progress) + ' / ' + E.WORDS.length));
+    top.append(el('span', 'chip', '🔥 ' + E.liveStreak(progress, today())), el('span', 'chip goal' + (done ? ' met' : ''), done ? '今天完成 ✓' : '今天 0 / 1 課'), el('span', 'chip', '⚡ ' + progress.xp));
+    const title = el('div', 'mini-title');
+    title.append(el('h1', '', '一口好英文'), el('p', '', '台中美食，一口一個單字'));
+    const route = el('div', 'route');
+    E.UNITS.forEach((u, i) => {
+      const st = E.unitState(progress, u), open = E.isUnlocked(progress, i);
+      const row = button('unit' + (open ? '' : ' locked') + (u.id === E.nextUnit(progress).id ? ' next' : ''), '', open ? () => startLesson(u) : null);
+      row.disabled = !open;
+      const badge = el('span', 'u-emoji', open ? u.emoji : '🔒');
+      const info = el('span', 'u-info');
+      info.append(el('b', '', '單元 ' + (i + 1) + '　' + u.title));
+      const bar = el('span', 'u-bar'); const fill = el('i'); fill.style.width = Math.round(st.at3 / st.total * 100) + '%'; const mid = el('i', 'mid'); mid.style.width = Math.round(st.at2 / st.total * 100) + '%'; bar.append(mid, fill);
+      info.append(bar, el('small', '', open ? '熟 ' + st.at3 + ' / ' + st.total + ' 個字' : '學好上一單元 ' + Math.ceil(E.UNITS[i - 1].words.length * 0.6) + ' 個字就解鎖'));
+      row.append(badge, info, el('span', 'u-stars', open ? starText(st.stars) : ''));
+      route.append(row);
+    });
+    const book = el('details', 'book');
+    const sum = el('summary', '', '我的單字冊　' + E.learnedCount(progress) + ' / ' + E.WORDS.length);
     const words = el('div', 'words');
-    for (const w of E.WORDS) { const s = el('span', (progress.known[w.id] || 0) >= 1 ? 'on' : '', w.emoji); s.title = w.zh + ' · ' + w.en; words.append(s); }
-    book.append(head, words);
-    const start = button('eng-btn', progress.lessons ? '再來一課 ▶' : '開始第一課 ▶', startLesson);
+    for (const w of E.WORDS) { const lv = E.masteryOf(progress, w.id); const chip = el('span', lv ? 'on l' + lv : '', w.emoji); chip.title = w.zh + ' · ' + w.en; words.append(chip); }
+    book.append(sum, words);
+    const next = E.nextUnit(progress);
+    const start = button('eng-btn', (progress.lessons ? '繼續：' : '開始：') + next.title + ' ▶', () => startLesson(next));
     const back = el('a', 'eng-link', '← 回台中味');
     back.href = '/'; back.style.textAlign = 'center';
-    const wrap = el('div', 'home');
-    wrap.append(top, hero, book, el('div', 'spacer'), start, back);
+    const scroll = el('div', 'home-scroll'); scroll.append(top, title, route, book);
+    const foot = el('div', 'home-foot'); foot.append(start, back);
+    const wrap = el('div', 'home'); wrap.append(scroll, foot);
     mount(wrap);
   }
 
   // ---------- lesson ----------
-  function startLesson() {
-    // The lesson seed mixes today's date with how many lessons were done, so each lesson of the day differs but is reproducible.
-    session = E.createSession(E.makeLesson(today() + '#' + progress.lessons, progress.known));
+  function startLesson(u) {
+    if (u && u.words) unit = u;
+    // The seed mixes the unit, today's date and the lesson count, so each lesson differs but is reproducible.
+    session = E.createSession(E.makeLesson(unit.id + '#' + today() + '#' + progress.lessons, unit, progress.mastery));
     renderQuestion();
   }
   function topBar() {
@@ -167,7 +185,7 @@
     const wrap = el('div', 'result');
     if (s.failed) {
       wrap.append(el('h2', '', '愛心用完了 💔'), el('p', '', '沒關係，再試一次，題目會換一批。'));
-      wrap.append(button('eng-btn', '再試一次', startLesson), button('eng-link', '回首頁', home));
+      wrap.append(button('eng-btn', '再試一次', () => startLesson(unit)), button('eng-link', '回首頁', home));
       mount(wrap); return;
     }
     const before = progress;
@@ -177,6 +195,8 @@
     for (let i = 0; i < 3; i++) { const st = el('span', i < E.stars(s) ? 'on' : '', '★'); st.style.animationDelay = (i * .25) + 's'; rs.append(st); }
     const stats = el('div', 'stats');
     stats.append(el('span', 'stat', '⚡ +' + s.xp), el('span', 'stat', '🔥 ' + E.liveStreak(progress, today())), el('span', 'stat', '📖 ' + E.learnedCount(progress) + '/' + E.WORDS.length));
+    const stBefore = E.unitState(before, unit), stNow = E.unitState(progress, unit);
+    const idx = E.UNITS.indexOf(unit), unlockedNext = idx + 1 < E.UNITS.length && !E.isUnlocked(before, idx + 1) && E.isUnlocked(progress, idx + 1);
     const learned = el('div', 'learned');
     const seen = new Set();
     for (const q of s.questions) {
@@ -187,8 +207,9 @@
       learned.append(row);
     }
     const newWords = E.learnedCount(progress) - E.learnedCount(before);
-    wrap.append(el('h2', '', s.wrong === 0 ? '全對！' : '完成一課！'), rs, stats, el('p', '', newWords > 0 ? '新學會 ' + newWords + ' 個單字' : '複習完成'), learned);
-    const more = button('eng-btn', '再來一課 ▶', startLesson);
+    wrap.append(el('h2', '', s.wrong === 0 ? '全對！' : '完成一課！'), rs, stats, el('p', '', unlockedNext ? '🎉 解鎖新單元：' + E.UNITS[idx + 1].title : stNow.stars > stBefore.stars ? unit.title + ' 升到 ' + stNow.stars + ' 星！' : newWords > 0 ? '新學會 ' + newWords + ' 個單字' : '複習完成'), learned);
+    const nextU = unlockedNext ? E.UNITS[idx + 1] : unit;
+    const more = button('eng-btn', unlockedNext ? '去新單元：' + nextU.title + ' ▶' : '再來一課 ▶', () => startLesson(nextU));
     const share = button('eng-link', '分享成績', async () => {
       const text = E.shareText(s, progress, today()) + '\n' + location.origin + '/english.html';
       try { if (navigator.share) { await navigator.share({ title: '一口好英文', text }); return; } await navigator.clipboard.writeText(text); share.textContent = '已複製'; } catch (e) { if (e && e.name !== 'AbortError') share.textContent = '分享不了，請截圖'; }
