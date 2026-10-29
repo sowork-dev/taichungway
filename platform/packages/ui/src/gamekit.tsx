@@ -18,7 +18,7 @@ export function Hearts({ value, max = 3 }: { value: number; max?: number }) {
 export function Coin({ children }: { children: ReactNode }) {
   return <span className="gk-chip"><span className="gk-coin" aria-hidden="true">✦</span>{children}</span>;
 }
-export type GameIconName = 'chat' | 'city' | 'bubble' | 'comic' | 'check' | 'postcard' | 'fortune' | 'flavor';
+export type GameIconName = 'chat' | 'city' | 'bubble' | 'comic' | 'check' | 'postcard' | 'fortune' | 'flavor' | 'english';
 const I = { stroke: '#06162B', strokeWidth: 3.5, strokeLinejoin: 'round' as const, strokeLinecap: 'round' as const };
 export function GameIcon({ name, className = 'gk-tile-icon' }: { name: GameIconName; className?: string }) {
   const body: Record<GameIconName, ReactNode> = {
@@ -29,6 +29,7 @@ export function GameIcon({ name, className = 'gk-tile-icon' }: { name: GameIconN
     check: <><rect x="4" y="12" width="56" height="40" rx="5" fill="#FFFFFF" {...I} /><path d="M12 24h24M12 33h18M12 42h12" stroke="#7FC0F0" strokeWidth="4" strokeLinecap="round" /><circle cx="46" cy="38" r="9" fill="#1A63C8" {...I} /><path d="M41 38l4 4 6-8" stroke="#FFFFFF" strokeWidth="3.5" fill="none" strokeLinecap="round" /></>,
     postcard: <><rect x="4" y="12" width="56" height="40" rx="5" fill="#FFFFFF" {...I} /><rect x="42" y="18" width="12" height="14" rx="2" fill="#7FC0F0" {...I} /><path d="M12 36v6m6-14v22m6-18v14m6-20v26m-0 0" stroke="#1A63C8" strokeWidth="4" strokeLinecap="round" /></>,
     fortune: <><circle cx="32" cy="32" r="26" fill="#7FC0F0" {...I} /><circle cx="32" cy="32" r="18" fill="#FFFFFF" {...I} /><text x="32" y="40" textAnchor="middle" fontSize="24" fontWeight="900" fill="#1A63C8" fontFamily="'Noto Sans TC','PingFang TC',sans-serif">福</text></>,
+    english: <><path d="M10 8h44a6 6 0 0 1 6 6v24a6 6 0 0 1-6 6H34L20 56V44h-10a6 6 0 0 1-6-6V14a6 6 0 0 1 6-6z" fill="#FFFFFF" {...I} /><text x="32" y="36" textAnchor="middle" fontSize="26" fontWeight="900" fill="#1A63C8" fontFamily="'Noto Sans TC','PingFang TC',sans-serif">Aa</text><circle cx="52" cy="52" r="7" fill="#F4797B" {...I} /></>,
     flavor: <><path d="M6 24h52l-4-14H10z" fill="#1A63C8" {...I} /><path d="M18 24l-2-14M30 24l-1-14M42 24l1-14M54 24l-2-14" stroke="#FFFFFF" strokeWidth="3.5" /><rect x="10" y="24" width="44" height="32" rx="3" fill="#FFFFFF" {...I} /><rect x="16" y="32" width="14" height="24" fill="#4C9BF2" {...I} /><circle cx="42" cy="40" r="6" fill="#7FC0F0" {...I} /></>,
   };
   return <svg className={className} viewBox="0 0 64 64" aria-hidden="true" focusable="false">{body[name]}</svg>;
