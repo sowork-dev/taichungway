@@ -118,6 +118,7 @@ export const FLAVORS: readonly Flavor[] = Object.freeze(([
 export interface QuestionOption {
   readonly label: string;
   readonly subtitle: string;
+  readonly emoji: string;
   readonly scores: readonly [FlavorId, FlavorId];
 }
 
@@ -130,28 +131,28 @@ export const QUESTIONS: readonly [Question, Question, Question] = Object.freeze(
   {
     title: '早餐時間，你想用哪一味開場？',
     options: [
-      { label: '熱湯配米食', subtitle: '在老店坐下，聽一聲早安', scores: ['market', 'oldtown'] },
-      { label: '飯糰配清茶', subtitle: '簡單吃，慢慢嚐當季的香', scores: ['tea', 'field'] },
-      { label: '一碗鮮魚湯', subtitle: '讓海的鮮味喚醒早晨', scores: ['sea', 'port'] },
-      { label: '蛋餅配豆漿', subtitle: '熟悉的早餐，補好今天的元氣', scores: ['home', 'craft'] },
+      { label: '熱湯配米食', subtitle: '在老店坐下，聽一聲早安', emoji: '🍲', scores: ['market', 'oldtown'] },
+      { label: '飯糰配清茶', subtitle: '簡單吃，慢慢嚐當季的香', emoji: '🍙', scores: ['tea', 'field'] },
+      { label: '一碗鮮魚湯', subtitle: '讓海的鮮味喚醒早晨', emoji: '🐟', scores: ['sea', 'port'] },
+      { label: '蛋餅配豆漿', subtitle: '熟悉的早餐，補好今天的元氣', emoji: '🍳', scores: ['home', 'craft'] },
     ],
   },
   {
     title: '傍晚逛市場，你會先在哪一攤停下？',
     options: [
-      { label: '家常熟食攤', subtitle: '挑兩道菜，也聊聊今天', scores: ['market', 'home'] },
-      { label: '茶點小攤', subtitle: '嚐口茶香，看看老招牌', scores: ['tea', 'oldtown'] },
-      { label: '當季鮮食攤', subtitle: '魚鮮與蔬果，都有季節的味道', scores: ['sea', 'field'] },
-      { label: '五金雜貨攤', subtitle: '看看工具，想像下次動手做什麼', scores: ['port', 'craft'] },
+      { label: '家常熟食攤', subtitle: '挑兩道菜，也聊聊今天', emoji: '🍱', scores: ['market', 'home'] },
+      { label: '茶點小攤', subtitle: '嚐口茶香，看看老招牌', emoji: '🍵', scores: ['tea', 'oldtown'] },
+      { label: '當季鮮食攤', subtitle: '魚鮮與蔬果，都有季節的味道', emoji: '🥬', scores: ['sea', 'field'] },
+      { label: '五金雜貨攤', subtitle: '看看工具，想像下次動手做什麼', emoji: '🛠️', scores: ['port', 'craft'] },
     ],
   },
   {
     title: '週末空出半天，你想去哪裡走走？',
     options: [
-      { label: '市場旁的手作街', subtitle: '逛攤位，也看看師傅的手藝', scores: ['market', 'craft'] },
-      { label: '山邊茶園與田間', subtitle: '沿著綠意，找一處歇腳', scores: ['tea', 'field'] },
-      { label: '海邊港口步道', subtitle: '吹吹海風，看看遠方的船', scores: ['sea', 'port'] },
-      { label: '街坊巷弄與小書店', subtitle: '不趕行程，在熟悉的街區發現新意', scores: ['home', 'oldtown'] },
+      { label: '市場旁的手作街', subtitle: '逛攤位，也看看師傅的手藝', emoji: '🏺', scores: ['market', 'craft'] },
+      { label: '山邊茶園與田間', subtitle: '沿著綠意，找一處歇腳', emoji: '🌾', scores: ['tea', 'field'] },
+      { label: '海邊港口步道', subtitle: '吹吹海風，看看遠方的船', emoji: '⚓', scores: ['sea', 'port'] },
+      { label: '街坊巷弄與小書店', subtitle: '不趕行程，在熟悉的街區發現新意', emoji: '📖', scores: ['home', 'oldtown'] },
     ],
   },
 ].map((question) => Object.freeze({
