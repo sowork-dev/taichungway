@@ -12,7 +12,7 @@
     ['egg', '🥚', '蛋', 'egg'], ['soymilk', '🥛', '豆漿', 'soy milk'], ['riceball', '🍙', '飯糰', 'rice ball'],
     ['soup', '🍲', '熱湯', 'hot soup'], ['bubbletea', '🧋', '珍珠奶茶', 'bubble tea'], ['noodles', '🍜', '牛肉麵', 'beef noodle soup'],
     ['dumpling', '🥟', '水餃', 'dumplings'], ['pineapple', '🍍', '鳳梨', 'pineapple'], ['oyster', '🦪', '蚵仔', 'oyster'],
-    ['tofu', '🍮', '豆花', 'tofu pudding'], ['porkrice', '🍛', '滷肉飯', 'braised pork rice'], ['cake', '🥮', '太陽餅', 'sun cake'],
+    ['tofu', '🍽️', '豆花', 'tofu pudding', false], ['porkrice', '🍛', '滷肉飯', 'braised pork rice'], ['cake', '🥮', '太陽餅', 'sun cake'],
     ['fruit', '🍉', '水果', 'fruit'], ['bread', '🍞', '麵包', 'bread'], ['spicy', '🌶️', '辣', 'spicy'],
     ['sweet', '🍬', '甜', 'sweet'], ['hot', '🔥', '燙', 'hot'], ['cold', '🧊', '冰', 'cold'],
     // Taichung specialties. A word without its own unmistakable emoji uses a generic plate and never appears as a picture question.

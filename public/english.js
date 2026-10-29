@@ -53,12 +53,21 @@
   }
   function topBar() {
     const bar = el('div', 'bar');
-    const x = button('x', '✕', () => { if (!session.done && session.correct === 0 || confirm('現在離開，這一課不會計分。')) home(); });
+    const x = button('x', '✕', () => { if (session.correct === 0) home(); else leaveSheet(); });
     x.setAttribute('aria-label', '離開這一課');
     const track = el('div', 'track'); const fill = el('i'); fill.style.width = Math.round(E.progressOf(session) * 100) + '%'; track.append(fill);
     const hearts = el('div', 'hearts', '❤️ ' + session.hearts); hearts.id = 'hearts';
     bar.append(x, track, hearts);
     return bar;
+  }
+  // In-game "leave?" sheet instead of the browser's confirm box.
+  function leaveSheet() {
+    if (document.getElementById('leave-sheet')) return;
+    const veil = el('div', 'veil'); veil.id = 'leave-sheet';
+    const card = el('div', 'sheet');
+    card.append(el('h3', '', '現在離開嗎？'), el('p', '', '這一課不會計分。'));
+    card.append(button('eng-btn', '繼續這一課', () => veil.remove()), button('eng-link', '離開', home));
+    veil.append(card); app.append(veil);
   }
   function renderQuestion() {
     const q = E.current(session);
