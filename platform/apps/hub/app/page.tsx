@@ -12,6 +12,7 @@ const games = [
   { id: 'adventure', title: '城市冒險', tag: '探索 · 解任務', href: `${MAIN}/adventure.html`, icon: 'city' as GameIconName, featured: true, color: 'blue' },
   { id: 'bubble', title: '泡泡 PK', tag: '雙人對戰', href: `${MAIN}/bubble.html`, icon: 'bubble' as GameIconName, color: 'coral' },
   { id: 'chat', title: '啟臣，聊一下', tag: 'AI 聊天', href: `${MAIN}/chat.html`, icon: 'chat' as GameIconName, color: 'cyan' },
+  { id: 'english', title: '一口好英文', tag: '每天一課', href: `${MAIN}/english.html`, icon: 'flavor' as GameIconName, color: 'sun' },
 ];
 const HIGHLIGHT: SiteId = 'fortune';
 
@@ -33,7 +34,7 @@ function Directory() {
     <div className="hub-grid hub-grid-main">{gameTile(games[0]!)}{gameTile(games[1]!)}{sorted.filter(site => site.id === HIGHLIGHT).map(card)}</div>
     <p className="hub-divider"><span>更多好玩的</span></p>
     <p className="directory-notice" role="status">{loading ? '正在確認各站開放狀態…' : error ? '暫時讀不到開放狀態，請稍後重試。' : '不用登入，你的文字只留在你的裝置。'}</p>
-    <div className="experience-list hub-grid">{gameTile(games[2]!)}{sorted.filter(site => site.id !== HIGHLIGHT).map(card)}</div>
+    <div className="experience-list hub-grid">{gameTile(games[2]!)}{gameTile(games[3]!)}{sorted.filter(site => site.id !== HIGHLIGHT).map(card)}</div>
   </section>;
 }
 export default function Page() {
